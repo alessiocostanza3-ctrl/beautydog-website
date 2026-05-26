@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Toelettatura professionale per cani a Palma di Montechiaro (Sicilia). BeautyDog di Carol D'Andrea offre lavaggio, tosatura, taglio a forbice e trattamenti SPA per il benessere del tuo cucciolo. Prenota online!">
+    <title>BeautyDog | Toelettatura Professionale & Benessere Cani | Palma di Montechiaro</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar" id="main-header">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo" id="logo-link">
+                <div class="logo-paw-container">
+                    <i class="fa-solid fa-paw paw-icon"></i>
+                </div>
+                <span class="logo-text">Beauty<span>Dog</span></span>
+            </a>
+            
+            <nav class="nav-menu" id="nav-links">
+                <a href="#servizi" class="nav-link">Servizi</a>
+                <a href="#chi-siamo" class="nav-link">Chi Siamo</a>
+                <a href="#recensioni" class="nav-link">Recensioni</a>
+                <a href="#contatti" class="nav-link">Contatti</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="btn btn-primary btn-booking-trigger" id="nav-booking-btn">
+                    <i class="fa-regular fa-calendar-check"></i> Prenota Ora
+                </button>
+                <button class="mobile-menu-toggle" id="menu-toggle" aria-label="Apri menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav" id="mobile-nav-drawer">
+        <button class="mobile-nav-close" id="menu-close" aria-label="Chiudi menu">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <a href="#hero" class="mobile-logo">
+            <i class="fa-solid fa-paw"></i> BeautyDog
+        </a>
+        <div class="mobile-links">
+            <a href="#servizi" class="mobile-link">Servizi</a>
+            <a href="#chi-siamo" class="mobile-link">Chi Siamo</a>
+            <a href="#recensioni" class="mobile-link">Recensioni</a>
+            <a href="#contatti" class="mobile-link">Contatti</a>
+        </div>
+        <button class="btn btn-primary btn-booking-trigger w-full mt-6" id="mobile-booking-btn">
+            <i class="fa-regular fa-calendar-check"></i> Prenota Ora
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="badge hero-badge">
+                        <i class="fa-solid fa-sparkles"></i> Toelettatura e SPA a Palma di Montechiaro
+                    </div>
+                    <h1 class="hero-title">
+                        Il tempio della <span class="highlight">bellezza</span> e del <span class="highlight-blue">relax</span> per il tuo cane.
+                    </h1>
+                    <p class="hero-subtitle">
+                        Benvenuto da BeautyDog di Carol D'Andrea. Uniamo cura professionale, prodotti naturali dermatologicamente testati e tanto divertimento per far splendere il tuo cucciolo.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg btn-booking-trigger" id="hero-booking-btn">
+                            <i class="fa-solid fa-calendar-days"></i> Prenota un Trattamento
+                        </button>
+                        <a href="#servizi" class="btn btn-secondary btn-lg">
+                            Scopri i Servizi
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Amore & Cura</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">Bio</span>
+                            <span class="stat-label">Prodotti Naturali</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5★</span>
+                            <span class="stat-label">Recensioni</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image-wrapper">
+                    <div class="blob-bg pink-blob"></div>
+                    <div class="blob-bg blue-blob"></div>
+                    <div class="floating-bubble bubble-1"><i class="fa-solid fa-soap"></i></div>
+                    <div class="floating-bubble bubble-2"><i class="fa-solid fa-bone"></i></div>
+                    <div class="floating-bubble bubble-3"><i class="fa-solid fa-scissors"></i></div>
+                    <img src="assets/hero_dog.png" alt="Cane Bichon Frise felice e pulito in salone" class="hero-img">
+                </div>
+            </div>
+            <div class="hero-wave">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C26.9,8.75,57.05,18.3,88.47,26.85,147.26,42.81,207.3,55.44,267.3,58A311.73,311.73,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Servizi Section -->
+        <section class="services-section" id="servizi">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">I nostri servizi</span>
+                    <h2 class="section-title">Trattamenti su misura per ogni cucciolo</h2>
+                    <p class="section-description">
+                        Ogni cane ha esigenze uniche. Offriamo trattamenti professionali personalizzati in base alla razza, al tipo di pelo e alle preferenze del proprietario.
+                    </p>
+                </div>
+                
+                <div class="services-grid">
+                    <!-- Servizio 1 -->
+                    <div class="service-card" id="service-card-bagno">
+                        <div class="service-icon-box pink">
+                            <i class="fa-solid fa-shower"></i>
+                        </div>
+                        <h3 class="service-card-title">Bagno & Igiene</h3>
+                        <p class="service-card-text">
+                            Lavaggio con shampoo naturale dermatologico e balsamo idratante specifico, asciugatura delicata, pulizia approfondita di orecchie e occhi, taglio unghie ed igiene delle zone sensibili.
+                        </p>
+                        <div class="service-pricing">
+                            <span class="price-label">Prezzo stimato:</span>
+                            <span class="price-value">da €15</span>
+                        </div>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check text-pink"></i> Prodotti anallergici delicati</li>
+                            <li><i class="fa-solid fa-check text-pink"></i> Taglio unghie incluso</li>
+                            <li><i class="fa-solid fa-check text-pink"></i> Massaggio rilassante durante il lavaggio</li>
+                        </ul>
+                        <button class="btn btn-secondary-pink btn-booking-trigger w-full mt-auto" data-service="bagno">
+                            Prenota Bagno
+                        </button>
+                    </div>
+
+                    <!-- Servizio 2 -->
+                    <div class="service-card active" id="service-card-taglio">
+                        <div class="service-badge-popular">Più Richiesto</div>
+                        <div class="service-icon-box blue">
+                            <i class="fa-solid fa-scissors"></i>
+                        </div>
+                        <h3 class="service-card-title">Taglio & Tosatura</h3>
+                        <p class="service-card-text">
+                            Include tutti i passaggi del servizio Bagno & Igiene, più lo styling del pelo personalizzato. Eseguiamo tosatura a macchinetta o taglio professionale a forbice in base agli standard di razza.
+                        </p>
+                        <div class="service-pricing">
+                            <span class="price-label">Prezzo stimato:</span>
+                            <span class="price-value">da €25</span>
+                        </div>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check text-blue"></i> Include Bagno & Igiene</li>
+                            <li><i class="fa-solid fa-check text-blue"></i> Taglio a forbice per rifiniture di precisione</li>
+                            <li><i class="fa-solid fa-check text-blue"></i> Sfoltitura e snodatura pelo inclusa</li>
+                        </ul>
+                        <button class="btn btn-primary w-full mt-auto" data-service="taglio">
+                            Prenota Taglio
+                        </button>
+                    </div>
+
+                    <!-- Servizio 3 -->
+                    <div class="service-card" id="service-card-spa">
+                        <div class="service-icon-box purple">
+                            <i class="fa-solid fa-bath"></i>
+                        </div>
+                        <h3 class="service-card-title">SPA & Benessere</h3>
+                        <p class="service-card-text">
+                            Il massimo del relax. Bagno curativo con idromassaggio all'ozono, ideale per lenire irritazioni cutanee, favorire la ricrescita del pelo e ridurre lo stress del tuo cane.
+                        </p>
+                        <div class="service-pricing">
+                            <span class="price-label">Prezzo stimato:</span>
+                            <span class="price-value">da €35</span>
+                        </div>
+                        <ul class="service-features">
+                            <li><i class="fa-solid fa-check text-purple"></i> Ozonoterapia rigenerante</li>
+                            <li><i class="fa-solid fa-check text-purple"></i> Ideale per pelli sensibili o dermatiti</li>
+                            <li><i class="fa-solid fa-check text-purple"></i> Maschera nutriente all'argilla o seta</li>
+                        </ul>
+                        <button class="btn btn-secondary-purple btn-booking-trigger w-full mt-auto" data-service="spa">
+                            Prenota SPA
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="products-banner">
+                    <div class="products-banner-content">
+                        <div class="products-tag">Qualità Professionale</div>
+                        <h3>Usiamo solo cosmetici naturali per animali</h3>
+                        <p>
+                            Nel nostro salone crediamo che la salute della pelle del cane sia fondamentale. Utilizziamo shampoo, balsami e lozioni professionali, 100% ecologici, senza parabeni o solfati, formulati appositamente per rispettare il pH fisiologico cutaneo e donare lucentezza naturale al mantello.
+                        </p>
+                        <div class="products-features-grid">
+                            <div class="p-feature"><i class="fa-solid fa-leaf"></i> 100% Bio & Vegano</div>
+                            <div class="p-feature"><i class="fa-solid fa-shield-halved"></i> Ipoallergenici</div>
+                            <div class="p-feature"><i class="fa-solid fa-eye-dropper"></i> Zero siliconi e solfati</div>
+                            <div class="p-feature"><i class="fa-solid fa-heart-pulse"></i> Delicati sugli occhi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chi Siamo Section -->
+        <section class="about-section" id="chi-siamo">
+            <div class="container about-container">
+                <div class="about-image-wrapper">
+                    <div class="about-blob"></div>
+                    <img src="assets/about_grooming.png" alt="Carol D'Andrea mentre fa la toelettatura a un cane" class="about-img">
+                    <div class="experience-card">
+                        <span class="exp-years">Carol</span>
+                        <span class="exp-text">Titolare & Stylist</span>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <span class="section-tag">Chi Siamo</span>
+                    <h2 class="section-title">Amore, dedizione e professionalità per i tuoi amici a quattro zampe</h2>
+                    <p class="about-text">
+                        Benvenuti da <strong>BeautyDog</strong> di Carol D'Andrea, situato nel cuore di <strong>Palma di Montechiaro</strong>. La nostra passione per i cani e il loro benessere è il motore che muove ogni nostra attività quotidiana.
+                    </p>
+                    <p class="about-text">
+                        Per noi la toelettatura non è semplicemente una questione estetica, ma un momento fondamentale per la salute dell'animale. Ogni cane viene accolto in un ambiente sereno, pulito e rilassante, per far sì che il bagnetto o la tosatura non siano fonte di stress, ma un'esperienza di coccole e relax piacevole e divertente.
+                    </p>
+                    
+                    <div class="about-strengths">
+                        <div class="strength-item">
+                            <div class="strength-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                            <div>
+                                <h4>Formazione Certificata</h4>
+                                <p>Carol partecipa costantemente a corsi di aggiornamento sulle tecniche di taglio e dermatologia canina.</p>
+                            </div>
+                        </div>
+                        <div class="strength-item">
+                            <div class="strength-icon"><i class="fa-solid fa-heart"></i></div>
+                            <div>
+                                <h4>Approccio Dolce & Empatico</h4>
+                                <p>Rispettiamo i tempi di ogni cane, assecondando i soggetti più ansiosi o anziani con pazienza e affetto.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recensioni Section -->
+        <section class="reviews-section" id="recensioni">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Recensioni</span>
+                    <h2 class="section-title">Cosa dicono di noi i padroncini</h2>
+                    <p class="section-description">
+                        La soddisfazione dei nostri clienti (e la felicità dei loro cagnolini!) è la nostra più grande ricompensa. Ecco alcune recensioni reali.
+                    </p>
+                </div>
+
+                <div class="reviews-slider" id="reviews-container">
+                    <!-- Recensione 1 -->
+                    <div class="review-card">
+                        <div class="review-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="review-text">
+                            "Carol è fantastica! Il mio barboncino Rocky di solito è spaventatissimo dall'acqua, ma con lei è rimasto tranquillissimo ed è uscito con un taglio a forbice perfetto e super profumato. Consigliatissima a Palma!"
+                        </p>
+                        <div class="review-author">
+                            <div class="author-avatar"><i class="fa-solid fa-user-astronaut"></i></div>
+                            <div>
+                                <h4 class="author-name">Clara B.</h4>
+                                <span class="author-dog">Mamma di Rocky (Barboncino)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recensione 2 -->
+                    <div class="review-card">
+                        <div class="review-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="review-text">
+                            "Ho provato il trattamento SPA all'ozono per il mio bulldog che soffre di dermatite e arrossamenti. I risultati si sono visti subito, pelo morbidissimo e pelle rigenerata. Professionalità e igiene al top!"
+                        </p>
+                        <div class="review-author">
+                            <div class="author-avatar"><i class="fa-solid fa-user-ninja"></i></div>
+                            <div>
+                                <h4 class="author-name">Giuseppe S.</h4>
+                                <span class="author-dog">Papà di Thor (Bulldog Inglese)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recensione 3 -->
+                    <div class="review-card">
+                        <div class="review-stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="review-text">
+                            "Ambiente super moderno, allegro ed estremamente pulito. Carol ama davvero gli animali e si vede dal modo in cui li tratta. Prezzi onesti e servizio impeccabile. Torneremo sicuramente ogni mese."
+                        </p>
+                        <div class="review-author">
+                            <div class="author-avatar"><i class="fa-solid fa-user-tie"></i></div>
+                            <div>
+                                <h4 class="author-name">Valentina M.</h4>
+                                <span class="author-dog">Mamma di Maya (Golden Retriever)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-cta">
+                    <p>Segui le nostre avventure quotidiane e guarda i prima/dopo sui social!</p>
+                    <div class="social-buttons">
+                        <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="social-btn instagram">
+                            <i class="fa-brands fa-instagram"></i> Instagram
+                        </a>
+                        <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="social-btn facebook">
+                            <i class="fa-brands fa-facebook-f"></i> Facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Footer / Contatti -->
+    <footer class="footer-section" id="contatti">
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <a href="#hero" class="footer-logo">
+                    <i class="fa-solid fa-paw"></i> BeautyDog
+                </a>
+                <p class="footer-desc">
+                    La toelettatura di riferimento a Palma di Montechiaro per stile, benessere e relax del tuo cane.
+                </p>
+                <div class="footer-contacts">
+                    <p><i class="fa-solid fa-location-dot"></i> Via IV Novembre, 45, 92020 Palma di Montechiaro (AG)</p>
+                    <p><i class="fa-solid fa-phone"></i> <a href="tel:+393208821749">+39 320 882 1749</a></p>
+                    <p><i class="fa-solid fa-envelope"></i> <a href="mailto:info@beautydogpalma.it">info@beautydogpalma.it</a></p>
+                </div>
+            </div>
+            
+            <div class="footer-hours">
+                <h3>Orari di Apertura</h3>
+                <ul class="hours-list">
+                    <li><span>Lunedì</span> <span>09:00 - 13:00 | 15:00 - 19:00</span></li>
+                    <li><span>Martedì</span> <span>09:00 - 13:00 | 15:00 - 19:00</span></li>
+                    <li><span>Mercoledì</span> <span>09:00 - 13:00 | 15:00 - 19:00</span></li>
+                    <li><span>Giovedì</span> <span>09:00 - 13:00 | 15:00 - 19:00</span></li>
+                    <li><span>Venerdì</span> <span>09:00 - 13:00 | 15:00 - 19:00</span></li>
+                    <li><span>Sabato</span> <span>09:00 - 13:00</span></li>
+                    <li><span>Domenica</span> <span class="text-closed">Chiuso</span></li>
+                </ul>
+            </div>
+            
+            <div class="footer-map">
+                <h3>Vieni a Trovarci</h3>
+                <div class="map-container">
+                    <!-- Simulated interactive styled map placeholder for local execution -->
+                    <div class="map-placeholder">
+                        <i class="fa-solid fa-map-location-dot map-icon"></i>
+                        <span class="map-text">Palma di Montechiaro (AG)</span>
+                        <a href="https://maps.google.com/?q=Via+IV+Novembre,+Palma+di+Montechiaro" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm mt-3">
+                            <i class="fa-solid fa-directions"></i> Apri in Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 BeautyDog di Carol D'Andrea. Tutti i diritti riservati. P.IVA 01234567890</p>
+        </div>
+    </footer>
+
+    <!-- Booking Modal (Wizard System) -->
+    <div class="modal-backdrop" id="booking-modal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="close-modal-btn" aria-label="Chiudi finestra">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="modal-header">
+                <h2>Prenota un Trattamento</h2>
+                <p>Completa i passaggi per richiedere il tuo appuntamento da BeautyDog</p>
+            </div>
+            
+            <!-- Wizard Steps Progress Bar -->
+            <div class="wizard-steps-progress">
+                <div class="progress-line-bg">
+                    <div class="progress-line-fill" id="wizard-progress-bar" style="width: 0%;"></div>
+                </div>
+                <div class="step-indicator active" data-step="1">
+                    <div class="step-num">1</div>
+                    <span class="step-title">Servizio</span>
+                </div>
+                <div class="step-indicator" data-step="2">
+                    <div class="step-num">2</div>
+                    <span class="step-title">Taglia</span>
+                </div>
+                <div class="step-indicator" data-step="3">
+                    <div class="step-num">3</div>
+                    <span class="step-title">Data e Ora</span>
+                </div>
+                <div class="step-indicator" data-step="4">
+                    <div class="step-num">4</div>
+                    <span class="step-title">Dati</span>
+                </div>
+                <div class="step-indicator" data-step="5">
+                    <div class="step-num">5</div>
+                    <span class="step-title">Conferma</span>
+                </div>
+            </div>
+
+            <!-- Wizard Content Areas -->
+            <div class="wizard-content">
+                
+                <!-- STEP 1: SELECT SERVICE -->
+                <div class="wizard-pane active" data-step="1" id="pane-step-1">
+                    <h3 class="pane-title">1. Che tipo di servizio desideri prenotare?</h3>
+                    <div class="options-grid">
+                        <div class="option-card select-option-card" data-value="bagno" data-type="service">
+                            <div class="option-icon"><i class="fa-solid fa-shower"></i></div>
+                            <div class="option-info">
+                                <h4>Bagno & Igiene</h4>
+                                <p>Lavaggio igienizzante, unghie, orecchie e rifiniture igieniche.</p>
+                            </div>
+                            <div class="option-price">da €15</div>
+                        </div>
+                        <div class="option-card select-option-card" data-value="taglio" data-type="service">
+                            <div class="option-icon"><i class="fa-solid fa-scissors"></i></div>
+                            <div class="option-info">
+                                <h4>Taglio & Tosatura</h4>
+                                <p>Bagno completo + styling pelo a forbice o tosatrice.</p>
+                            </div>
+                            <div class="option-price">da €25</div>
+                        </div>
+                        <div class="option-card select-option-card" data-value="spa" data-type="service">
+                            <div class="option-icon"><i class="fa-solid fa-bath"></i></div>
+                            <div class="option-info">
+                                <h4>SPA & Ozonoterapia</h4>
+                                <p>Trattamento curativo rilassante con idromassaggio all'ozono.</p>
+                            </div>
+                            <div class="option-price">da €35</div>
+                        </div>
+                    </div>
+
+                    <div class="addons-section mt-6">
+                        <h4 class="addons-title">Servizi Extra Aggiuntivi (Facoltativo)</h4>
+                        <div class="addons-grid">
+                            <label class="addon-checkbox-label">
+                                <input type="checkbox" name="addons" value="antiparassitario" class="addon-checkbox">
+                                <span class="addon-custom-box"></span>
+                                <span class="addon-details">
+                                    <span class="addon-name">Trattamento Antiparassitario (+€5)</span>
+                                    <span class="addon-desc">Shampoo protettivo e applicazione fiala preventiva.</span>
+                                </span>
+                            </label>
+                            <label class="addon-checkbox-label">
+                                <input type="checkbox" name="addons" value="maschera" class="addon-checkbox">
+                                <span class="addon-custom-box"></span>
+                                <span class="addon-details">
+                                    <span class="addon-name">Maschera Nutriente Keratina (+€7)</span>
+                                    <span class="addon-desc">Ideale per pelo lungo o sfibrato. Ripristina lucentezza.</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: SELECT DOG SIZE -->
+                <div class="wizard-pane" data-step="2" id="pane-step-2">
+                    <h3 class="pane-title">2. Qual è la taglia del tuo cane?</h3>
+                    <p class="pane-subtitle">Il prezzo e la durata del servizio variano in base alle dimensioni del cane.</p>
+                    
+                    <div class="size-options-grid">
+                        <div class="size-card select-option-card" data-value="piccolo" data-type="size">
+                            <div class="size-img-placeholder piccolo">
+                                <i class="fa-solid fa-dog size-icon-small"></i>
+                            </div>
+                            <h4>Piccolo</h4>
+                            <span class="size-weight">Fino a 10 kg</span>
+                            <p class="size-example">Es. Barboncino Nano, Chihuahua, Maltesino, Yorkshire</p>
+                        </div>
+                        <div class="size-card select-option-card" data-value="medio" data-type="size">
+                            <div class="size-img-placeholder medio">
+                                <i class="fa-solid fa-dog size-icon-medium"></i>
+                            </div>
+                            <h4>Medio</h4>
+                            <span class="size-weight">Da 10 kg a 25 kg</span>
+                            <p class="size-example">Es. Cocker Spaniel, Border Collie, Bulldog Francese/Inglese</p>
+                        </div>
+                        <div class="size-card select-option-card" data-value="grande" data-type="size">
+                            <div class="size-img-placeholder grande">
+                                <i class="fa-solid fa-dog size-icon-large"></i>
+                            </div>
+                            <h4>Grande</h4>
+                            <span class="size-weight">Oltre 25 kg</span>
+                            <p class="size-example">Es. Golden Retriever, Pastore Tedesco, Labrador, Boxer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: SELECT DATE & TIME -->
+                <div class="wizard-pane" data-step="3" id="pane-step-3">
+                    <h3 class="pane-title">3. Scegli il giorno e l'orario</h3>
+                    <p class="pane-subtitle">Gli orari occupati non sono selezionabili. Ogni appuntamento ha la durata di circa 1 ora.</p>
+                    
+                    <div class="calendar-booking-grid">
+                        <!-- Calendar Widget -->
+                        <div class="calendar-widget">
+                            <div class="calendar-month-selector">
+                                <button type="button" class="calendar-month-btn" id="prev-month-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                                <h4 class="calendar-current-month" id="calendar-month-label">Maggio 2026</h4>
+                                <button type="button" class="calendar-month-btn" id="next-month-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-weekdays">
+                                <div>Lun</div>
+                                <div>Mar</div>
+                                <div>Mer</div>
+                                <div>Gio</div>
+                                <div>Ven</div>
+                                <div>Sab</div>
+                                <div>Dom</div>
+                            </div>
+                            <div class="calendar-days" id="calendar-days-grid">
+                                <!-- Days will be generated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Time Slots Widget -->
+                        <div class="time-slots-container">
+                            <h4 class="slots-header">Orari disponibili per il giorno <span id="selected-date-display" class="highlight-date">-</span></h4>
+                            <div class="slots-legend">
+                                <span class="legend-item"><span class="legend-dot available"></span> Libero</span>
+                                <span class="legend-item"><span class="legend-dot busy"></span> Occupato</span>
+                            </div>
+                            <div class="slots-grid" id="time-slots-grid">
+                                <p class="no-date-selected-msg">Seleziona un giorno dal calendario per vedere gli orari.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: CLIENT & PET DATA -->
+                <div class="wizard-pane" data-step="4" id="pane-step-4">
+                    <h3 class="pane-title">4. Inserisci i tuoi dettagli</h3>
+                    <p class="pane-subtitle">Le informazioni ci servono per preparare l'accoglienza perfetta per il tuo cane.</p>
+                    
+                    <form class="booking-form" id="booking-client-form" onsubmit="event.preventDefault();">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="client-name">Nome Proprietario *</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-regular fa-user input-icon"></i>
+                                    <input type="text" id="client-name" required placeholder="Inserisci il tuo nome e cognome">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="client-phone">Telefono WhatsApp *</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-brands fa-whatsapp input-icon"></i>
+                                    <input type="tel" id="client-phone" required placeholder="Es. +39 320 1234567">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pet-name">Nome del Cane *</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-paw input-icon"></i>
+                                    <input type="text" id="pet-name" required placeholder="Come si chiama il tuo cane?">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="pet-breed">Razza / Incrocio *</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-dna input-icon"></i>
+                                    <input type="text" id="pet-breed" required placeholder="Es. Barboncino, Meticcio...">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mt-4">
+                            <label for="booking-notes">Note Particolari o Esigenze Speciali (Facoltativo)</label>
+                            <textarea id="booking-notes" rows="3" placeholder="Es. Ha paura del phon, soffre di dermatite alle orecchie, è anziano, ecc."></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 5: CONFIRMATION -->
+                <div class="wizard-pane" data-step="5" id="pane-step-5">
+                    <div class="success-icon-animation">
+                        <div class="success-circle">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                    </div>
+                    
+                    <h3 class="pane-title text-center">Riepilogo della Prenotazione</h3>
+                    <p class="pane-subtitle text-center">Verifica che tutte le informazioni inserite siano corrette.</p>
+                    
+                    <div class="booking-summary-card">
+                        <div class="summary-row">
+                            <span class="summary-label"><i class="fa-solid fa-tags text-pink"></i> Servizio:</span>
+                            <span class="summary-val" id="sum-service">-</span>
+                        </div>
+                        <div class="summary-row" id="sum-addons-row" style="display: none;">
+                            <span class="summary-label"><i class="fa-solid fa-circle-plus text-pink"></i> Extra aggiuntivi:</span>
+                            <span class="summary-val" id="sum-addons">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label"><i class="fa-solid fa-weight-hanging text-blue"></i> Taglia Cane:</span>
+                            <span class="summary-val" id="sum-size">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label"><i class="fa-solid fa-dog text-blue"></i> Cane:</span>
+                            <span class="summary-val" id="sum-pet">-</span>
+                        </div>
+                        <div class="summary-row highlight-summary-row">
+                            <span class="summary-label"><i class="fa-regular fa-calendar text-purple"></i> Data e Ora:</span>
+                            <span class="summary-val" id="sum-datetime">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label"><i class="fa-solid fa-user text-purple"></i> Proprietario:</span>
+                            <span class="summary-val" id="sum-client">-</span>
+                        </div>
+                        <div class="summary-row price-summary-row">
+                            <span class="summary-label">Prezzo Stimato *</span>
+                            <span class="summary-val price-big" id="sum-price">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <p><i class="fa-solid fa-circle-info"></i> * Il prezzo finale verrà confermato in salone dopo la valutazione del pelo del cane. L'appuntamento viene registrato localmente e la richiesta inviata a Carol.</p>
+                    </div>
+
+                    <div class="confirmation-actions">
+                        <button class="btn btn-whatsapp-confirm w-full" id="whatsapp-confirm-btn">
+                            <i class="fa-brands fa-whatsapp"></i> Conferma ed Invia su WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Wizard Footer Navigation Buttons -->
+            <div class="modal-footer" id="wizard-footer">
+                <button type="button" class="btn btn-outline" id="prev-step-btn" disabled>
+                    <i class="fa-solid fa-arrow-left"></i> Indietro
+                </button>
+                <button type="button" class="btn btn-primary" id="next-step-btn">
+                    Avanti <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Booking Successful State / Toast -->
+    <div class="booking-success-toast" id="success-toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <div>
+            <h4>Prenotazione Registrata!</h4>
+            <p>La tua richiesta è stata salvata con successo.</p>
+        </div>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="app.js"></script>
+</body>
+</html>

@@ -851,20 +851,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageText = 
 `Ciao Carol! Vorrei prenotare un appuntamento per il mio cane da BeautyDog.
 
-🐶 *DETTAGLI CANE:*
+\u{1F436} *DETTAGLI CANE:*
 - Nome: ${petName}
 - Razza: ${breed}
 - Taglia: ${sizeName}
 
-✂️ *SERVIZIO RICHIESTO:*
+\u{2702} *SERVIZIO RICHIESTO:*
 - Trattamento: ${serviceName}${addonsText}
 - Prezzo Stimato: €${total}
 
-📅 *DATA E ORA RICHIESTE:*
+\u{1F4C5} *DATA E ORA RICHIESTE:*
 - Giorno: ${dateFormatted}
 - Orario: ${selectedTime}
 
-👤 *CONTATTI PROPRIETARIO:*
+\u{1F464} *CONTATTI PROPRIETARIO:*
 - Nome: ${ownerName}
 - Telefono: ${phone}
 - Provenienza: ${zone}
@@ -1032,7 +1032,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
 
     function startBuddyConversation() {
         chatStep = 0;
-        addBotMessage("Ciao! 🐶 Io sono <strong>Buddy</strong>, l'assistente virtuale di BeautyDog. Ti aiuterò a richiedere un appuntamento in pochi secondi!");
+        addBotMessage("Ciao! \u{1F436} Io sono <strong>Buddy</strong>, l'assistente virtuale di BeautyDog. Ti aiuterò a richiedere un appuntamento in pochi secondi!");
         setTimeout(() => {
             askClientName();
         }, 1000);
@@ -1082,9 +1082,9 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
         chatStep = 5;
         addBotMessage(`Perfetto! Di che trattamento ha bisogno ${buddyData.petName}?`);
         renderOptions([
-            { label: "Bagno & Igiene 🧼", value: "bagno" },
-            { label: "Taglio & Tosatura ✂️", value: "taglio" },
-            { label: "SPA & Ozonoterapia 🛁", value: "spa" }
+            { label: "Bagno & Igiene \u{1F9FC}", value: "bagno" },
+            { label: "Taglio & Tosatura \u{2702}", value: "taglio" },
+            { label: "SPA & Ozonoterapia \u{1F6C1}", value: "spa" }
         ], (val, label) => {
             buddyData.service = val;
             askZone();

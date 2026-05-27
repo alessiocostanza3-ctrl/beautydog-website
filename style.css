@@ -324,21 +324,50 @@ img {
     cursor: pointer;
 }
 
-/* Mobile Nav Drawer */
+    @media (max-width: 768px) {
+        .mobile-menu-toggle {
+            display: block; /* Show toggle on mobile */
+        }
+        .nav-menu {
+            display: none; /* Hide desktop menu on mobile */
+        }
+        .nav-actions {
+            gap: 8px;
+        }
+
+        /* Global adjustments */
+        .container { padding: 0 16px; }
+        .hero-section { padding-top: 120px; padding-bottom: 80px; }
+        .hero-title { font-size: 2.5rem; }
+        .btn { width: 100%; }
+        .nav-actions { gap: 8px; }
+        .mobile-menu-toggle { display: block; }
+        .nav-menu { display: none; }
+        .mobile-nav { width: 100%; max-width: 280px; }
+        /* Grid adjustments */
+        .services-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+        .about-container { grid-template-columns: 1fr; }
+        .products-features-grid { grid-template-columns: 1fr; }
+        .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    }
+
 .mobile-nav {
     position: fixed;
     top: 0;
-    right: -100%;
+    right: -320px;
     width: 300px;
     height: 100vh;
-    background-color: var(--bg-main);
-    z-index: 1000;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    background-color: rgba(255, 253, 254, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1500;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 40px 24px;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 32px;
+    border-left: 1px solid rgba(255, 141, 161, 0.1);
 }
 
 .mobile-nav.open {
@@ -392,6 +421,30 @@ img {
     background: linear-gradient(180deg, var(--bg-alt) 0%, var(--bg-main) 100%);
     position: relative;
     overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .hero-image-wrapper {
+        order: -1;
+        margin-bottom: 24px;
+    }
+    .hero-img {
+        max-width: 100%;
+    }
 }
 
 .hero-container {
@@ -593,6 +646,13 @@ img {
     background-color: var(--bg-main);
 }
 
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 24px;
+    }
+}
+
 .services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -717,6 +777,16 @@ img {
     box-shadow: var(--shadow-md);
 }
 
+@media (max-width: 768px) {
+    .products-banner {
+        padding: 32px;
+        text-align: center;
+    }
+    .products-features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .products-banner::after {
     content: '\f1b0'; /* FontAwesome Paw */
     font-family: 'Font Awesome 6 Free';
@@ -785,6 +855,17 @@ img {
 .about-section {
     padding: 100px 0;
     background-color: var(--bg-alt);
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .about-image-wrapper {
+        order: -1;
+        text-align: center;
+    }
 }
 
 .about-container {
@@ -1012,6 +1093,18 @@ img {
     background-color: var(--text-dark);
     color: var(--text-light);
     padding: 80px 0 30px;
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        text-align: center;
+    }
+    .footer-info, .footer-hours, .footer-map {
+        margin-bottom: 24px;
+    }
 }
 
 .footer-grid {
@@ -1995,9 +2088,7 @@ img {
    Responsive Breakpoints
    ========================================================================== */
 @media (max-width: 1024px) {
-    .hero-title {
-        font-size: 2.8rem;
-    }
+    .hero-title { font-size: 2.8rem; }
     .hero-container {
         gap: 32px;
     }
@@ -2119,3 +2210,405 @@ img {
         display: none; /* Hide step names on small screens, keep numbers */
     }
 }
+
+/* Mobile tweaks for very small screens */
+@media (max-width: 480px) {
+  /* Global Layout & Typography */
+  .container {
+    padding: 0 16px;
+  }
+  
+  /* Navbar / Header */
+  .nav-container {
+    height: 60px;
+    padding: 0 16px;
+  }
+  .nav-logo {
+    font-size: 1.3rem;
+  }
+  .logo-paw-container {
+    width: 32px;
+    height: 32px;
+  }
+  .paw-icon {
+    font-size: 0.9rem;
+  }
+  #nav-booking-btn {
+    display: none !important; /* Hide booking button in navbar on small phones */
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    padding-top: 100px;
+    padding-bottom: 50px;
+  }
+  .hero-badge {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    margin-bottom: 16px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .hero-title {
+    font-size: 1.85rem;
+    line-height: 1.25;
+    margin-bottom: 16px;
+  }
+  .hero-subtitle {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+  .hero-actions {
+    gap: 12px;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    margin: 0;
+  }
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .stat-item {
+    flex: 1 1 40%;
+    min-width: 90px;
+    text-align: center;
+  }
+  .stat-number {
+    font-size: 1.6rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  .hero-image-wrapper {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  /* Hide decorative elements that clutter screens */
+  .blob-bg, .floating-bubble, .about-blob {
+    display: none !important;
+  }
+  
+  /* Services Section */
+  .services-section {
+    padding: 60px 0;
+  }
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+  .service-card {
+    padding: 24px 16px;
+  }
+  .service-pricing {
+    margin: 16px 0;
+  }
+  .products-banner {
+    padding: 24px 16px;
+    margin-top: 32px;
+  }
+  .products-banner h3 {
+    font-size: 1.3rem;
+  }
+  .products-features-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  .p-feature {
+    font-size: 0.8rem;
+  }
+  
+  /* About Section */
+  .about-section {
+    padding: 60px 0;
+  }
+  .about-container {
+    gap: 24px;
+  }
+  .about-content {
+    text-align: center;
+  }
+  .about-strengths {
+    text-align: left;
+    margin-top: 24px;
+  }
+  .strength-item {
+    gap: 12px;
+  }
+  .strength-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+  .strength-item h4 {
+    font-size: 0.95rem;
+  }
+  .strength-item p {
+    font-size: 0.8rem;
+  }
+  .experience-card {
+    padding: 10px 16px;
+    bottom: 12px;
+    right: 12px;
+  }
+  
+  /* Reviews Section */
+  .reviews-section {
+    padding: 60px 0;
+  }
+  .review-card {
+    padding: 20px 16px;
+  }
+  .review-text {
+    font-size: 0.85rem;
+  }
+  .social-cta {
+    padding: 24px 16px;
+    margin-top: 32px;
+  }
+  .social-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+  .social-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Footer Section */
+  .footer-section {
+    padding: 50px 0 20px;
+  }
+  .footer-grid {
+    gap: 32px;
+  }
+  .footer-logo {
+    justify-content: center;
+  }
+  .footer-contacts p {
+    justify-content: center;
+    font-size: 0.85rem;
+  }
+  .hours-list li {
+    font-size: 0.85rem;
+  }
+  .map-container {
+    height: 180px;
+  }
+  
+  /* Mobile Menu Drawer */
+  .mobile-nav {
+    width: 100%;
+    max-width: 260px;
+  }
+  
+  /* Booking Modal (Wizard UI) */
+  .modal-backdrop {
+    align-items: flex-start;
+    overflow-y: auto;
+    padding: 8px 6px;
+  }
+  .modal-card {
+    max-height: none;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+  .modal-header {
+    padding: 16px 16px 8px;
+  }
+  .modal-header h2 {
+    font-size: 1.3rem;
+  }
+  .modal-header p {
+    font-size: 0.8rem;
+  }
+  .modal-close-btn {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* Progress Steps indicators */
+  .wizard-steps-progress {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+  .progress-line-bg {
+    left: 20px;
+    right: 20px;
+  }
+  
+  /* Wizard Panes */
+  .wizard-content {
+    padding: 16px;
+  }
+  .pane-title {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+  }
+  .pane-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 16px;
+  }
+  
+  /* Step 1 Services inside wizard */
+  .options-grid {
+    gap: 12px;
+  }
+  .option-card {
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  .option-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+  }
+  .option-info h4 {
+    font-size: 0.95rem;
+  }
+  .option-info p {
+    font-size: 0.8rem;
+  }
+  .option-price {
+    font-size: 1rem;
+  }
+  .addons-title {
+    font-size: 0.95rem;
+  }
+  .addon-checkbox-label {
+    padding: 10px;
+  }
+  .addon-name {
+    font-size: 0.85rem;
+  }
+  .addon-desc {
+    font-size: 0.7rem;
+  }
+  
+  /* Step 2 Dog Sizes inside wizard */
+  .size-options-grid {
+    gap: 12px;
+  }
+  .size-card {
+    padding: 16px 12px;
+  }
+  .size-img-placeholder {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 10px;
+  }
+  .size-card h4 {
+    font-size: 0.95rem;
+  }
+  .size-weight {
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+  }
+  .size-example {
+    font-size: 0.7rem;
+  }
+  
+  /* Step 3 Calendar and Time Slots inside wizard */
+  .calendar-booking-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+  .calendar-widget {
+    padding: 12px;
+  }
+  .calendar-current-month {
+    font-size: 0.95rem;
+  }
+  .calendar-weekdays {
+    font-size: 0.75rem;
+  }
+  .calendar-day {
+    height: 32px;
+    width: 32px;
+    font-size: 0.8rem;
+  }
+  .time-slots-container {
+    padding: 12px;
+    margin-top: 8px;
+  }
+  .slots-header {
+    font-size: 0.85rem;
+  }
+  .slots-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px;
+    max-height: 180px;
+  }
+  .time-slot-btn {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+  
+  /* Step 4 Dati Proprietario inside wizard */
+  .form-grid {
+    gap: 12px;
+  }
+  .form-group label {
+    font-size: 0.8rem;
+  }
+  .form-group input, .form-group textarea {
+    padding: 10px 12px 10px 38px;
+    font-size: 0.85rem;
+  }
+  .form-group textarea {
+    padding: 10px 12px;
+  }
+  .input-icon {
+    left: 12px;
+    font-size: 0.85rem;
+  }
+  
+  /* Step 5 Summary / Riepilogo inside wizard */
+  .booking-summary-card {
+    padding: 16px;
+    gap: 10px;
+  }
+  .summary-row {
+    font-size: 0.85rem;
+    padding-bottom: 8px;
+  }
+  .summary-label {
+    gap: 6px;
+  }
+  .price-big {
+    font-size: 1.3rem;
+  }
+  .btn-whatsapp-confirm {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+  .alert {
+    padding: 10px 12px;
+    font-size: 0.75rem;
+    margin-bottom: 16px;
+  }
+  
+  /* Modal Footer */
+  .modal-footer {
+    padding: 12px 16px;
+  }
+  .modal-footer .btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+}
+

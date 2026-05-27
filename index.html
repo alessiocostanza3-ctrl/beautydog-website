@@ -612,6 +612,23 @@
                                     <input type="text" id="pet-breed" required placeholder="Es. Barboncino, Meticcio...">
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label for="client-zone">Zona / Provenienza *</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-map-pin input-icon"></i>
+                                    <select id="client-zone" required style="cursor: pointer; appearance: none; -webkit-appearance: none;">
+                                        <option value="" disabled selected>Da dove ci contatti?</option>
+                                        <option value="Palma Centro">Palma Centro</option>
+                                        <option value="Villaggio Giordano">Villaggio Giordano</option>
+                                        <option value="Marina di Palma">Marina di Palma</option>
+                                        <option value="Licata">Licata (Fuori Comune)</option>
+                                        <option value="Campobello">Campobello (Fuori Comune)</option>
+                                        <option value="Altro">Altro / Fuori Provincia</option>
+                                    </select>
+                                    <i class="fa-solid fa-chevron-down" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; font-size: 0.85rem;"></i>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="form-group mt-4">
@@ -695,6 +712,37 @@
         <div>
             <h4>Prenotazione Registrata!</h4>
             <p>La tua richiesta è stata salvata con successo.</p>
+        </div>
+    </div>
+
+    <!-- Chatbot Conversazionale ("Buddy") -->
+    <div class="buddy-chat-container" id="buddy-chat-container">
+        <!-- Floating Trigger Button -->
+        <button class="buddy-chat-trigger" id="buddy-chat-trigger" aria-label="Parla con Buddy">
+            <i class="fa-solid fa-comments"></i>
+            <span class="buddy-badge-pulse"></span>
+        </button>
+
+        <!-- Chat Window -->
+        <div class="buddy-chat-window" id="buddy-chat-window">
+            <div class="buddy-chat-header">
+                <div class="buddy-avatar-status">
+                    <div class="buddy-avatar">🐶</div>
+                    <div class="buddy-status">
+                        <h4>Buddy</h4>
+                        <p>Toelettatore Virtuale • Attivo</p>
+                    </div>
+                </div>
+                <button class="buddy-close-btn" id="buddy-close-btn">&times;</button>
+            </div>
+            
+            <div class="buddy-chat-messages" id="buddy-chat-messages">
+                <!-- Messaggi renderizzati dinamicamente -->
+            </div>
+
+            <div class="buddy-chat-footer" id="buddy-chat-footer">
+                <!-- Pulsanti opzioni o input box -->
+            </div>
         </div>
     </div>
 

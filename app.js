@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     owner_email: CONFIG.OWNER_EMAIL,
                     client_name: bookingObj.clientName,
                     client_phone: bookingObj.clientPhone,
+                    client_zone: bookingObj.clientZone || 'Non specificata',
                     pet_name: bookingObj.petName,
                     pet_breed: bookingObj.petBreed,
                     service: bookingObj.service,
@@ -150,32 +151,61 @@ document.addEventListener('DOMContentLoaded', () => {
     DbService.init();
 
     // -------------------------------------------------------------
-    // Mock Bookings Initialization
+    // Mock Bookings Initialization (Enhanced for Analytics Test)
     // -------------------------------------------------------------
-    // Pre-populate some busy slots so the calendar looks realistic and active
     function initMockBookings() {
         if (DbService.firebaseActive) return;
         if (!localStorage.getItem('beautydog_bookings')) {
             const mockBookings = [];
-            // Generate mock bookings for the next 10 days
-            for (let i = 0; i < 10; i++) {
+            const zones = ["Palma Centro", "Villaggio Giordano", "Marina di Palma", "Licata", "Campobello", "Altro"];
+            const breeds = ["Barboncino", "Pastore Tedesco", "Chihuahua", "Meticcio", "Labrador", "Maltese", "Cocker", "Volpino"];
+            const names = ["Mario Rossi", "Giulia Bianchi", "Luca Verdi", "Alessio Costanza", "Salvatore Greco", "Francesca Bruno", "Giuseppe Rizzo", "Anna Esposito"];
+            const services = ["Bagno & Igiene", "Taglio & Tosatura", "SPA & Ozonoterapia"];
+            const sizes = ["Piccola (Fino a 10kg)", "Media (10-25kg)", "Grande (Oltre 25kg)"];
+            const statusOptions = ["confirmed", "confirmed", "confirmed", "pending", "cancelled"];
+
+            // Generate mock bookings for the last 5 days and next 10 days to show rich trends
+            for (let i = -5; i < 10; i++) {
                 const date = new Date(CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY + i);
                 const dateString = formatDateString(date);
                 
                 // Don't book on Sundays
                 if (date.getDay() === 0) continue;
 
-                // Pick 2-3 random slots to be busy
+                // Pick 1-4 random slots to be busy
                 const potentialSlots = ["09:00", "10:00", "11:00", "12:00", "15:00", "16:00", "17:00", "18:00"];
                 const shuffled = potentialSlots.sort(() => 0.5 - Math.random());
-                const busyCount = Math.floor(Math.random() * 3) + 1; // 1 to 3 busy slots
+                const busyCount = Math.floor(Math.random() * 4) + 1;
                 
                 for (let j = 0; j < busyCount; j++) {
+                    const breed = breeds[Math.floor(Math.random() * breeds.length)];
+                    const zone = zones[Math.floor(Math.random() * zones.length)];
+                    const client = names[Math.floor(Math.random() * names.length)];
+                    const service = services[Math.floor(Math.random() * services.length)];
+                    const size = sizes[Math.floor(Math.random() * sizes.length)];
+                    const status = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+                    
+                    let price = 15;
+                    if (service.includes("Taglio")) price = 25;
+                    if (service.includes("SPA")) price = 35;
+                    if (size.includes("Media")) price += 5;
+                    if (size.includes("Grande")) price += 15;
+
                     mockBookings.push({
+                        id: "mock_" + Math.random().toString(36).substr(2, 9),
                         date: dateString,
                         time: shuffled[j],
-                        service: "Mock Booking",
-                        petName: "Cucciolo"
+                        service: service,
+                        size: size,
+                        petName: "Leo",
+                        petBreed: breed,
+                        clientName: client,
+                        clientPhone: "39320" + Math.floor(1000000 + Math.random() * 9000000),
+                        clientZone: zone,
+                        price: price,
+                        status: status,
+                        notes: "Simulazione appuntamento toelettatura.",
+                        createdAt: new Date(date.getTime() - 86400000).toISOString()
                     });
                 }
             }
@@ -800,6 +830,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const phone = document.getElementById('client-phone').value;
         const petName = document.getElementById('pet-name').value;
         const breed = document.getElementById('pet-breed').value;
+        const zone = document.getElementById('client-zone').value;
         const notes = document.getElementById('booking-notes').value || "Nessuna";
         
         const serviceName = SERVICE_LABELS[selectedService];
@@ -836,6 +867,7 @@ document.addEventListener('DOMContentLoaded', () => {
 👤 *CONTATTI PROPRIETARIO:*
 - Nome: ${ownerName}
 - Telefono: ${phone}
+- Provenienza: ${zone}
 - Note: ${notes}
 
 Attendo tua conferma dell'appuntamento! Grazie mille!`;
@@ -850,6 +882,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             petBreed: breed,
             clientName: ownerName,
             clientPhone: phone,
+            clientZone: zone,
             notes: notes,
             price: total
         };
@@ -875,5 +908,259 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
         setTimeout(() => {
             successToast.classList.remove('show');
         }, 4000);
+    }
+
+    // -------------------------------------------------------------
+    // Conversational Chatbot (Buddy) Logic
+    // -------------------------------------------------------------
+    const chatContainer = document.getElementById('buddy-chat-container');
+    const chatTrigger = document.getElementById('buddy-chat-trigger');
+    const chatWindow = document.getElementById('buddy-chat-window');
+    const chatCloseBtn = document.getElementById('buddy-close-btn');
+    const chatMessages = document.getElementById('buddy-chat-messages');
+    const chatFooter = document.getElementById('buddy-chat-footer');
+    
+    let chatStep = 0;
+    let chatOpenedOnce = false;
+    
+    let buddyData = {
+        clientName: "",
+        petName: "",
+        petBreed: "",
+        size: "",
+        service: "",
+        zone: "",
+        phone: ""
+    };
+
+    if (chatTrigger && chatWindow && chatCloseBtn) {
+        chatTrigger.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+            const triggerBadge = chatTrigger.querySelector('.buddy-badge-pulse');
+            if (triggerBadge) triggerBadge.style.display = 'none';
+            
+            if (chatWindow.classList.contains('open') && !chatOpenedOnce) {
+                chatOpenedOnce = true;
+                startBuddyConversation();
+            }
+        });
+        
+        chatCloseBtn.addEventListener('click', () => {
+            chatWindow.classList.remove('open');
+        });
+    }
+
+    function addBotMessage(text, delayMs = 600) {
+        showTypingIndicator();
+        setTimeout(() => {
+            removeTypingIndicator();
+            const msg = document.createElement('div');
+            msg.className = 'buddy-message bot';
+            msg.innerHTML = text;
+            chatMessages.appendChild(msg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, delayMs);
+    }
+
+    function addUserMessage(text) {
+        const msg = document.createElement('div');
+        msg.className = 'buddy-message user';
+        msg.textContent = text;
+        chatMessages.appendChild(msg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+        removeTypingIndicator();
+        const typing = document.createElement('div');
+        typing.className = 'buddy-typing';
+        typing.id = 'buddy-typing';
+        typing.innerHTML = `
+            <div class="buddy-dot"></div>
+            <div class="buddy-dot"></div>
+            <div class="buddy-dot"></div>
+        `;
+        chatMessages.appendChild(typing);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+        const typing = document.getElementById('buddy-typing');
+        if (typing) typing.remove();
+    }
+
+    function renderTextPrompt(placeholder, type = "text", callback) {
+        chatFooter.innerHTML = `
+            <form id="buddy-text-form" class="buddy-input-wrapper">
+                <input type="${type}" class="buddy-text-input" id="buddy-text-input" placeholder="${placeholder}" required autocomplete="off">
+                <button type="submit" class="buddy-send-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        `;
+        
+        setTimeout(() => {
+            const input = document.getElementById('buddy-text-input');
+            if (input) input.focus();
+        }, 100);
+
+        const form = document.getElementById('buddy-text-form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('buddy-text-input');
+            const val = input.value.trim();
+            if (val) {
+                addUserMessage(val);
+                callback(val);
+            }
+        });
+    }
+
+    function renderOptions(options, callback) {
+        chatFooter.innerHTML = "";
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'buddy-option-btn';
+            btn.textContent = opt.label;
+            btn.addEventListener('click', () => {
+                addUserMessage(opt.label);
+                callback(opt.value, opt.label);
+            });
+            chatFooter.appendChild(btn);
+        });
+    }
+
+    function startBuddyConversation() {
+        chatStep = 0;
+        addBotMessage("Ciao! 🐶 Io sono <strong>Buddy</strong>, l'assistente virtuale di BeautyDog. Ti aiuterò a richiedere un appuntamento in pochi secondi!");
+        setTimeout(() => {
+            askClientName();
+        }, 1000);
+    }
+
+    function askClientName() {
+        chatStep = 1;
+        addBotMessage("Come ti chiami?");
+        renderTextPrompt("Il tuo nome...", "text", (val) => {
+            buddyData.clientName = val;
+            askPetName();
+        });
+    }
+
+    function askPetName() {
+        chatStep = 2;
+        addBotMessage(`Piacere di conoscerti, ${buddyData.clientName}! Come si chiama il tuo pelosetto?`);
+        renderTextPrompt("Nome del cane...", "text", (val) => {
+            buddyData.petName = val;
+            askPetBreed();
+        });
+    }
+
+    function askPetBreed() {
+        chatStep = 3;
+        addBotMessage(`Che bel nome! E di che razza è ${buddyData.petName}? (Scrivi pure Meticcio se è un incrocio)`);
+        renderTextPrompt("Razza del cane...", "text", (val) => {
+            buddyData.petBreed = val;
+            askPetSize();
+        });
+    }
+
+    function askPetSize() {
+        chatStep = 4;
+        addBotMessage(`Capito! Qual è la taglia di ${buddyData.petName}?`);
+        renderOptions([
+            { label: "Piccolo (Fino a 10 kg)", value: "piccolo" },
+            { label: "Medio (10-25 kg)", value: "medio" },
+            { label: "Grande (Oltre 25 kg)", value: "grande" }
+        ], (val, label) => {
+            buddyData.size = val;
+            askService();
+        });
+    }
+
+    function askService() {
+        chatStep = 5;
+        addBotMessage(`Perfetto! Di che trattamento ha bisogno ${buddyData.petName}?`);
+        renderOptions([
+            { label: "Bagno & Igiene 🧼", value: "bagno" },
+            { label: "Taglio & Tosatura ✂️", value: "taglio" },
+            { label: "SPA & Ozonoterapia 🛁", value: "spa" }
+        ], (val, label) => {
+            buddyData.service = val;
+            askZone();
+        });
+    }
+
+    function askZone() {
+        chatStep = 6;
+        addBotMessage("Ottima scelta. Da quale zona ci contatti?");
+        renderOptions([
+            { label: "Palma Centro", value: "Palma Centro" },
+            { label: "Villaggio Giordano", value: "Villaggio Giordano" },
+            { label: "Marina di Palma", value: "Marina di Palma" },
+            { label: "Licata", value: "Licata" },
+            { label: "Campobello", value: "Campobello" },
+            { label: "Altro", value: "Altro" }
+        ], (val, label) => {
+            buddyData.zone = val;
+            askPhone();
+        });
+    }
+
+    function askPhone() {
+        chatStep = 7;
+        addBotMessage("Ultimo dettaglio! Lasciami un numero di telefono per poterti ricontattare:");
+        renderTextPrompt("Es. 3201234567", "tel", (val) => {
+            buddyData.phone = val;
+            concludeChat();
+        });
+    }
+
+    function concludeChat() {
+        chatStep = 8;
+        addBotMessage(`Grazie mille, ${buddyData.clientName}! Ho raccolto tutti i dati per la prenotazione di ${buddyData.petName}.`);
+        setTimeout(() => {
+            addBotMessage("Clicca sul pulsante qui sotto per scegliere la data e l'orario sul nostro calendario e inviare la richiesta!");
+            chatFooter.innerHTML = `
+                <button class="btn btn-primary w-full" id="buddy-wizard-btn">
+                    Scegli Data e Ora <i class="fa-solid fa-calendar-days"></i>
+                </button>
+            `;
+            const finishBtn = document.getElementById('buddy-wizard-btn');
+            finishBtn.addEventListener('click', () => {
+                // 1. Close chatbot window
+                chatWindow.classList.remove('open');
+                
+                // 2. Reset wizard values
+                resetWizard();
+                
+                // 3. Prepopulate DOM fields
+                document.getElementById('client-name').value = buddyData.clientName;
+                document.getElementById('client-phone').value = buddyData.phone;
+                document.getElementById('pet-name').value = buddyData.petName;
+                document.getElementById('pet-breed').value = buddyData.petBreed;
+                document.getElementById('client-zone').value = buddyData.zone;
+                
+                // Select service card
+                selectService(buddyData.service);
+                
+                // Select pet size card
+                selectedSize = buddyData.size;
+                sizeCards.forEach(c => {
+                    if (c.getAttribute('data-value') === buddyData.size) {
+                        c.classList.add('selected');
+                    } else {
+                        c.classList.remove('selected');
+                    }
+                });
+                
+                // Open wizard modal
+                bookingModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                
+                // Go directly to Step 3 (Calendar selection)
+                goToStep(3);
+            });
+        }, 1000);
     }
 });

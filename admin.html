@@ -17,6 +17,9 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="style.css?v=2.0">
     
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         body {
             background-color: var(--bg-alt);
@@ -374,8 +377,110 @@
             font-size: 0.9rem;
         }
         
+        /* Admin Charts & Grid */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .analytics-card {
+            background-color: var(--bg-main);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .analytics-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 12px;
+            margin-bottom: 8px;
+        }
+        .chart-container {
+            position: relative;
+            height: 280px;
+            width: 100%;
+        }
+
+        /* Manual Booking Modal */
+        .admin-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .admin-modal-backdrop.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .admin-modal-card {
+            background-color: var(--bg-main);
+            width: 100%;
+            max-width: 600px;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255, 141, 161, 0.15);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .admin-modal-backdrop.open .admin-modal-card {
+            transform: scale(1);
+        }
+        .admin-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--pink-light);
+            border: none;
+            color: var(--pink-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            z-index: 10;
+        }
+        
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .admin-form-full {
+            grid-column: span 2;
+        }
+        
         /* Responsive */
         @media (max-width: 900px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
             .booking-item {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -479,6 +584,9 @@
                     <p>Gestisci le prenotazioni dei clienti di BeautyDog</p>
                 </div>
                 <div class="header-actions">
+                    <button class="btn btn-primary" id="open-manual-booking-btn">
+                        Nuova Prenotazione <i class="fa-solid fa-plus"></i>
+                    </button>
                     <button class="btn btn-outline" id="logout-btn">
                         Esci <i class="fa-solid fa-right-from-bracket"></i>
                     </button>
@@ -532,6 +640,7 @@
                 <button class="tab-btn active" data-tab="pending">Da Approvare (<span id="count-pending">0</span>)</button>
                 <button class="tab-btn" data-tab="confirmed">Confermati (<span id="count-confirmed">0</span>)</button>
                 <button class="tab-btn" data-tab="cancelled">Cancellati (<span id="count-cancelled">0</span>)</button>
+                <button class="tab-btn" data-tab="analytics"><i class="fa-solid fa-chart-pie"></i> Analisi & Report</button>
             </nav>
             
             <!-- Bookings List -->
@@ -544,6 +653,116 @@
                 </div>
             </section>
             
+            <!-- Analytics View -->
+            <section class="analytics-grid" id="analytics-container" style="display: none;">
+                <div class="analytics-card">
+                    <h3>Provenienza Clienti (Zone)</h3>
+                    <div class="chart-container">
+                        <canvas id="chart-zones"></canvas>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <h3>Razze Cani Più Popolari</h3>
+                    <div class="chart-container">
+                        <canvas id="chart-breeds"></canvas>
+                    </div>
+                </div>
+                <div class="analytics-card" style="grid-column: span 2;">
+                    <h3>Andamento Prenotazioni Settimanali</h3>
+                    <div class="chart-container">
+                        <canvas id="chart-trends"></canvas>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+        
+        <!-- ==========================================
+             MANUAL BOOKING MODAL
+             ========================================== -->
+        <div class="admin-modal-backdrop" id="manual-booking-modal">
+            <div class="admin-modal-card">
+                <button class="admin-modal-close" id="close-manual-modal-btn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <h2 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 8px;">Registra Appuntamento Manuale</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Inserisci un appuntamento preso offline (telefono, social, passaparola)</p>
+                
+                <form id="manual-booking-form" class="admin-form-grid">
+                    <div class="form-group">
+                        <label for="manual-client-name">Nome Proprietario *</label>
+                        <input type="text" id="manual-client-name" required placeholder="Es. Mario Rossi">
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-client-phone">Telefono *</label>
+                        <input type="tel" id="manual-client-phone" required placeholder="Es. 3201234567">
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-client-zone">Zona / Provenienza *</label>
+                        <select id="manual-client-zone" required style="cursor: pointer;">
+                            <option value="" disabled selected>Seleziona zona</option>
+                            <option value="Palma Centro">Palma Centro</option>
+                            <option value="Villaggio Giordano">Villaggio Giordano</option>
+                            <option value="Marina di Palma">Marina di Palma</option>
+                            <option value="Licata">Licata (Fuori Comune)</option>
+                            <option value="Campobello">Campobello (Fuori Comune)</option>
+                            <option value="Altro">Altro / Fuori Provincia</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-pet-name">Nome Cane *</label>
+                        <input type="text" id="manual-pet-name" required placeholder="Es. Bobby">
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-pet-breed">Razza / Meticcio *</label>
+                        <input type="text" id="manual-pet-breed" required placeholder="Es. Barboncino">
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-pet-size">Taglia *</label>
+                        <select id="manual-pet-size" required style="cursor: pointer;">
+                            <option value="piccolo" selected>Piccolo (Fino a 10 kg)</option>
+                            <option value="medio">Medio (10-25 kg)</option>
+                            <option value="grande">Grande (Oltre 25 kg)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-service">Trattamento *</label>
+                        <select id="manual-service" required style="cursor: pointer;">
+                            <option value="bagno" selected>Bagno & Igiene</option>
+                            <option value="taglio">Taglio & Tosatura</option>
+                            <option value="spa">SPA & Ozonoterapia</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-price">Prezzo (€) *</label>
+                        <input type="number" id="manual-price" required min="0" value="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-date">Data Appuntamento *</label>
+                        <input type="date" id="manual-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-time">Orario Appuntamento *</label>
+                        <select id="manual-time" required style="cursor: pointer;">
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="12:00">12:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group admin-form-full">
+                        <label for="manual-notes">Note Aggiuntive</label>
+                        <textarea id="manual-notes" rows="2" placeholder="Note su cane, comportamento, ecc."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary admin-form-full mt-4">
+                        Registra Prenotazione <i class="fa-solid fa-floppy-disk"></i>
+                    </button>
+                </form>
+            </div>
         </div>
         
     </div>
@@ -729,7 +948,18 @@
             // -------------------------------------------------------------
             function updateUI() {
                 calculateStats();
-                renderBookings();
+                const analyticsContainer = document.getElementById('analytics-container');
+                const bookingsContainerGrid = document.getElementById('bookings-container');
+                
+                if (currentTab === 'analytics') {
+                    if (bookingsContainerGrid) bookingsContainerGrid.style.display = 'none';
+                    if (analyticsContainer) analyticsContainer.style.display = 'grid';
+                    renderCharts();
+                } else {
+                    if (bookingsContainerGrid) bookingsContainerGrid.style.display = 'grid';
+                    if (analyticsContainer) analyticsContainer.style.display = 'none';
+                    renderBookings();
+                }
             }
 
             function calculateStats() {
@@ -896,6 +1126,140 @@
             };
 
             // -------------------------------------------------------------
+            // Manual Booking Modal Controls
+            // -------------------------------------------------------------
+            const openManualBookingBtn = document.getElementById('open-manual-booking-btn');
+            const closeManualModalBtn = document.getElementById('close-manual-modal-btn');
+            const manualBookingModal = document.getElementById('manual-booking-modal');
+            const manualBookingForm = document.getElementById('manual-booking-form');
+            const manualService = document.getElementById('manual-service');
+            const manualPetSize = document.getElementById('manual-pet-size');
+            const manualPrice = document.getElementById('manual-price');
+
+            // Service and Size configurations matching app.js
+            const BASE_PRICES = {
+                bagno: 15,
+                taglio: 25,
+                spa: 35
+            };
+            const SIZE_ADDONS = {
+                piccolo: 0,
+                medio: 5,
+                grande: 15
+            };
+            const SERVICE_LABELS = {
+                bagno: "Bagno & Igiene",
+                taglio: "Taglio & Tosatura",
+                spa: "SPA & Ozonoterapia"
+            };
+            const SIZE_LABELS = {
+                piccolo: "Piccola (Fino a 10kg)",
+                medio: "Media (10-25kg)",
+                grande: "Grande (Oltre 25kg)"
+            };
+
+            function calculateManualPrice() {
+                const service = manualService.value;
+                const size = manualPetSize.value;
+                const base = BASE_PRICES[service] || 0;
+                const addon = SIZE_ADDONS[size] || 0;
+                manualPrice.value = base + addon;
+            }
+
+            if (manualService && manualPetSize) {
+                manualService.addEventListener('change', calculateManualPrice);
+                manualPetSize.addEventListener('change', calculateManualPrice);
+            }
+
+            if (openManualBookingBtn && closeManualModalBtn && manualBookingModal) {
+                openManualBookingBtn.addEventListener('click', () => {
+                    const todayStr = getTodayString();
+                    document.getElementById('manual-date').value = todayStr;
+                    document.getElementById('manual-time').value = "09:00";
+                    calculateManualPrice();
+                    manualBookingModal.classList.add('open');
+                });
+
+                closeManualModalBtn.addEventListener('click', () => {
+                    manualBookingModal.classList.remove('open');
+                });
+
+                manualBookingModal.addEventListener('click', (e) => {
+                    if (e.target === manualBookingModal) {
+                        manualBookingModal.classList.remove('open');
+                    }
+                });
+            }
+
+            if (manualBookingForm) {
+                manualBookingForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const clientName = document.getElementById('manual-client-name').value;
+                    const clientPhone = document.getElementById('manual-client-phone').value;
+                    const clientZone = document.getElementById('manual-client-zone').value;
+                    const petName = document.getElementById('manual-pet-name').value;
+                    const petBreed = document.getElementById('manual-pet-breed').value;
+                    const sizeKey = manualPetSize.value;
+                    const serviceKey = manualService.value;
+                    const price = parseFloat(manualPrice.value) || 0;
+                    const date = document.getElementById('manual-date').value;
+                    const time = document.getElementById('manual-time').value;
+                    const notes = document.getElementById('manual-notes').value || "";
+
+                    const newBooking = {
+                        clientName,
+                        clientPhone,
+                        clientZone,
+                        petName,
+                        petBreed,
+                        size: SIZE_LABELS[sizeKey],
+                        service: SERVICE_LABELS[serviceKey],
+                        price,
+                        date,
+                        time,
+                        notes,
+                        status: 'confirmed',
+                        createdAt: new Date().toISOString()
+                    };
+
+                    if (firebaseActive && db) {
+                        try {
+                            const docRef = db.collection("bookings").doc();
+                            newBooking.id = docRef.id;
+                            await docRef.set(newBooking);
+                            alert("Prenotazione manuale salvata su Firebase!");
+                            manualBookingModal.classList.remove('open');
+                            manualBookingForm.reset();
+                        } catch (error) {
+                            console.error("Error saving manual booking to Firebase:", error);
+                            alert("Errore nel salvataggio su Firebase. Salvataggio locale in corso.");
+                            saveManualBookingLocally(newBooking);
+                        }
+                    } else {
+                        saveManualBookingLocally(newBooking);
+                    }
+                });
+            }
+
+            function saveManualBookingLocally(booking) {
+                booking.id = "local_manual_" + Math.random().toString(36).substr(2, 9);
+                bookingsList.push(booking);
+                localStorage.setItem('beautydog_bookings', JSON.stringify(bookingsList));
+                alert("Prenotazione manuale registrata con successo localmente!");
+                manualBookingModal.classList.remove('open');
+                manualBookingForm.reset();
+
+                // Sort by date then time
+                bookingsList.sort((a, b) => {
+                    if (a.date !== b.date) return a.date.localeCompare(b.date);
+                    return a.time.localeCompare(b.time);
+                });
+
+                updateUI();
+            }
+
+            // -------------------------------------------------------------
             // Tab Switchers
             // -------------------------------------------------------------
             tabButtons.forEach(button => {
@@ -903,9 +1267,222 @@
                     tabButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     currentTab = button.getAttribute('data-tab');
-                    renderBookings();
+                    updateUI();
                 });
             });
+
+            // -------------------------------------------------------------
+            // Chart.js Visualization Logic
+            // -------------------------------------------------------------
+            let chartZonesInstance = null;
+            let chartBreedsInstance = null;
+            let chartTrendsInstance = null;
+
+            function renderCharts() {
+                // Filter out cancelled bookings
+                const activeBookings = bookingsList.filter(b => b.status !== 'cancelled');
+
+                // 1. Zone distribution
+                const zoneCounts = {
+                    "Palma Centro": 0,
+                    "Villaggio Giordano": 0,
+                    "Marina di Palma": 0,
+                    "Licata": 0,
+                    "Campobello": 0,
+                    "Altro": 0,
+                    "Non specificata": 0
+                };
+
+                activeBookings.forEach(b => {
+                    const zone = b.clientZone || "Non specificata";
+                    if (zoneCounts[zone] !== undefined) {
+                        zoneCounts[zone]++;
+                    } else {
+                        // Check fuzzy match
+                        let matched = false;
+                        for (let key in zoneCounts) {
+                            if (zone.toLowerCase().includes(key.toLowerCase())) {
+                                zoneCounts[key]++;
+                                matched = true;
+                                break;
+                            }
+                        }
+                        if (!matched) {
+                            zoneCounts["Altro"]++;
+                        }
+                    }
+                });
+
+                const zoneLabels = [];
+                const zoneData = [];
+                Object.keys(zoneCounts).forEach(z => {
+                    if (zoneCounts[z] > 0 || z !== "Non specificata") {
+                        zoneLabels.push(z);
+                        zoneData.push(zoneCounts[z]);
+                    }
+                });
+
+                // 2. Breed distribution
+                const breedCounts = {};
+                activeBookings.forEach(b => {
+                    if (b.petBreed) {
+                        const breed = b.petBreed.trim().toLowerCase().replace(/^\w/, c => c.toUpperCase());
+                        breedCounts[breed] = (breedCounts[breed] || 0) + 1;
+                    }
+                });
+
+                const sortedBreeds = Object.entries(breedCounts).sort((a, b) => b[1] - a[1]);
+                const topBreeds = sortedBreeds.slice(0, 5);
+                const otherBreedsCount = sortedBreeds.slice(5).reduce((sum, item) => sum + item[1], 0);
+
+                const breedLabels = topBreeds.map(item => item[0]);
+                const breedData = topBreeds.map(item => item[1]);
+                if (otherBreedsCount > 0) {
+                    breedLabels.push("Altre");
+                    breedData.push(otherBreedsCount);
+                }
+
+                // 3. Trends (Bookings grouped by date)
+                const trendCounts = {};
+                activeBookings.forEach(b => {
+                    if (b.date) {
+                        trendCounts[b.date] = (trendCounts[b.date] || 0) + 1;
+                    }
+                });
+
+                const sortedDates = Object.keys(trendCounts).sort();
+                const trendLabels = sortedDates.map(d => {
+                    const parts = d.split('-');
+                    if (parts.length === 3) {
+                        return `${parts[2]}/${parts[1]}`;
+                    }
+                    return d;
+                });
+                const trendData = sortedDates.map(d => trendCounts[d]);
+
+                // Destroy old charts to clean context
+                if (chartZonesInstance) chartZonesInstance.destroy();
+                if (chartBreedsInstance) chartBreedsInstance.destroy();
+                if (chartTrendsInstance) chartTrendsInstance.destroy();
+
+                const canvasZones = document.getElementById('chart-zones');
+                const canvasBreeds = document.getElementById('chart-breeds');
+                const canvasTrends = document.getElementById('chart-trends');
+
+                if (!canvasZones || !canvasBreeds || !canvasTrends) return;
+
+                const ctxZones = canvasZones.getContext('2d');
+                const ctxBreeds = canvasBreeds.getContext('2d');
+                const ctxTrends = canvasTrends.getContext('2d');
+
+                const colors = {
+                    pink: '#FF8DA1',
+                    blue: '#5DBCF9',
+                    purple: '#AF8AF8',
+                    green: '#22C55E',
+                    orange: '#F97316',
+                    yellow: '#EAB308',
+                    gray: '#94A3B8'
+                };
+
+                // Doughnut Chart for Zones
+                chartZonesInstance = new Chart(ctxZones, {
+                    type: 'doughnut',
+                    data: {
+                        labels: zoneLabels,
+                        datasets: [{
+                            data: zoneData,
+                            backgroundColor: [
+                                colors.pink, colors.blue, colors.purple, colors.green, colors.orange, colors.yellow, colors.gray
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    font: { family: 'Poppins', size: 11 },
+                                    boxWidth: 12
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Bar Chart for Breeds
+                chartBreedsInstance = new Chart(ctxBreeds, {
+                    type: 'bar',
+                    data: {
+                        labels: breedLabels.length > 0 ? breedLabels : ["Nessun dato"],
+                        datasets: [{
+                            label: 'Numero Cani',
+                            data: breedData.length > 0 ? breedData : [0],
+                            backgroundColor: colors.blue,
+                            borderRadius: 6,
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { stepSize: 1, font: { family: 'Poppins', size: 10 } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { family: 'Poppins', weight: 500, size: 11 } }
+                            }
+                        }
+                    }
+                });
+
+                // Line Chart for Trends
+                chartTrendsInstance = new Chart(ctxTrends, {
+                    type: 'line',
+                    data: {
+                        labels: trendLabels.length > 0 ? trendLabels : ["Nessun dato"],
+                        datasets: [{
+                            label: 'Numero Appuntamenti',
+                            data: trendData.length > 0 ? trendData : [0],
+                            borderColor: colors.pink,
+                            backgroundColor: 'rgba(255, 141, 161, 0.15)',
+                            fill: true,
+                            tension: 0.3,
+                            borderWidth: 3,
+                            pointBackgroundColor: colors.pink,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: {
+                                grid: { color: 'rgba(0,0,0,0.03)' },
+                                ticks: { font: { family: 'Poppins', size: 10 } }
+                            },
+                            y: {
+                                grid: { color: 'rgba(0,0,0,0.03)' },
+                                ticks: { stepSize: 1, font: { family: 'Poppins', size: 10 } }
+                            }
+                        }
+                    }
+                });
+            }
 
             // Helpers
             function getTodayString() {

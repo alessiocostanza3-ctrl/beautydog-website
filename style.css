@@ -339,7 +339,7 @@ img {
         .container { padding: 0 16px; }
         .hero-section { padding-top: 120px; padding-bottom: 80px; }
         .hero-title { font-size: 2.5rem; }
-        .btn { width: 100%; }
+        .hero-actions .btn { width: 100%; }
         .nav-actions { gap: 8px; }
         .mobile-menu-toggle { display: block; }
         .nav-menu { display: none; }

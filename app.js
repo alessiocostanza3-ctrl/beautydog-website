@@ -1064,10 +1064,25 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
 
     function askPetBreed() {
         chatStep = 3;
-        addBotMessage(`Che bel nome! E di che razza è ${buddyData.petName}? (Scrivi pure Meticcio se è un incrocio)`);
-        renderTextPrompt("Razza del cane...", "text", (val) => {
-            buddyData.petBreed = val;
-            askPetAge();
+        addBotMessage(`Che bel nome! E di che razza è ${buddyData.petName}?`);
+        renderOptions([
+            { label: "Meticcio \u{1F436}", value: "Meticcio" },
+            { label: "Barboncino \u{1F429}", value: "Barboncino" },
+            { label: "Maltese \u{1F40B}", value: "Maltese" },
+            { label: "Chihuahua", value: "Chihuahua" },
+            { label: "Labrador", value: "Labrador" },
+            { label: "Altra razza... \u{270F}", value: "Altro" }
+        ], (val, label) => {
+            if (val === "Altro") {
+                addBotMessage("Scrivimi pure la razza del tuo cane:");
+                renderTextPrompt("Es. Cocker, Golden Retriever...", "text", (customBreed) => {
+                    buddyData.petBreed = customBreed;
+                    askPetAge();
+                });
+            } else {
+                buddyData.petBreed = val;
+                askPetAge();
+            }
         });
     }
 
@@ -1115,10 +1130,18 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             { label: "Marina di Palma", value: "Marina di Palma" },
             { label: "Licata", value: "Licata" },
             { label: "Campobello", value: "Campobello" },
-            { label: "Altro", value: "Altro" }
+            { label: "Altra zona... \u{270F}", value: "Altro" }
         ], (val, label) => {
-            buddyData.zone = val;
-            askPhone();
+            if (val === "Altro") {
+                addBotMessage("Scrivimi pure la tua zona o comune di provenienza:");
+                renderTextPrompt("Es. Naro, Camastra...", "text", (customZone) => {
+                    buddyData.zone = customZone;
+                    askPhone();
+                });
+            } else {
+                buddyData.zone = val;
+                askPhone();
+            }
         });
     }
 

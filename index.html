@@ -609,7 +609,25 @@
                                 <label for="pet-breed">Razza / Incrocio *</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-dna input-icon"></i>
-                                    <input type="text" id="pet-breed" required placeholder="Es. Barboncino, Meticcio...">
+                                    <input type="text" id="pet-breed" list="breeds-list" required placeholder="Es. Barboncino, Maltese...">
+                                    <datalist id="breeds-list">
+                                        <option value="Barboncino">
+                                        <option value="Maltese">
+                                        <option value="Chihuahua">
+                                        <option value="Meticcio">
+                                        <option value="Pastore Tedesco">
+                                        <option value="Labrador">
+                                        <option value="Golden Retriever">
+                                        <option value="Cocker Spaniel">
+                                        <option value="Pinscher">
+                                        <option value="Carlino">
+                                        <option value="Boxer">
+                                        <option value="Rottweiler">
+                                        <option value="Volpino">
+                                        <option value="Jack Russell">
+                                        <option value="Shih Tzu">
+                                        <option value="Setter">
+                                    </datalist>
                                 </div>
                             </div>
 
@@ -625,16 +643,18 @@
                                 <label for="client-zone">Zona / Provenienza *</label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-map-pin input-icon"></i>
-                                    <select id="client-zone" required style="cursor: pointer; appearance: none; -webkit-appearance: none;">
-                                        <option value="" disabled selected>Da dove ci contatti?</option>
-                                        <option value="Palma Centro">Palma Centro</option>
-                                        <option value="Villaggio Giordano">Villaggio Giordano</option>
-                                        <option value="Marina di Palma">Marina di Palma</option>
-                                        <option value="Licata">Licata (Fuori Comune)</option>
-                                        <option value="Campobello">Campobello (Fuori Comune)</option>
-                                        <option value="Altro">Altro / Fuori Provincia</option>
-                                    </select>
-                                    <i class="fa-solid fa-chevron-down" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; font-size: 0.85rem;"></i>
+                                    <input type="text" id="client-zone" list="zones-list" required placeholder="Seleziona o scrivi la tua zona...">
+                                    <datalist id="zones-list">
+                                        <option value="Palma Centro">
+                                        <option value="Villaggio Giordano">
+                                        <option value="Marina di Palma">
+                                        <option value="Licata">
+                                        <option value="Campobello">
+                                        <option value="Naro">
+                                        <option value="Camastra">
+                                        <option value="Ravanusa">
+                                        <option value="Canicattì">
+                                    </datalist>
                                 </div>
                             </div>
                         </div>

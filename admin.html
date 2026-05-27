@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>BeautyDog Admin | Gestione Appuntamenti</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="style.css?v=2.0">
+    
+    <style>
+        body {
+            background-color: var(--bg-alt);
+            min-height: 100vh;
+        }
+        
+        .admin-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* Auth Screen */
+        .auth-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+        
+        .auth-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 141, 161, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+        
+        .auth-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .auth-logo i {
+            color: var(--pink-primary);
+        }
+        
+        .auth-logo span {
+            color: var(--pink-primary);
+        }
+        
+        .auth-title {
+            font-size: 1.25rem;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+        
+        .auth-form .form-group input {
+            padding-left: 16px;
+        }
+        
+        /* Dashboard Layout */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .dashboard-title h1 {
+            font-size: 2.2rem;
+            margin-bottom: 6px;
+        }
+        
+        .dashboard-title p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        /* Demo Mode Notice */
+        .demo-notice {
+            background-color: var(--blue-light);
+            color: var(--blue-dark);
+            border: 1px solid rgba(93, 188, 249, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Booking Statistics */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background-color: var(--bg-main);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .stat-icon.pink { background-color: var(--pink-light); color: var(--pink-primary); }
+        .stat-icon.blue { background-color: var(--blue-light); color: var(--blue-accent); }
+        .stat-icon.purple { background-color: #F3E8FF; color: #9333EA; }
+        .stat-icon.green { background-color: #DCFCE7; color: #16A34A; }
+        
+        .stat-info h3 {
+            font-size: 1.8rem;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        
+        .stat-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        /* Tabs System */
+        .tabs-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(0,0,0,0.05);
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 8px 20px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tab-btn:hover {
+            color: var(--text-dark);
+            background-color: rgba(0,0,0,0.03);
+        }
+        
+        .tab-btn.active {
+            background-color: var(--pink-primary);
+            color: var(--text-light);
+            box-shadow: 0 4px 10px var(--pink-glow);
+        }
+        
+        /* Bookings List Layout */
+        .bookings-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .booking-item {
+            background-color: var(--bg-main);
+            border: 2px solid rgba(0,0,0,0.03);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 30px;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .booking-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(255, 141, 161, 0.1);
+        }
+        
+        /* Time Badge */
+        .booking-time-badge {
+            background: linear-gradient(135deg, var(--bg-alt) 0%, #FFFDFE 100%);
+            border: 2px solid rgba(255, 141, 161, 0.15);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+            min-width: 130px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .badge-date {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--pink-dark);
+            text-transform: uppercase;
+        }
+        
+        .badge-time {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-top: 4px;
+        }
+        
+        /* Booking Details */
+        .booking-details-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .details-col h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        
+        .details-col p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .details-col p span {
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+        
+        .notes-text {
+            grid-column: span 3;
+            font-size: 0.85rem !important;
+            background-color: var(--bg-alt);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--blue-accent);
+            font-weight: 400 !important;
+            color: var(--text-main) !important;
+        }
+        
+        /* Booking Item Actions */
+        .booking-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 180px;
+        }
+        
+        .booking-actions .btn {
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            text-transform: none;
+        }
+        
+        .btn-approve {
+            background-color: #22C55E;
+            color: white;
+            box-shadow: 0 4px 10px rgba(34, 197, 94, 0.2);
+        }
+        
+        .btn-approve:hover {
+            background-color: #16A34A;
+            transform: translateY(-2px);
+        }
+        
+        .btn-cancel {
+            background-color: #EF4444;
+            color: white;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+        }
+        
+        .btn-cancel:hover {
+            background-color: #DC2626;
+            transform: translateY(-2px);
+        }
+        
+        .btn-whatsapp-chat {
+            background-color: #25D366;
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);
+        }
+        
+        .btn-whatsapp-chat:hover {
+            background-color: #20BA5A;
+            transform: translateY(-2px);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            background-color: var(--bg-main);
+            border: 2px dashed rgba(0,0,0,0.08);
+            border-radius: var(--radius-lg);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .booking-item {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .booking-time-badge {
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 16px;
+                padding: 12px;
+            }
+            .badge-time {
+                margin-top: 0;
+            }
+            .booking-details-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .notes-text {
+                grid-column: span 1;
+            }
+            .booking-actions {
+                flex-direction: row;
+                width: 100%;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            .booking-actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-wrapper">
+        
+        <!-- ==========================================
+             AUTHENTICATION SCREEN (INITIAL STATE)
+             ========================================== -->
+        <div id="auth-panel" class="auth-container">
+            <div class="auth-card">
+                <div class="auth-logo">
+                    <i class="fa-solid fa-paw"></i>
+                    <span>Beauty<span>Dog</span> Admin</span>
+                </div>
+                <h2 class="auth-title">Pannello Amministratore</h2>
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="admin-email">Indirizzo Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="admin-email" required placeholder="Inserisci la mail">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="admin-password" required placeholder="Password">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-full mt-4">
+                        Accedi al Pannello <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- ==========================================
+             DASHBOARD SCREEN (AUTHORIZED STATE)
+             ========================================== -->
+        <div id="dashboard-panel" style="display: none;">
+            
+            <header class="dashboard-header">
+                <div class="dashboard-title">
+                    <h1>Console Appuntamenti</h1>
+                    <p>Gestisci le prenotazioni dei clienti di BeautyDog</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="logout-btn">
+                        Esci <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Demo Mode Warning -->
+            <div class="demo-notice" id="demo-notice" style="display: none;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <strong>Modalità Demo (LocalStorage):</strong> Il database Firebase non è configurato in <code>config.js</code>.
+                    Tutte le modifiche e gli appuntamenti inseriti sono salvati localmente sul browser.
+                    Usa credenziali a piacimento (qualsiasi email e password) per accedere.
+                </div>
+            </div>
+            
+            <!-- Statistics Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon pink"><i class="fa-regular fa-clock"></i></div>
+                    <div class="stat-info">
+                        <h3 id="stat-pending">0</h3>
+                        <p>Da Approvare</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fa-regular fa-calendar-check"></i></div>
+                    <div class="stat-info">
+                        <h3 id="stat-confirmed">0</h3>
+                        <p>Confermati</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fa-solid fa-dog"></i></div>
+                    <div class="stat-info">
+                        <h3 id="stat-today">0</h3>
+                        <p>Appuntamenti Oggi</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fa-solid fa-euro-sign"></i></div>
+                    <div class="stat-info">
+                        <h3 id="stat-revenue">€0</h3>
+                        <p>Fatturato Stimato</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Tabs Navigator -->
+            <nav class="tabs-nav">
+                <button class="tab-btn active" data-tab="pending">Da Approvare (<span id="count-pending">0</span>)</button>
+                <button class="tab-btn" data-tab="confirmed">Confermati (<span id="count-confirmed">0</span>)</button>
+                <button class="tab-btn" data-tab="cancelled">Cancellati (<span id="count-cancelled">0</span>)</button>
+            </nav>
+            
+            <!-- Bookings List -->
+            <section class="bookings-list" id="bookings-container">
+                <!-- Bookings rendered here dynamically -->
+                <div class="empty-state">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <h3>Caricamento...</h3>
+                    <p>Sto leggendo le prenotazioni dal database.</p>
+                </div>
+            </section>
+            
+        </div>
+        
+    </div>
+
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <!-- Project Config -->
+    <script src="config.js?v=2.0"></script>
+    
+    <!-- Admin Logic Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // State variables
+            let firebaseActive = false;
+            let db = null;
+            let auth = null;
+            let currentTab = 'pending';
+            let bookingsList = [];
+            
+            // DOM Elements
+            const authPanel = document.getElementById('auth-panel');
+            const dashboardPanel = document.getElementById('dashboard-panel');
+            const loginForm = document.getElementById('login-form');
+            const adminEmailInput = document.getElementById('admin-email');
+            const adminPasswordInput = document.getElementById('admin-password');
+            const logoutBtn = document.getElementById('logout-btn');
+            const demoNotice = document.getElementById('demo-notice');
+            
+            const statPending = document.getElementById('stat-pending');
+            const statConfirmed = document.getElementById('stat-confirmed');
+            const statToday = document.getElementById('stat-today');
+            const statRevenue = document.getElementById('stat-revenue');
+            
+            const countPending = document.getElementById('count-pending');
+            const countConfirmed = document.getElementById('count-confirmed');
+            const countCancelled = document.getElementById('count-cancelled');
+            
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const bookingsContainer = document.getElementById('bookings-container');
+
+            // -------------------------------------------------------------
+            // Initialize Backend Connection
+            // -------------------------------------------------------------
+            function initBackend() {
+                const hasFirebaseKeys = typeof firebaseConfig !== 'undefined' && 
+                                       firebaseConfig.apiKey && 
+                                       !firebaseConfig.apiKey.includes("YOUR_");
+                
+                if (hasFirebaseKeys) {
+                    try {
+                        const app = firebase.initializeApp(firebaseConfig);
+                        db = firebase.firestore(app);
+                        auth = firebase.auth(app);
+                        firebaseActive = true;
+                        
+                        // Check active user session
+                        auth.onAuthStateChanged(user => {
+                            if (user) {
+                                showDashboard();
+                            } else {
+                                showAuthScreen();
+                            }
+                        });
+                    } catch (error) {
+                        console.error("Firebase Auth initialization error:", error);
+                        enableDemoMode();
+                    }
+                } else {
+                    enableDemoMode();
+                }
+            }
+
+            function enableDemoMode() {
+                firebaseActive = false;
+                demoNotice.style.display = 'flex';
+                
+                // Read local session if existing
+                const demoUser = sessionStorage.getItem('beautydog_admin_logged');
+                if (demoUser === 'true') {
+                    showDashboard();
+                } else {
+                    showAuthScreen();
+                }
+            }
+
+            // -------------------------------------------------------------
+            // Display Controllers
+            // -------------------------------------------------------------
+            function showAuthScreen() {
+                authPanel.style.display = 'flex';
+                dashboardPanel.style.display = 'none';
+            }
+
+            function showDashboard() {
+                authPanel.style.display = 'none';
+                dashboardPanel.style.display = 'block';
+                loadBookings();
+            }
+
+            // -------------------------------------------------------------
+            // Authentication Handlers
+            // -------------------------------------------------------------
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = adminEmailInput.value;
+                const password = adminPasswordInput.value;
+
+                if (firebaseActive && auth) {
+                    try {
+                        await auth.signInWithEmailAndPassword(email, password);
+                        showDashboard();
+                    } catch (error) {
+                        console.error("Login failed:", error);
+                        alert("Errore di accesso: Credenziali errate o utente non autorizzato.");
+                    }
+                } else {
+                    // Demo Mode: allow any login
+                    sessionStorage.setItem('beautydog_admin_logged', 'true');
+                    showDashboard();
+                }
+            });
+
+            logoutBtn.addEventListener('click', async () => {
+                if (firebaseActive && auth) {
+                    await auth.signOut();
+                } else {
+                    sessionStorage.removeItem('beautydog_admin_logged');
+                    showAuthScreen();
+                }
+            });
+
+            // -------------------------------------------------------------
+            // Booking Load & Database Sync
+            // -------------------------------------------------------------
+            function loadBookings() {
+                bookingsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <h3>Caricamento...</h3>
+                        <p>Caricamento prenotazioni in corso.</p>
+                    </div>
+                `;
+
+                if (firebaseActive && db) {
+                    // Real-time synchronization with Firestore
+                    db.collection("bookings")
+                        .orderBy("date", "asc")
+                        .onSnapshot(snapshot => {
+                            bookingsList = [];
+                            snapshot.forEach(doc => {
+                                const booking = doc.data();
+                                booking.id = doc.id;
+                                bookingsList.push(booking);
+                            });
+                            updateUI();
+                        }, error => {
+                            console.error("Firestore sync error:", error);
+                            loadLocalBookings();
+                        });
+                } else {
+                    loadLocalBookings();
+                }
+            }
+
+            function loadLocalBookings() {
+                const localData = localStorage.getItem('beautydog_bookings');
+                bookingsList = localData ? JSON.parse(localData) : [];
+                
+                // Sort by date then time
+                bookingsList.sort((a, b) => {
+                    if (a.date !== b.date) return a.date.localeCompare(b.date);
+                    return a.time.localeCompare(b.time);
+                });
+                
+                updateUI();
+            }
+
+            // -------------------------------------------------------------
+            // UI Render Logic
+            // -------------------------------------------------------------
+            function updateUI() {
+                calculateStats();
+                renderBookings();
+            }
+
+            function calculateStats() {
+                let pendingCount = 0;
+                let confirmedCount = 0;
+                let cancelledCount = 0;
+                let todayCount = 0;
+                let totalRevenue = 0;
+                
+                const todayStr = getTodayString();
+
+                bookingsList.forEach(b => {
+                    // Status aggregation
+                    if (b.status === 'pending' || !b.status) pendingCount++;
+                    else if (b.status === 'confirmed') confirmedCount++;
+                    else if (b.status === 'cancelled') cancelledCount++;
+
+                    // Today checks
+                    if (b.date === todayStr && b.status !== 'cancelled') {
+                        todayCount++;
+                    }
+
+                    // Estimated Revenue (confirmed bookings only)
+                    if (b.status === 'confirmed' && b.price) {
+                        totalRevenue += parseFloat(b.price) || 0;
+                    }
+                });
+
+                // Update DOM counters
+                statPending.textContent = pendingCount;
+                statConfirmed.textContent = confirmedCount;
+                statToday.textContent = todayCount;
+                statRevenue.textContent = `€${totalRevenue}`;
+                
+                countPending.textContent = pendingCount;
+                countConfirmed.textContent = confirmedCount;
+                countCancelled.textContent = cancelledCount;
+            }
+
+            function renderBookings() {
+                bookingsContainer.innerHTML = "";
+                
+                // Filter current tab
+                const filtered = bookingsList.filter(b => {
+                    const status = b.status || 'pending';
+                    return status === currentTab;
+                });
+
+                if (filtered.length === 0) {
+                    bookingsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fa-solid fa-calendar-xmark"></i>
+                            <h3>Nessun appuntamento trovato</h3>
+                            <p>Non ci sono prenotazioni in questa categoria.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                filtered.forEach(b => {
+                    // Format human readable date
+                    const dateObj = new Date(b.date);
+                    const formattedDate = dateObj.toLocaleDateString('it-IT', {
+                        day: 'numeric',
+                        month: 'short'
+                    });
+
+                    // Build item element
+                    const item = document.createElement('div');
+                    item.className = 'booking-item';
+                    
+                    const notesBlock = b.notes ? `<div class="notes-text"><strong>Note:</strong> ${b.notes}</div>` : '';
+                    
+                    // Buttons configuration depending on active tab
+                    let actionButtons = "";
+                    const encodedMsg = encodeURIComponent(
+                        `Ciao ${b.clientName}, ti contatto da BeautyDog in merito al tuo appuntamento del ${formattedDate} alle ore ${b.time}.`
+                    );
+                    const phone = b.clientPhone ? b.clientPhone.replace(/[^0-9]/g, '') : '';
+                    const whatsappLink = `https://wa.me/${phone}?text=${encodedMsg}`;
+                    
+                    if (currentTab === 'pending') {
+                        actionButtons = `
+                            <button class="btn btn-approve" onclick="updateBookingStatus('${b.id}', 'confirmed')">
+                                <i class="fa-solid fa-check"></i> Approva
+                            </button>
+                            <button class="btn btn-cancel" onclick="updateBookingStatus('${b.id}', 'cancelled')">
+                                <i class="fa-solid fa-xmark"></i> Rifiuta
+                            </button>
+                        `;
+                    } else if (currentTab === 'confirmed') {
+                        actionButtons = `
+                            <a href="${whatsappLink}" target="_blank" class="btn btn-whatsapp-chat">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                            </a>
+                            <button class="btn btn-cancel" onclick="updateBookingStatus('${b.id}', 'cancelled')">
+                                <i class="fa-solid fa-xmark"></i> Cancella
+                            </button>
+                        `;
+                    } else if (currentTab === 'cancelled') {
+                        actionButtons = `
+                            <button class="btn btn-approve" onclick="updateBookingStatus('${b.id}', 'pending')">
+                                <i class="fa-solid fa-arrow-rotate-left"></i> Ripristina
+                            </button>
+                        `;
+                    }
+
+                    item.innerHTML = `
+                        <div class="booking-time-badge">
+                            <span class="badge-date">${formattedDate}</span>
+                            <span class="badge-time">${b.time}</span>
+                        </div>
+                        <div class="booking-details-grid">
+                            <div class="details-col">
+                                <h4>Cliente</h4>
+                                <p>${b.clientName}<br><span>${b.clientPhone || '-'}</span></p>
+                            </div>
+                            <div class="details-col">
+                                <h4>Animale</h4>
+                                <p>${b.petName}<br><span>${b.petBreed} (${b.size || '-'})</span></p>
+                            </div>
+                            <div class="details-col">
+                                <h4>Trattamento</h4>
+                                <p>${b.service}<br><span class="text-pink" style="font-weight: 700;">€${b.price || '-'}</span></p>
+                            </div>
+                            ${notesBlock}
+                        </div>
+                        <div class="booking-actions">
+                            ${actionButtons}
+                        </div>
+                    `;
+                    
+                    bookingsContainer.appendChild(item);
+                });
+            }
+
+            // -------------------------------------------------------------
+            // Action triggers (Global Callbacks)
+            // -------------------------------------------------------------
+            window.updateBookingStatus = async (id, newStatus) => {
+                if (confirm(`Confermi di voler impostare questa prenotazione come ${newStatus === 'confirmed' ? 'approvata' : newStatus === 'cancelled' ? 'cancellata' : 'in attesa'}?`)) {
+                    if (firebaseActive && db) {
+                        try {
+                            await db.collection("bookings").doc(id).update({
+                                status: newStatus
+                            });
+                            // Firestore onSnapshot triggers update automatically
+                        } catch (error) {
+                            console.error("Error updating status on Firebase:", error);
+                            alert("Impossibile aggiornare lo stato nel database remoto.");
+                        }
+                    } else {
+                        // Demo Mode - LocalStorage update
+                        bookingsList = bookingsList.map(b => {
+                            if (b.id === id) {
+                                return { ...b, status: newStatus };
+                            }
+                            return b;
+                        });
+                        localStorage.setItem('beautydog_bookings', JSON.stringify(bookingsList));
+                        updateUI();
+                    }
+                }
+            };
+
+            // -------------------------------------------------------------
+            // Tab Switchers
+            // -------------------------------------------------------------
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentTab = button.getAttribute('data-tab');
+                    renderBookings();
+                });
+            });
+
+            // Helpers
+            function getTodayString() {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+            // Initialize app
+            initBackend();
+        });
+    </script>
+</body>
+</html>

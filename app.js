@@ -10,13 +10,151 @@ document.addEventListener('DOMContentLoaded', () => {
     const TODAY_DATE = new Date(CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY);
 
     // Salon Phone (For WhatsApp Link)
-    const SALON_PHONE = "393208821749";
+    const SALON_PHONE = typeof CONFIG !== 'undefined' && CONFIG.SALON_PHONE ? CONFIG.SALON_PHONE : "393208821749";
+
+    // -------------------------------------------------------------
+    // DB & Integration Service Layer (Firebase + Local Fallback)
+    // -------------------------------------------------------------
+    const DbService = {
+        firebaseActive: false,
+        db: null,
+
+        init() {
+            const hasFirebaseKeys = typeof firebaseConfig !== 'undefined' && 
+                                   firebaseConfig.apiKey && 
+                                   !firebaseConfig.apiKey.includes("YOUR_");
+            
+            if (hasFirebaseKeys) {
+                try {
+                    const app = firebase.initializeApp(firebaseConfig);
+                    this.db = firebase.firestore(app);
+                    this.firebaseActive = true;
+                    console.log("BeautyDog: Firebase initialized successfully.");
+                } catch (error) {
+                    console.error("BeautyDog: Error initializing Firebase:", error);
+                }
+            } else {
+                console.log("BeautyDog: Running in Demo Mode (Local Storage).");
+            }
+
+            const hasEmailJSKeys = typeof CONFIG !== 'undefined' && 
+                                   CONFIG.EMAILJS_PUBLIC_KEY && 
+                                   !CONFIG.EMAILJS_PUBLIC_KEY.includes("YOUR_");
+            if (hasEmailJSKeys && typeof emailjs !== 'undefined') {
+                try {
+                    emailjs.init(CONFIG.EMAILJS_PUBLIC_KEY);
+                    console.log("BeautyDog: EmailJS initialized.");
+                } catch (error) {
+                    console.error("BeautyDog: Error initializing EmailJS:", error);
+                }
+            }
+        },
+
+        async getBookingsForDate(dateString) {
+            if (this.firebaseActive && this.db) {
+                try {
+                    const snapshot = await this.db.collection("bookings")
+                        .where("date", "==", dateString)
+                        .get();
+                    
+                    const bookings = [];
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.status !== "cancelled") {
+                            bookings.push(data);
+                        }
+                    });
+                    return bookings;
+                } catch (error) {
+                    console.error("Error fetching bookings from Firebase:", error);
+                    return this.getLocalBookings(dateString);
+                }
+            } else {
+                return this.getLocalBookings(dateString);
+            }
+        },
+
+        getLocalBookings(dateString) {
+            const data = localStorage.getItem('beautydog_bookings');
+            const allBookings = data ? JSON.parse(data) : [];
+            return allBookings.filter(b => b.date === dateString);
+        },
+
+        async addBooking(bookingObj) {
+            const status = CONFIG.AUTO_APPROVE ? 'confirmed' : 'pending';
+            const enrichedBooking = {
+                ...bookingObj,
+                status: status,
+                createdAt: new Date().toISOString()
+            };
+
+            if (this.firebaseActive && this.db) {
+                try {
+                    const docRef = this.db.collection("bookings").doc();
+                    enrichedBooking.id = docRef.id;
+                    await docRef.set(enrichedBooking);
+                    console.log("Booking saved to Firebase:", docRef.id);
+                    this.sendEmailNotification(enrichedBooking);
+                    return enrichedBooking;
+                } catch (error) {
+                    console.error("Error saving booking to Firebase:", error);
+                    return this.addLocalBooking(enrichedBooking);
+                }
+            } else {
+                return this.addLocalBooking(enrichedBooking);
+            }
+        },
+
+        addLocalBooking(bookingObj) {
+            const data = localStorage.getItem('beautydog_bookings');
+            const bookings = data ? JSON.parse(data) : [];
+            bookingObj.id = "local_" + Math.random().toString(36).substr(2, 9);
+            bookings.push(bookingObj);
+            localStorage.setItem('beautydog_bookings', JSON.stringify(bookings));
+            console.log("Booking saved to LocalStorage:", bookingObj.id);
+            return bookingObj;
+        },
+
+        sendEmailNotification(bookingObj) {
+            const hasEmailJS = typeof CONFIG !== 'undefined' && 
+                               CONFIG.EMAILJS_SERVICE_ID && 
+                               !CONFIG.EMAILJS_SERVICE_ID.includes("YOUR_");
+            
+            if (hasEmailJS && typeof emailjs !== 'undefined') {
+                const emailParams = {
+                    owner_email: CONFIG.OWNER_EMAIL,
+                    client_name: bookingObj.clientName,
+                    client_phone: bookingObj.clientPhone,
+                    pet_name: bookingObj.petName,
+                    pet_breed: bookingObj.petBreed,
+                    service: bookingObj.service,
+                    size: bookingObj.size,
+                    price: bookingObj.price,
+                    date: bookingObj.date,
+                    time: bookingObj.time,
+                    notes: bookingObj.notes || 'Nessuna nota',
+                    status: bookingObj.status
+                };
+
+                emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ID, emailParams)
+                    .then(response => {
+                        console.log("Email notification sent successfully:", response.status, response.text);
+                    })
+                    .catch(error => {
+                        console.error("Failed to send email notification:", error);
+                    });
+            }
+        }
+    };
+
+    DbService.init();
 
     // -------------------------------------------------------------
     // Mock Bookings Initialization
     // -------------------------------------------------------------
     // Pre-populate some busy slots so the calendar looks realistic and active
     function initMockBookings() {
+        if (DbService.firebaseActive) return;
         if (!localStorage.getItem('beautydog_bookings')) {
             const mockBookings = [];
             // Generate mock bookings for the next 10 days
@@ -455,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 // Add click listener
-                dayCell.addEventListener("click", () => {
+                dayCell.addEventListener("click", async () => {
                     // Update selection state
                     selectedDate = cellDate;
                     selectedTime = ""; // Reset time slot when date changes
@@ -474,7 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     selectedDateDisplay.textContent = formattedDisplay;
                     
                     // Render Available Time Slots for this specific day
-                    renderTimeSlots(dateString);
+                    await renderTimeSlots(dateString);
                 });
             }
             
@@ -509,15 +647,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Time Slots Rendering & Bookings Check
     // -------------------------------------------------------------
     
-    function renderTimeSlots(dateString) {
+    async function renderTimeSlots(dateString) {
         timeSlotsGrid.innerHTML = "";
         
         // Define shop standard schedule
-        // Standard hours: 9:00, 10:00, 11:00, 12:00, 15:00, 16:00, 17:00, 18:00
         const slots = ["09:00", "10:00", "11:00", "12:00", "15:00", "16:00", "17:00", "18:00"];
         
-        // Fetch current bookings from localStorage
-        const bookings = getBookingsFromStorage();
+        // Fetch current bookings from DB service
+        const bookings = await DbService.getBookingsForDate(dateString);
         
         slots.forEach(slot => {
             const slotBtn = document.createElement("button");
@@ -576,17 +713,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const month = String(dateObj.getMonth() + 1).padStart(2, '0');
         const day = String(dateObj.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
-    }
-    
-    function getBookingsFromStorage() {
-        const data = localStorage.getItem('beautydog_bookings');
-        return data ? JSON.parse(data) : [];
-    }
-    
-    function addBookingToStorage(bookingObj) {
-        const bookings = getBookingsFromStorage();
-        bookings.push(bookingObj);
-        localStorage.setItem('beautydog_bookings', JSON.stringify(bookings));
     }
 
     // -------------------------------------------------------------
@@ -669,7 +795,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Confirm Booking and send to WhatsApp
-    whatsappConfirmBtn.addEventListener('click', () => {
+    whatsappConfirmBtn.addEventListener('click', async () => {
         const ownerName = document.getElementById('client-name').value;
         const phone = document.getElementById('client-phone').value;
         const petName = document.getElementById('pet-name').value;
@@ -714,16 +840,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 Attendo tua conferma dell'appuntamento! Grazie mille!`;
 
-        // 2. Save appointment to local storage so the slot is permanently occupied
+        // 2. Save appointment to database / local storage
         const newBooking = {
             date: dateString,
             time: selectedTime,
             service: serviceName,
+            size: SIZE_LABELS[selectedSize],
             petName: petName,
+            petBreed: breed,
             clientName: ownerName,
-            clientPhone: phone
+            clientPhone: phone,
+            notes: notes,
+            price: total
         };
-        addBookingToStorage(newBooking);
+        await DbService.addBooking(newBooking);
 
         // 3. Show Success Toast Notification
         showSuccessToast();

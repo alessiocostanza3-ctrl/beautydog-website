@@ -2610,5 +2610,17 @@ img {
     padding: 10px 16px;
     font-size: 0.85rem;
   }
+  
+  /* Success Toast */
+  .booking-success-toast {
+    max-width: calc(100% - 32px);
+    right: -100%;
+    bottom: 16px;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+  .booking-success-toast.show {
+    right: 16px;
+  }
 }
 

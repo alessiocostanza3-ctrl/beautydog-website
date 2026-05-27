@@ -533,6 +533,29 @@
                 justify-content: space-between;
             }
         }
+        
+        .btn-preset {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: var(--font-primary);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-preset:hover {
+            background: var(--pink-light);
+            color: var(--pink-dark);
+            border-color: var(--pink-primary);
+        }
+        .btn-preset.active {
+            background: var(--pink-primary);
+            color: white;
+            border-color: var(--pink-primary);
+            box-shadow: 0 4px 10px rgba(255, 107, 129, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -654,7 +677,94 @@
             </section>
             
             <!-- Analytics View -->
-            <section class="analytics-grid" id="analytics-container" style="display: none;">
+            <section class="analytics-grid" id="analytics-container" style="display: none; grid-template-columns: repeat(2, 1fr);">
+                <!-- Filtri Avanzati -->
+                <div class="analytics-card" style="grid-column: span 2; display: flex; flex-direction: column; gap: 16px;">
+                    <h3 style="margin-bottom: 0; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-filter text-pink"></i> Filtri Report & Storico
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; border-bottom: 1px dashed rgba(0,0,0,0.08); padding-bottom: 12px;">
+                        <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Filtro Temporale Rapido:</span>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <button type="button" class="btn-preset active" data-preset="all">Tutto il tempo</button>
+                            <button type="button" class="btn-preset" data-preset="week">Questa Settimana</button>
+                            <button type="button" class="btn-preset" data-preset="month">Questo Mese</button>
+                            <button type="button" class="btn-preset" data-preset="bimestre">Questo Bimestre</button>
+                            <button type="button" class="btn-preset" data-preset="trimestre">Questo Trimestre</button>
+                            <button type="button" class="btn-preset" data-preset="semestre">Questo Semestre</button>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; width: 100%;">
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Data Inizio</label>
+                            <input type="date" id="filter-start-date" style="padding: 10px; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); font-family: var(--font-primary); font-size: 0.9rem; width: 100%;">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Data Fine</label>
+                            <input type="date" id="filter-end-date" style="padding: 10px; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); font-family: var(--font-primary); font-size: 0.9rem; width: 100%;">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Taglia Cane</label>
+                            <select id="filter-pet-size" style="padding: 10px; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); font-family: var(--font-primary); font-size: 0.9rem; width: 100%; cursor: pointer;">
+                                <option value="all">Tutte le taglie</option>
+                                <option value="Piccola (Fino a 10kg)">Piccola</option>
+                                <option value="Media (10-25kg)">Media</option>
+                                <option value="Grande (Oltre 25kg)">Grande</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Età Cane</label>
+                            <select id="filter-pet-age" style="padding: 10px; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); font-family: var(--font-primary); font-size: 0.9rem; width: 100%; cursor: pointer;">
+                                <option value="all">Tutte le età</option>
+                                <option value="puppy">Cucciolo (0-12 mesi)</option>
+                                <option value="adult">Adulto (1-8 anni)</option>
+                                <option value="senior">Anziano (> 8 anni)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Zona / Provenienza</label>
+                            <select id="filter-client-zone" style="padding: 10px; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); font-family: var(--font-primary); font-size: 0.9rem; width: 100%; cursor: pointer;">
+                                <option value="all">Tutte le zone</option>
+                                <option value="Palma Centro">Palma Centro</option>
+                                <option value="Villaggio Giordano">Villaggio Giordano</option>
+                                <option value="Marina di Palma">Marina di Palma</option>
+                                <option value="Licata">Licata</option>
+                                <option value="Campobello">Campobello</option>
+                                <option value="Altro">Altro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Razza Cane</label>
+                            <select id="filter-pet-breed" style="padding: 10px; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); font-family: var(--font-primary); font-size: 0.9rem; width: 100%; cursor: pointer;">
+                                <option value="all">Tutte le razze</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; width: 100%;">
+                        <button id="reset-filters-btn" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.85rem; border: 1px solid var(--pink-primary); color: var(--pink-dark);">
+                            Ripristina Filtri <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                    </div>
+                </div>
+ 
+                <!-- Box Riepilogo Filtrato -->
+                <div class="analytics-card" style="grid-column: span 2; background: linear-gradient(135deg, var(--pink-light) 0%, #E3F2FD 100%); border-left: 5px solid var(--pink-primary); display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; padding: 20px; gap: 16px; align-items: center; text-align: center;">
+                    <div>
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; font-family: var(--font-primary);">Appuntamenti Filtrati</h4>
+                        <p id="filtered-count" style="font-size: 1.8rem; font-weight: 700; color: var(--text-dark); margin: 0; font-family: var(--font-heading);">0</p>
+                    </div>
+                    <div style="width: 1px; height: 40px; background-color: rgba(0,0,0,0.1); display: inline-block;"></div>
+                    <div>
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; font-family: var(--font-primary);">Fatturato Filtrato Stimato</h4>
+                        <p id="filtered-revenue" style="font-size: 1.8rem; font-weight: 700; color: var(--pink-dark); margin: 0; font-family: var(--font-heading);">€0</p>
+                    </div>
+                    <div style="width: 1px; height: 40px; background-color: rgba(0,0,0,0.1); display: inline-block;"></div>
+                    <div>
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; font-family: var(--font-primary);">Prezzo Medio</h4>
+                        <p id="filtered-average" style="font-size: 1.8rem; font-weight: 700; color: var(--blue-dark); margin: 0; font-family: var(--font-heading);">€0</p>
+                    </div>
+                </div>
+ 
                 <div class="analytics-card">
                     <h3>Provenienza Clienti (Zone)</h3>
                     <div class="chart-container">
@@ -668,7 +778,7 @@
                     </div>
                 </div>
                 <div class="analytics-card" style="grid-column: span 2;">
-                    <h3>Andamento Prenotazioni Settimanali</h3>
+                    <h3>Andamento Prenotazioni</h3>
                     <div class="chart-container">
                         <canvas id="chart-trends"></canvas>
                     </div>
@@ -716,6 +826,10 @@
                     <div class="form-group">
                         <label for="manual-pet-breed">Razza / Meticcio *</label>
                         <input type="text" id="manual-pet-breed" required placeholder="Es. Barboncino">
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-pet-age">Età Cane *</label>
+                        <input type="number" id="manual-pet-age" required min="0" max="30" placeholder="Es. 3 (anni)">
                     </div>
                     <div class="form-group">
                         <label for="manual-pet-size">Taglia *</label>
@@ -1033,13 +1147,14 @@
                     
                     const notesBlock = b.notes ? `<div class="notes-text"><strong>Note:</strong> ${b.notes}</div>` : '';
                     
-                    // Buttons configuration depending on active tab
-                    let actionButtons = "";
-                    const encodedMsg = encodeURIComponent(
-                        `Ciao ${b.clientName}, ti contatto da BeautyDog in merito al tuo appuntamento del ${formattedDate} alle ore ${b.time}.`
-                    );
+                    const dayNames = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
+                    const dayName = dayNames[dateObj.getDay()];
+                    const confirmText = `Ciao ${b.clientName}! Abbiamo ricevuto la tua richiesta di appuntamento ci vediamo il: ${formattedDate} alle ore ${b.time}.\n\nQualsiasi cambio di programma o annullamento dell'appuntamento potrai farlo direttamente qui su whatsapp in maniera testuale, penseremo noi ad uno spostamento o annullamento, per comodità potresti anche essere richiamato in quel caso. Grazie e a ${dayName}!`;
+                    
+                    const encodedMsg = encodeURIComponent(confirmText);
                     const phone = b.clientPhone ? b.clientPhone.replace(/[^0-9]/g, '') : '';
                     const whatsappLink = `https://wa.me/${phone}?text=${encodedMsg}`;
+                    let actionButtons = "";
                     
                     if (currentTab === 'pending') {
                         actionButtons = `
@@ -1079,7 +1194,7 @@
                             </div>
                             <div class="details-col">
                                 <h4>Animale</h4>
-                                <p>${b.petName}<br><span>${b.petBreed} (${b.size || '-'})</span></p>
+                                <p>${b.petName}<br><span>${b.petBreed} ${b.petAge ? '(' + b.petAge + ' anni)' : ''} (${b.size || '-'})</span></p>
                             </div>
                             <div class="details-col">
                                 <h4>Trattamento</h4>
@@ -1107,6 +1222,9 @@
                                 status: newStatus
                             });
                             // Firestore onSnapshot triggers update automatically
+                            if (newStatus === 'confirmed') {
+                                triggerWhatsAppConfirmation(id);
+                            }
                         } catch (error) {
                             console.error("Error updating status on Firebase:", error);
                             alert("Impossibile aggiornare lo stato nel database remoto.");
@@ -1121,9 +1239,33 @@
                         });
                         localStorage.setItem('beautydog_bookings', JSON.stringify(bookingsList));
                         updateUI();
+                        if (newStatus === 'confirmed') {
+                            triggerWhatsAppConfirmation(id);
+                        }
                     }
                 }
             };
+
+            function triggerWhatsAppConfirmation(id) {
+                const b = bookingsList.find(item => item.id === id);
+                if (!b) return;
+
+                const dateObj = new Date(b.date);
+                const dayNames = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
+                const dayName = dayNames[dateObj.getDay()];
+                
+                const formattedDate = dateObj.toLocaleDateString('it-IT', {
+                    day: 'numeric',
+                    month: 'long'
+                });
+
+                const confirmText = `Ciao ${b.clientName}! Abbiamo ricevuto la tua richiesta di appuntamento ci vediamo il: ${formattedDate} alle ore ${b.time}.\n\nQualsiasi cambio di programma o annullamento dell'appuntamento potrai farlo direttamente qui su whatsapp in maniera testuale, penseremo noi ad uno spostamento o annullamento, per comodità potresti anche essere richiamato in quel caso. Grazie e a ${dayName}!`;
+
+                if (confirm(`Vuoi inviare la conferma automatica di appuntamento a ${b.clientName} su WhatsApp?`)) {
+                    const phone = b.clientPhone ? b.clientPhone.replace(/[^0-9]/g, '') : '';
+                    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(confirmText)}`, '_blank');
+                }
+            }
 
             // -------------------------------------------------------------
             // Manual Booking Modal Controls
@@ -1176,6 +1318,7 @@
                     const todayStr = getTodayString();
                     document.getElementById('manual-date').value = todayStr;
                     document.getElementById('manual-time').value = "09:00";
+                    document.getElementById('manual-pet-age').value = "2";
                     calculateManualPrice();
                     manualBookingModal.classList.add('open');
                 });
@@ -1200,6 +1343,7 @@
                     const clientZone = document.getElementById('manual-client-zone').value;
                     const petName = document.getElementById('manual-pet-name').value;
                     const petBreed = document.getElementById('manual-pet-breed').value;
+                    const petAge = document.getElementById('manual-pet-age').value;
                     const sizeKey = manualPetSize.value;
                     const serviceKey = manualService.value;
                     const price = parseFloat(manualPrice.value) || 0;
@@ -1213,6 +1357,7 @@
                         clientZone,
                         petName,
                         petBreed,
+                        petAge,
                         size: SIZE_LABELS[sizeKey],
                         service: SERVICE_LABELS[serviceKey],
                         price,
@@ -1231,6 +1376,7 @@
                             alert("Prenotazione manuale salvata su Firebase!");
                             manualBookingModal.classList.remove('open');
                             manualBookingForm.reset();
+                            triggerWhatsAppConfirmation(docRef.id);
                         } catch (error) {
                             console.error("Error saving manual booking to Firebase:", error);
                             alert("Errore nel salvataggio su Firebase. Salvataggio locale in corso.");
@@ -1257,6 +1403,7 @@
                 });
 
                 updateUI();
+                triggerWhatsAppConfirmation(booking.id);
             }
 
             // -------------------------------------------------------------
@@ -1272,17 +1419,198 @@
             });
 
             // -------------------------------------------------------------
-            // Chart.js Visualization Logic
+            // Dynamic Dropdown Population
+            // -------------------------------------------------------------
+            function populateBreedFilter() {
+                const breedSelect = document.getElementById('filter-pet-breed');
+                if (!breedSelect) return;
+                
+                const currentSelection = breedSelect.value;
+                breedSelect.innerHTML = '<option value="all">Tutte le razze</option>';
+                
+                const uniqueBreeds = new Set();
+                bookingsList.forEach(b => {
+                    if (b.petBreed) {
+                        const normalized = b.petBreed.trim().toLowerCase().replace(/^\w/, c => c.toUpperCase());
+                        uniqueBreeds.add(normalized);
+                    }
+                });
+                
+                Array.from(uniqueBreeds).sort().forEach(breed => {
+                    const opt = document.createElement('option');
+                    opt.value = breed;
+                    opt.textContent = breed;
+                    breedSelect.appendChild(opt);
+                });
+                
+                breedSelect.value = currentSelection;
+                if (breedSelect.value !== currentSelection) {
+                    breedSelect.value = "all";
+                }
+            }
+
+            // Bind filter change listeners
+            const filterIds = ['filter-start-date', 'filter-end-date', 'filter-pet-size', 'filter-pet-age', 'filter-client-zone', 'filter-pet-breed'];
+            filterIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('change', () => {
+                        if (id === 'filter-start-date' || id === 'filter-end-date') {
+                            // Deactivate preset buttons if manually editing dates
+                            const presetButtons = document.querySelectorAll('.btn-preset');
+                            presetButtons.forEach(b => b.classList.remove('active'));
+                        }
+                        renderCharts();
+                    });
+                }
+            });
+
+            // Bind time presets
+            const presetButtons = document.querySelectorAll('.btn-preset');
+            presetButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    presetButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const preset = btn.getAttribute('data-preset');
+                    applyTimePreset(preset);
+                });
+            });
+
+            function applyTimePreset(preset) {
+                const startDateEl = document.getElementById('filter-start-date');
+                const endDateEl = document.getElementById('filter-end-date');
+                
+                if (preset === 'all') {
+                    startDateEl.value = "";
+                    endDateEl.value = "";
+                    renderCharts();
+                    return;
+                }
+                
+                const today = new Date();
+                let start = null;
+                let end = null;
+                
+                if (preset === 'week') {
+                    const day = today.getDay();
+                    const diffToMonday = day === 0 ? -6 : 1 - day;
+                    start = new Date(today);
+                    start.setDate(today.getDate() + diffToMonday);
+                    end = new Date(start);
+                    end.setDate(start.getDate() + 6);
+                } else if (preset === 'month') {
+                    start = new Date(today.getFullYear(), today.getMonth(), 1);
+                    end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                } else if (preset === 'bimestre') {
+                    const startMonth = Math.floor(today.getMonth() / 2) * 2;
+                    start = new Date(today.getFullYear(), startMonth, 1);
+                    end = new Date(today.getFullYear(), startMonth + 2, 0);
+                } else if (preset === 'trimestre') {
+                    const startMonth = Math.floor(today.getMonth() / 3) * 3;
+                    start = new Date(today.getFullYear(), startMonth, 1);
+                    end = new Date(today.getFullYear(), startMonth + 3, 0);
+                } else if (preset === 'semestre') {
+                    const startMonth = today.getMonth() < 6 ? 0 : 6;
+                    start = new Date(today.getFullYear(), startMonth, 1);
+                    end = new Date(today.getFullYear(), startMonth + 6, 0);
+                }
+                
+                if (start && end) {
+                    startDateEl.value = formatDateToYYYYMMDD(start);
+                    endDateEl.value = formatDateToYYYYMMDD(end);
+                }
+                renderCharts();
+            }
+
+            function formatDateToYYYYMMDD(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+            const resetBtn = document.getElementById('reset-filters-btn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    document.getElementById('filter-start-date').value = "";
+                    document.getElementById('filter-end-date').value = "";
+                    document.getElementById('filter-pet-size').value = "all";
+                    document.getElementById('filter-pet-age').value = "all";
+                    document.getElementById('filter-client-zone').value = "all";
+                    document.getElementById('filter-pet-breed').value = "all";
+                    
+                    // Reset preset buttons
+                    const presetBtns = document.querySelectorAll('.btn-preset');
+                    presetBtns.forEach(b => b.classList.remove('active'));
+                    const allBtn = document.querySelector('.btn-preset[data-preset="all"]');
+                    if (allBtn) allBtn.classList.add('active');
+                    
+                    renderCharts();
+                });
+            }
+
+            // -------------------------------------------------------------
+            // Chart.js Visualization Logic with Advanced Filtering
             // -------------------------------------------------------------
             let chartZonesInstance = null;
             let chartBreedsInstance = null;
             let chartTrendsInstance = null;
 
             function renderCharts() {
-                // Filter out cancelled bookings
-                const activeBookings = bookingsList.filter(b => b.status !== 'cancelled');
+                // Apply all dynamic filters to confirmed bookings
+                const filteredBookings = bookingsList.filter(b => {
+                    if (b.status !== 'confirmed') return false;
 
-                // 1. Zone distribution
+                    // Date range filter
+                    const startDateVal = document.getElementById('filter-start-date').value;
+                    const endDateVal = document.getElementById('filter-end-date').value;
+                    if (startDateVal && b.date < startDateVal) return false;
+                    if (endDateVal && b.date > endDateVal) return false;
+
+                    // Size filter
+                    const sizeVal = document.getElementById('filter-pet-size').value;
+                    if (sizeVal !== 'all' && b.size !== sizeVal) return false;
+
+                    // Zone filter
+                    const zoneVal = document.getElementById('filter-client-zone').value;
+                    if (zoneVal !== 'all') {
+                        if (!b.clientZone || !b.clientZone.toLowerCase().includes(zoneVal.toLowerCase())) {
+                            return false;
+                        }
+                    }
+
+                    // Breed filter
+                    const breedVal = document.getElementById('filter-pet-breed').value;
+                    if (breedVal !== 'all') {
+                        if (!b.petBreed || b.petBreed.trim().toLowerCase() !== breedVal.toLowerCase()) {
+                            return false;
+                        }
+                    }
+
+                    // Age filter (puppy <1, adult 1-8, senior >8)
+                    const ageVal = document.getElementById('filter-pet-age').value;
+                    if (ageVal !== 'all') {
+                        const age = parseInt(b.petAge);
+                        if (isNaN(age)) return false;
+                        if (ageVal === 'puppy' && age >= 1) return false;
+                        if (ageVal === 'adult' && (age < 1 || age > 8)) return false;
+                        if (ageVal === 'senior' && age <= 8) return false;
+                    }
+
+                    return true;
+                });
+
+                // Calculate filtered summary stats
+                const countVal = filteredBookings.length;
+                const totalRev = filteredBookings.reduce((sum, b) => sum + (parseFloat(b.price) || 0), 0);
+                const avgPrice = countVal > 0 ? (totalRev / countVal) : 0;
+
+                // Update DOM text
+                document.getElementById('filtered-count').textContent = countVal;
+                document.getElementById('filtered-revenue').textContent = `€${totalRev.toFixed(0)}`;
+                document.getElementById('filtered-average').textContent = `€${avgPrice.toFixed(1)}`;
+
+                // 1. Zone distribution counts
                 const zoneCounts = {
                     "Palma Centro": 0,
                     "Villaggio Giordano": 0,
@@ -1293,12 +1621,11 @@
                     "Non specificata": 0
                 };
 
-                activeBookings.forEach(b => {
+                filteredBookings.forEach(b => {
                     const zone = b.clientZone || "Non specificata";
                     if (zoneCounts[zone] !== undefined) {
                         zoneCounts[zone]++;
                     } else {
-                        // Check fuzzy match
                         let matched = false;
                         for (let key in zoneCounts) {
                             if (zone.toLowerCase().includes(key.toLowerCase())) {
@@ -1322,9 +1649,9 @@
                     }
                 });
 
-                // 2. Breed distribution
+                // 2. Breed distribution counts
                 const breedCounts = {};
-                activeBookings.forEach(b => {
+                filteredBookings.forEach(b => {
                     if (b.petBreed) {
                         const breed = b.petBreed.trim().toLowerCase().replace(/^\w/, c => c.toUpperCase());
                         breedCounts[breed] = (breedCounts[breed] || 0) + 1;
@@ -1342,9 +1669,9 @@
                     breedData.push(otherBreedsCount);
                 }
 
-                // 3. Trends (Bookings grouped by date)
+                // 3. Trends counts (grouped by date)
                 const trendCounts = {};
-                activeBookings.forEach(b => {
+                filteredBookings.forEach(b => {
                     if (b.date) {
                         trendCounts[b.date] = (trendCounts[b.date] || 0) + 1;
                     }
@@ -1360,7 +1687,7 @@
                 });
                 const trendData = sortedDates.map(d => trendCounts[d]);
 
-                // Destroy old charts to clean context
+                // Destroy old Chart instances
                 if (chartZonesInstance) chartZonesInstance.destroy();
                 if (chartBreedsInstance) chartBreedsInstance.destroy();
                 if (chartTrendsInstance) chartTrendsInstance.destroy();
@@ -1482,6 +1809,13 @@
                         }
                     }
                 });
+            }
+
+            // Hook breed filter population into updateUI
+            const originalUpdateUI = updateUI;
+            updateUI = function() {
+                originalUpdateUI();
+                populateBreedFilter();
             }
 
             // Helpers

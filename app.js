@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     client_zone: bookingObj.clientZone || 'Non specificata',
                     pet_name: bookingObj.petName,
                     pet_breed: bookingObj.petBreed,
+                    pet_age: bookingObj.petAge || 'Non specificata',
                     service: bookingObj.service,
                     size: bookingObj.size,
                     price: bookingObj.price,
@@ -199,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         size: size,
                         petName: "Leo",
                         petBreed: breed,
+                        petAge: String(Math.floor(Math.random() * 12) + 1),
                         clientName: client,
                         clientPhone: "39320" + Math.floor(1000000 + Math.random() * 9000000),
                         clientZone: zone,
@@ -794,6 +796,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ownerName = document.getElementById('client-name').value;
         const petName = document.getElementById('pet-name').value;
         const breed = document.getElementById('pet-breed').value;
+        const petAge = document.getElementById('pet-age').value;
         
         // Format Date Time
         const dateFormatted = selectedDate.toLocaleDateString('it-IT', { 
@@ -807,7 +810,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Populate DOM elements
         sumService.textContent = serviceName;
         sumSize.textContent = sizeName;
-        sumPet.textContent = `${petName} (${breed})`;
+        sumPet.textContent = `${petName} (${breed}, ${petAge} anni)`;
         sumDateTime.textContent = fullDateTime;
         sumClient.textContent = ownerName;
         
@@ -830,6 +833,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const phone = document.getElementById('client-phone').value;
         const petName = document.getElementById('pet-name').value;
         const breed = document.getElementById('pet-breed').value;
+        const petAge = document.getElementById('pet-age').value;
         const zone = document.getElementById('client-zone').value;
         const notes = document.getElementById('booking-notes').value || "Nessuna";
         
@@ -855,6 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
 - Nome: ${petName}
 - Razza: ${breed}
 - Taglia: ${sizeName}
+- Età: ${petAge} anni
 
 \u{2702} *SERVIZIO RICHIESTO:*
 - Trattamento: ${serviceName}${addonsText}
@@ -880,6 +885,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             size: SIZE_LABELS[selectedSize],
             petName: petName,
             petBreed: breed,
+            petAge: petAge,
             clientName: ownerName,
             clientPhone: phone,
             clientZone: zone,
@@ -1061,12 +1067,21 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
         addBotMessage(`Che bel nome! E di che razza è ${buddyData.petName}? (Scrivi pure Meticcio se è un incrocio)`);
         renderTextPrompt("Razza del cane...", "text", (val) => {
             buddyData.petBreed = val;
+            askPetAge();
+        });
+    }
+
+    function askPetAge() {
+        chatStep = 4;
+        addBotMessage(`Quanti anni ha ${buddyData.petName}? (Inserisci un numero, es. 3)`);
+        renderTextPrompt("Età in anni...", "number", (val) => {
+            buddyData.petAge = val;
             askPetSize();
         });
     }
 
     function askPetSize() {
-        chatStep = 4;
+        chatStep = 5;
         addBotMessage(`Capito! Qual è la taglia di ${buddyData.petName}?`);
         renderOptions([
             { label: "Piccolo (Fino a 10 kg)", value: "piccolo" },
@@ -1079,7 +1094,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
     }
 
     function askService() {
-        chatStep = 5;
+        chatStep = 6;
         addBotMessage(`Perfetto! Di che trattamento ha bisogno ${buddyData.petName}?`);
         renderOptions([
             { label: "Bagno & Igiene \u{1F9FC}", value: "bagno" },
@@ -1092,7 +1107,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
     }
 
     function askZone() {
-        chatStep = 6;
+        chatStep = 7;
         addBotMessage("Ottima scelta. Da quale zona ci contatti?");
         renderOptions([
             { label: "Palma Centro", value: "Palma Centro" },
@@ -1108,7 +1123,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
     }
 
     function askPhone() {
-        chatStep = 7;
+        chatStep = 8;
         addBotMessage("Ultimo dettaglio! Lasciami un numero di telefono per poterti ricontattare:");
         renderTextPrompt("Es. 3201234567", "tel", (val) => {
             buddyData.phone = val;
@@ -1117,7 +1132,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
     }
 
     function concludeChat() {
-        chatStep = 8;
+        chatStep = 9;
         addBotMessage(`Grazie mille, ${buddyData.clientName}! Ho raccolto tutti i dati per la prenotazione di ${buddyData.petName}.`);
         setTimeout(() => {
             addBotMessage("Clicca sul pulsante qui sotto per scegliere la data e l'orario sul nostro calendario e inviare la richiesta!");
@@ -1139,6 +1154,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
                 document.getElementById('client-phone').value = buddyData.phone;
                 document.getElementById('pet-name').value = buddyData.petName;
                 document.getElementById('pet-breed').value = buddyData.petBreed;
+                document.getElementById('pet-age').value = buddyData.petAge;
                 document.getElementById('client-zone').value = buddyData.zone;
                 
                 // Select service card

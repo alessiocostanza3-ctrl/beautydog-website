@@ -2968,4 +2968,214 @@ img {
     transform: scale(1.1);
 }
 
+.hair-btn {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 107, 129, 0.25);
+    color: var(--text-dark);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+}
+.hair-btn:hover {
+    background: var(--pink-light);
+    border-color: var(--pink-primary);
+    transform: translateY(-2px);
+}
+.hair-btn.active {
+    background: var(--pink-primary) !important;
+    color: white !important;
+    border-color: var(--pink-primary) !important;
+    box-shadow: 0 4px 12px rgba(255, 107, 129, 0.35);
+}
+.service-card {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+}
+.service-card.highlighted {
+    border-color: var(--pink-primary) !important;
+    box-shadow: 0 12px 30px rgba(255, 107, 129, 0.25) !important;
+    transform: translateY(-6px) scale(1.03);
+    z-index: 5;
+}
+.service-card.highlighted-blue {
+    border-color: var(--blue-primary) !important;
+    box-shadow: 0 12px 30px rgba(84, 160, 255, 0.25) !important;
+    transform: translateY(-6px) scale(1.03);
+    z-index: 5;
+}
+.service-card.highlighted-purple {
+    border-color: var(--purple-primary) !important;
+    box-shadow: 0 12px 30px rgba(155, 89, 182, 0.25) !important;
+    transform: translateY(-6px) scale(1.03);
+    z-index: 5;
+}
+.service-card.dimmed {
+    opacity: 0.45;
+    filter: grayscale(0.35) blur(0.3px);
+    transform: scale(0.97);
+}
+.recommended-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #4a3b00;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 4px 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(255, 165, 0, 0.35);
+    z-index: 10;
+    border: 1.5px solid white;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    animation: bounce-badge 0.8s infinite alternate ease-in-out;
+}
+@keyframes bounce-badge {
+    from { transform: translate(-50%, 0); }
+    to { transform: translate(-50%, -5px); }
+}
+
+/* Loyalty Premium Visual Card */
+.stamp-slot {
+    width: 48px;
+    height: 56px;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.35);
+    border: 2px dashed rgba(255, 107, 129, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.stamp-slot .stamp-icon {
+    font-size: 1.1rem;
+    color: rgba(255, 107, 129, 0.15);
+    transition: all 0.3s ease;
+}
+.stamp-slot .stamp-date {
+    font-size: 0.55rem;
+    font-family: var(--font-primary);
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.stamp-slot.stamped {
+    background: white;
+    border: 2px solid var(--pink-primary);
+    box-shadow: 0 4px 8px rgba(255, 107, 129, 0.15);
+}
+.stamp-slot.stamped .stamp-icon {
+    color: var(--pink-primary);
+    transform: scale(1.15);
+    animation: stamp-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+.stamp-slot.gift {
+    border-color: #FFD700;
+    background: rgba(255, 215, 0, 0.04);
+}
+.stamp-slot.gift .stamp-icon {
+    color: rgba(212, 175, 55, 0.25);
+}
+.stamp-slot.gift.stamped {
+    background: linear-gradient(135deg, #fff 0%, #fffbeb 100%);
+    border: 2px solid #FFD700;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.35);
+}
+.stamp-slot.gift.stamped .stamp-icon {
+    color: #D4AF37;
+    animation: gift-shake 0.6s ease infinite alternate;
+}
+@keyframes stamp-pop {
+    0% { transform: scale(3.5); opacity: 0; }
+    50% { transform: scale(0.8); }
+    100% { transform: scale(1.15); opacity: 1; }
+}
+@keyframes gift-shake {
+    0% { transform: rotate(-8deg) scale(1.15); }
+    100% { transform: rotate(8deg) scale(1.15); }
+}
+
+/* Video Player HUD & Modal */
+.video-mock-player:hover .video-hud {
+    transform: translateY(0) !important;
+}
+.video-hud {
+    transform: translateY(100%);
+}
+.video-slide {
+    opacity: 0;
+    pointer-events: none;
+}
+.video-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+#video-tour-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 2000;
+}
+#video-tour-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Bio Ingredients Expandable Showcase */
+.bio-ingredient-card {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.bio-ingredient-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--pink-primary) !important;
+    background: white !important;
+    box-shadow: var(--shadow-md) !important;
+}
+.bio-ingredient-card.expanded {
+    border-color: var(--pink-primary) !important;
+    background: white !important;
+    box-shadow: var(--shadow-md) !important;
+}
+.bio-ingredient-card.expanded .bio-detail {
+    max-height: 120px !important;
+    margin-top: 10px !important;
+}
+.bio-ingredient-card.expanded .bio-expand-indicator i {
+    transform: rotate(180deg);
+}
+.bio-expand-indicator i {
+    transition: transform 0.3s ease;
+}
+
+/* Particle effect style */
+.star-particle {
+    position: absolute;
+    pointer-events: none;
+    font-size: 1rem;
+    z-index: 9999;
+    animation: particle-fly 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes particle-fly {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) scale(0) rotate(var(--rot)); opacity: 0; }
+}
+
 

@@ -131,7 +131,28 @@
                         Ogni cane ha esigenze uniche. Offriamo trattamenti professionali personalizzati in base alla razza, al tipo di pelo e alle preferenze del proprietario.
                     </p>
                 </div>
-                               <div class="services-grid" style="margin-bottom: 30px;">
+                
+                <!-- Hair Type Selector Widget (Fido Chic) -->
+                <div class="hair-selector-container" style="text-align: center; margin-bottom: 35px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <h3 style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 700; color: var(--text-dark); margin: 0 0 4px 0;">Qual è il tipo di pelo del tuo cane?</h3>
+                    <p style="font-family: var(--font-primary); font-size: 0.85rem; color: var(--text-muted); margin: 0 0 12px 0;">Seleziona un'opzione per evidenziare i trattamenti consigliati da Carol:</p>
+                    <div class="hair-selector-buttons" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                        <button type="button" class="hair-btn" data-hair="corto">
+                            <i class="fa-solid fa-dog"></i> Pelo Corto / Raso
+                        </button>
+                        <button type="button" class="hair-btn" data-hair="lungo">
+                            <i class="fa-solid fa-scissors"></i> Pelo Lungo / Riccio
+                        </button>
+                        <button type="button" class="hair-btn" data-hair="sensibile">
+                            <i class="fa-solid fa-heart-pulse"></i> Cute Sensibile
+                        </button>
+                        <button type="button" class="hair-btn active" data-hair="tutti">
+                            <i class="fa-solid fa-paw"></i> Mostra Tutti
+                        </button>
+                    </div>
+                </div>
+
+                <div class="services-grid" style="margin-bottom: 30px;">
                     <!-- Servizio 1 -->
                     <div class="service-card" id="service-card-bagno">
                         <div class="pelo-badge pink">Consigliato per pelo corto / raso</div>
@@ -208,16 +229,75 @@
                     </div>
                 </div>
 
-                <!-- Club Fedeltà / Tessera Abbonamento -->
-                <div style="background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-lg); padding: 16px 24px; margin-bottom: 50px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; width: 100%; box-shadow: var(--shadow-sm);">
+                <!-- Club Fedeltà / Tessera Abbonamento Visuale (Wash Dog) -->
+                <div class="loyalty-section" style="margin-bottom: 50px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 20px;">
                     <div style="display: flex; align-items: center; gap: 14px;">
                         <div style="background: var(--pink-light); color: var(--pink-primary); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;"><i class="fa-solid fa-id-card"></i></div>
                         <div style="text-align: left;">
-                            <h4 style="font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; margin: 0; color: var(--text-dark);">Club BeautyDog & Tessere Fedeltà</h4>
-                            <p style="font-family: var(--font-primary); font-size: 0.85rem; color: var(--text-muted); margin: 3px 0 0 0;">Ogni 5 toelettature complete, ricevi un trattamento igienizzante dentale all'ozono in omaggio!</p>
+                            <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; margin: 0; color: var(--text-dark);">Club BeautyDog & Tessera Fedeltà Interattiva</h4>
+                            <p style="font-family: var(--font-primary); font-size: 0.85rem; color: var(--text-muted); margin: 3px 0 0 0;">Premiamo la fedeltà del tuo cucciolo! Ogni 5 toelettature complete, ricevi un trattamento igienizzante dentale all'ozono in omaggio.</p>
                         </div>
                     </div>
-                    <span style="background: var(--pink-primary); color: white; padding: 6px 14px; border-radius: 20px; font-family: var(--font-primary); font-weight: 600; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(255,107,129,0.15);">Tessera Digitale Attiva</span>
+
+                    <div class="loyalty-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; align-items: center;">
+                        <!-- The Loyalty Card itself -->
+                        <div class="loyalty-card-premium" style="position: relative; background: linear-gradient(135deg, rgba(255, 107, 129, 0.15) 0%, rgba(84, 160, 255, 0.15) 100%); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.4); border-radius: var(--radius-md); padding: 20px; box-shadow: 0 8px 32px rgba(255,107,129,0.1); overflow: hidden; display: flex; flex-direction: column; gap: 15px;">
+                            <div class="card-glow" style="position: absolute; top: -50px; right: -50px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 70%); pointer-events: none;"></div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px;">
+                                <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.85rem; color: var(--pink-dark); letter-spacing: 1px;"><i class="fa-solid fa-paw"></i> BEAUTYDOG CLUB</span>
+                                <span style="font-family: var(--font-primary); font-size: 0.65rem; color: var(--text-muted); background: rgba(255,255,255,0.6); padding: 2px 8px; border-radius: 10px; font-weight: 600;">ID: BD-7729</span>
+                            </div>
+                            
+                            <div class="stamps-row" style="display: flex; justify-content: space-between; gap: 8px; margin: 10px 0;">
+                                <!-- Stamp 1 -->
+                                <div class="stamp-slot stamped" data-slot="1">
+                                    <div class="stamp-icon"><i class="fa-solid fa-paw"></i></div>
+                                    <span class="stamp-date">12 Mar</span>
+                                </div>
+                                <!-- Stamp 2 -->
+                                <div class="stamp-slot stamped" data-slot="2">
+                                    <div class="stamp-icon"><i class="fa-solid fa-paw"></i></div>
+                                    <span class="stamp-date">15 Apr</span>
+                                </div>
+                                <!-- Stamp 3 -->
+                                <div class="stamp-slot stamped" data-slot="3">
+                                    <div class="stamp-icon"><i class="fa-solid fa-paw"></i></div>
+                                    <span class="stamp-date">02 Mag</span>
+                                </div>
+                                <!-- Stamp 4 (Interactive) -->
+                                <div class="stamp-slot" id="stamp-slot-4" data-slot="4">
+                                    <div class="stamp-icon"><i class="fa-solid fa-paw"></i></div>
+                                    <span class="stamp-date">Da fare</span>
+                                </div>
+                                <!-- Stamp 5 (Gift) -->
+                                <div class="stamp-slot gift" id="stamp-slot-5" data-slot="5">
+                                    <div class="stamp-icon"><i class="fa-solid fa-gift"></i></div>
+                                    <span class="stamp-date">Regalo</span>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-primary);">
+                                <span>Proprietario: <strong style="color: var(--text-dark);">Toby</strong></span>
+                                <span id="loyalty-status-text" style="color: var(--pink-primary); font-weight: 700;">3 di 5 Timbri</span>
+                            </div>
+                        </div>
+
+                        <!-- Simulation Control Panel -->
+                        <div class="loyalty-simulation-controls" style="background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius-md); padding: 20px; display: flex; flex-direction: column; gap: 12px; text-align: left;">
+                            <h5 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; margin: 0; color: var(--text-dark);">Simulatore Tessera Digitale</h5>
+                            <p style="font-family: var(--font-primary); font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Clicca sui pulsanti per simulare cosa succede quando completi gli appuntamenti da BeautyDog:</p>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button type="button" class="btn btn-primary btn-sm" id="btn-simulate-stamp" style="font-size: 0.8rem; padding: 8px 14px;">
+                                    <i class="fa-solid fa-stamp"></i> Aggiungi Timbro
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm" id="btn-reset-stamp" style="font-size: 0.8rem; padding: 8px 14px; background: rgba(0,0,0,0.05); color: var(--text-dark); border-color: rgba(0,0,0,0.1);">
+                                    <i class="fa-solid fa-rotate-left"></i> Azzera
+                                </button>
+                            </div>
+                            <div id="loyalty-alert-msg" style="display: none; padding: 10px 12px; border-radius: var(--radius-sm); font-size: 0.75rem; font-family: var(--font-primary); font-weight: 600; text-align: left; animation: fadeIn 0.3s ease; line-height: 1.4;"></div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="products-banner">
@@ -234,22 +314,37 @@
                             <div class="p-feature"><i class="fa-solid fa-heart-pulse"></i> Delicati sugli occhi</div>
                         </div>
                         
-                        <!-- Ingredienti Bio Dettagliati -->
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 28px; width: 100%;">
-                            <div style="background: rgba(255,255,255,0.45); padding: 16px; border-radius: var(--radius-sm); text-align: center; border: 1px solid rgba(255,255,255,0.2);">
+                        <!-- Ingredienti Bio Dettagliati (Pollop) -->
+                        <div class="bio-ingredients-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 28px; width: 100%;">
+                            <div class="bio-ingredient-card" data-ingredient="camomilla" style="background: rgba(255,255,255,0.45); padding: 16px; border-radius: var(--radius-sm); text-align: center; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s ease; position: relative;">
                                 <div style="font-size: 1.5rem; color: #4CAF50; margin-bottom: 8px;"><i class="fa-solid fa-spa"></i></div>
                                 <h4 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; margin: 0 0 4px 0; color: var(--text-dark);">Camomilla Selvatica</h4>
                                 <p style="font-family: var(--font-primary); font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Azione lenitiva, rinfrescante e anti-arrossamento per cuti sensibili.</p>
+                                <div class="bio-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; font-family: var(--font-primary); font-size: 0.75rem; color: var(--pink-dark); font-weight: 600; text-align: left; line-height: 1.4;">
+                                    <hr style="border: 0; border-top: 1px dashed rgba(255,107,129,0.3); margin: 8px 0;">
+                                    <strong>Carol consiglia:</strong> Se il tuo cane ha la cute irritata o arrossata, lo shampoo alla camomilla lenisce fin dal primo bagnetto riducendo il prurito.
+                                </div>
+                                <div class="bio-expand-indicator" style="position: absolute; bottom: 4px; right: 8px; font-size: 0.65rem; color: var(--text-muted); transition: transform 0.3s ease;"><i class="fa-solid fa-chevron-down"></i></div>
                             </div>
-                            <div style="background: rgba(255,255,255,0.45); padding: 16px; border-radius: var(--radius-sm); text-align: center; border: 1px solid rgba(255,255,255,0.2);">
+                            <div class="bio-ingredient-card" data-ingredient="neem" style="background: rgba(255,255,255,0.45); padding: 16px; border-radius: var(--radius-sm); text-align: center; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s ease; position: relative;">
                                 <div style="font-size: 1.5rem; color: #81C784; margin-bottom: 8px;"><i class="fa-solid fa-shield-cat"></i></div>
                                 <h4 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; margin: 0 0 4px 0; color: var(--text-dark);">Olio di Neem</h4>
                                 <p style="font-family: var(--font-primary); font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Antiparassitario e igienizzante protettivo completamente naturale.</p>
+                                <div class="bio-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; font-family: var(--font-primary); font-size: 0.75rem; color: var(--pink-dark); font-weight: 600; text-align: left; line-height: 1.4;">
+                                    <hr style="border: 0; border-top: 1px dashed rgba(255,107,129,0.3); margin: 8px 0;">
+                                    <strong>Carol consiglia:</strong> Ideale in primavera/estate. È una barriera naturale eccellente contro pulci, zecche e punture di zanzara.
+                                </div>
+                                <div class="bio-expand-indicator" style="position: absolute; bottom: 4px; right: 8px; font-size: 0.65rem; color: var(--text-muted); transition: transform 0.3s ease;"><i class="fa-solid fa-chevron-down"></i></div>
                             </div>
-                            <div style="background: rgba(255,255,255,0.45); padding: 16px; border-radius: var(--radius-sm); text-align: center; border: 1px solid rgba(255,255,255,0.2);">
+                            <div class="bio-ingredient-card" data-ingredient="seta" style="background: rgba(255,255,255,0.45); padding: 16px; border-radius: var(--radius-sm); text-align: center; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s ease; position: relative;">
                                 <div style="font-size: 1.5rem; color: #C8E6C9; margin-bottom: 8px;"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                                 <h4 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; margin: 0 0 4px 0; color: var(--text-dark);">Proteine della Seta</h4>
                                 <p style="font-family: var(--font-primary); font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Rinforza il pelo e dona lucentezza ed elasticità al mantello.</p>
+                                <div class="bio-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; font-family: var(--font-primary); font-size: 0.75rem; color: var(--pink-dark); font-weight: 600; text-align: left; line-height: 1.4;">
+                                    <hr style="border: 0; border-top: 1px dashed rgba(255,107,129,0.3); margin: 8px 0;">
+                                    <strong>Carol consiglia:</strong> Fondamentale per cani a pelo lungo o riccio. Previene la formazione di nodi e facilita la pettinatura a casa.
+                                </div>
+                                <div class="bio-expand-indicator" style="position: absolute; bottom: 4px; right: 8px; font-size: 0.65rem; color: var(--text-muted); transition: transform 0.3s ease;"><i class="fa-solid fa-chevron-down"></i></div>
                             </div>
                         </div>
                     </div>
@@ -260,10 +355,10 @@
         <!-- Chi Siamo Section -->
         <section class="about-section" id="chi-siamo">
             <div class="container about-container">
-                <div class="about-image-wrapper">
+                <div class="about-image-wrapper" id="about-video-trigger" style="cursor: pointer;">
                     <div class="about-blob"></div>
                     <img src="assets/about_grooming.png" alt="Carol D'Andrea mentre fa la toelettatura a un cane" class="about-img">
-                    <div class="about-video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.3s ease; cursor: pointer; pointer-events: none;">
+                    <div class="about-video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.3s ease; cursor: pointer;">
                         <div style="background: rgba(255,107,129,0.85); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 15px rgba(255,107,129,0.4); animation: pulse-play 2s infinite;"><i class="fa-solid fa-play" style="margin-left: 4px;"></i></div>
                     </div>
                     <div class="experience-card">
@@ -401,20 +496,20 @@
                 </div>
                 
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 30px;">
-                    <!-- Slider Prima/Dopo -->
+                    <!-- Slider Prima/Dopo (Groomies Chicago) -->
                     <div class="slider-container" style="position: relative; width: 100%; max-width: 600px; height: 400px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 2px solid rgba(255,255,255,0.4); user-select: none;">
                         <!-- Immagine Dopo (Base) -->
-                        <img src="assets/about_grooming.png" alt="Dopo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+                        <img src="assets/after_maltese.png" alt="Dopo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
                         <div style="position: absolute; bottom: 16px; right: 16px; background: rgba(255,255,255,0.8); backdrop-filter: blur(4px); padding: 4px 10px; border-radius: 12px; font-family: var(--font-primary); font-size: 0.75rem; font-weight: 700; color: var(--pink-dark); z-index: 5;">Dopo</div>
                         
                         <!-- Immagine Prima (Overlay) -->
-                        <div class="before-image-container" style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 3px solid white;">
-                            <img src="assets/about_grooming.png" alt="Prima" style="position: absolute; top: 0; left: 0; width: 600px; height: 400px; object-fit: cover; filter: grayscale(0.2) contrast(1.1) brightness(0.9); max-width: none; pointer-events: none;">
+                        <div class="before-image-container" style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 3px solid white; transition: width 0.1s ease;">
+                            <img src="assets/before_maltese.png" id="slider-before-img" alt="Prima" style="position: absolute; top: 0; left: 0; height: 100%; object-fit: cover; max-width: none; pointer-events: none;">
                             <div style="position: absolute; bottom: 16px; left: 16px; background: rgba(0,0,0,0.6); padding: 4px 10px; border-radius: 12px; font-family: var(--font-primary); font-size: 0.75rem; font-weight: 700; color: white;">Prima</div>
                         </div>
                         
                         <!-- Maniglia dello Slider -->
-                        <div class="slider-handle" style="position: absolute; top: 0; left: 50%; width: 40px; height: 40px; background: white; border: 3px solid var(--pink-primary); border-radius: 50%; transform: translate(-50%, -50%); top: 50%; z-index: 10; display: flex; align-items: center; justify-content: center; color: var(--pink-primary); box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: ew-resize;">
+                        <div class="slider-handle" style="position: absolute; top: 0; left: 50%; width: 40px; height: 40px; background: white; border: 3px solid var(--pink-primary); border-radius: 50%; transform: translate(-50%, -50%); top: 50%; z-index: 10; display: flex; align-items: center; justify-content: center; color: var(--pink-primary); box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: ew-resize; transition: left 0.1s ease;">
                             <i class="fa-solid fa-arrows-left-right" style="font-size: 0.9rem;"></i>
                         </div>
                         
@@ -885,6 +980,69 @@
 
             <div class="buddy-chat-footer" id="buddy-chat-footer">
                 <!-- Pulsanti opzioni o input box -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Tour Modal (DogLover Bresso) -->
+    <div class="modal-backdrop" id="video-tour-modal">
+        <div class="modal-card" style="max-width: 650px; background-color: var(--bg-main);">
+            <button class="modal-close-btn" id="close-video-modal-btn" aria-label="Chiudi video">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="modal-header" style="margin-bottom: 15px; padding: 24px 24px 10px; border: none;">
+                <h2 style="font-size: 1.5rem; color: var(--text-dark); margin: 0 0 4px 0;">Tour Virtuale del Salone</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Guarda i nostri ambienti puliti, moderni ed attrezzati per il benessere del tuo pet</p>
+            </div>
+            
+            <div style="padding: 0 24px 24px;">
+                <div class="video-mock-player" style="position: relative; width: 100%; height: 350px; background: #000; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid rgba(255,255,255,0.1);">
+                    <!-- Image Slides -->
+                    <div class="video-slides-container" style="width: 100%; height: 100%; position: relative;">
+                        <img src="assets/about_grooming.png" class="video-slide active" data-slide="1" alt="Zona Tosatura e Taglio" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: opacity 0.5s ease;">
+                        <img src="assets/hero_dog.png" class="video-slide" data-slide="2" alt="Zona Lavaggio e Asciugatura" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.5s ease;">
+                        <!-- Custom Slide 3 -->
+                        <div class="video-slide" data-slide="3" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.5s ease; background: linear-gradient(135deg, var(--purple-light) 0%, var(--pink-light) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+                            <i class="fa-solid fa-bath" style="font-size: 3.5rem; color: var(--purple-primary); margin-bottom: 12px;"></i>
+                            <h4 style="font-family: var(--font-heading); color: var(--text-dark); margin: 0 0 8px 0; font-weight: 700;">Vasca SPA all'Ozono</h4>
+                            <p style="font-family: var(--font-primary); font-size: 0.85rem; color: var(--text-muted); max-width: 400px; margin: 0; line-height: 1.4;">La nostra cabina SPA dedicata al trattamento relax all'ozonoterapia per la cute dei vostri cagnolini.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Play Overlay -->
+                    <div class="video-player-overlay" id="video-player-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.55); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; cursor: pointer; transition: all 0.3s ease;">
+                        <div style="background: var(--pink-primary); color: white; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: 0 4px 15px rgba(255,107,129,0.4);"><i class="fa-solid fa-play" style="margin-left: 5px;" id="overlay-play-icon"></i></div>
+                        <span style="color: white; font-family: var(--font-heading); font-weight: 600; margin-top: 12px; font-size: 0.9rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Avvia il video-tour</span>
+                    </div>
+
+                    <!-- Video HUD Controls (Bottom) -->
+                    <div class="video-hud" style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 12px 16px; background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%); z-index: 15; display: flex; flex-direction: column; gap: 8px; pointer-events: auto; transition: transform 0.3s ease;">
+                        <!-- Progress Bar -->
+                        <div class="video-progress-container" style="width: 100%; height: 5px; background: rgba(255,255,255,0.3); border-radius: 3px; cursor: pointer; position: relative;" id="video-progress-bar-container">
+                            <div id="video-progress-fill" style="width: 0%; height: 100%; background: var(--pink-primary); border-radius: 3px; position: relative;">
+                                <div style="position: absolute; right: -5px; top: -3px; width: 11px; height: 11px; background: white; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Controls Row -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; color: white; font-family: var(--font-primary); font-size: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <button type="button" id="video-play-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 0.85rem;"><i class="fa-solid fa-play"></i></button>
+                                <span id="video-time-text">0:00 / 0:15</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span id="video-slide-label" style="font-weight: 600; color: rgba(255,255,255,0.9);">Zona Taglio</span>
+                                <button type="button" id="video-mute-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 0.85rem;"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 12px; text-align: left;">
+                    <h4 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin: 0 0 4px 0;">Perché scegliere il salone BeautyDog?</h4>
+                    <p style="font-family: var(--font-primary); font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Nel nostro centro a Palma di Montechiaro utilizziamo solo attrezzature professionali all'avanguardia. Le vasche e i tavoli da tosatura sono igienizzati accuratamente dopo ogni singolo cane per garantire i più alti standard igienico-sanitari e la totale sicurezza del tuo pet.</p>
+                </div>
             </div>
         </div>
     </div>

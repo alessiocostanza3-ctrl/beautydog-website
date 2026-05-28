@@ -1249,10 +1249,18 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
         }, 1000);
     }
 
-    // Before/After slider event listener
+    // Before/After slider event listener (Groomies Chicago)
     const rangeInput = document.querySelector('.before-after-range');
     const beforeContainer = document.querySelector('.before-image-container');
     const handle = document.querySelector('.slider-handle');
+    const sliderContainer = document.querySelector('.slider-container');
+    const sliderBeforeImg = document.getElementById('slider-before-img');
+    
+    function adjustSliderImageWidth() {
+        if (sliderContainer && sliderBeforeImg) {
+            sliderBeforeImg.style.width = `${sliderContainer.offsetWidth}px`;
+        }
+    }
     
     if (rangeInput && beforeContainer && handle) {
         rangeInput.addEventListener('input', (e) => {
@@ -1260,13 +1268,308 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             beforeContainer.style.width = `${value}%`;
             handle.style.left = `${value}%`;
         });
+        
+        // Initial setup and responsive resizing
+        adjustSliderImageWidth();
+        window.addEventListener('resize', adjustSliderImageWidth);
     }
 
-    // Taxi dog change listener
+    // Taxi dog change listener (La Vecchia Fattoria)
     const taxiCheckEl = document.getElementById('taxi-dog-check');
     if (taxiCheckEl) {
         taxiCheckEl.addEventListener('change', () => {
             renderSummary();
+        });
+    }
+
+    // Hair Type Recommendation Widget (Fido Chic)
+    const hairBtns = document.querySelectorAll('.hair-btn');
+    const serviceCards = document.querySelectorAll('.service-card');
+    
+    if (hairBtns.length > 0 && serviceCards.length > 0) {
+        hairBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                hairBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const hairType = btn.getAttribute('data-hair');
+                
+                // Clear highlights, dims and badges
+                serviceCards.forEach(card => {
+                    card.classList.remove('highlighted', 'highlighted-blue', 'highlighted-purple', 'dimmed');
+                    const existingBadge = card.querySelector('.recommended-badge');
+                    if (existingBadge) existingBadge.remove();
+                });
+                
+                if (hairType === 'tutti') {
+                    return; // Reset state
+                }
+                
+                serviceCards.forEach(card => {
+                    const cardId = card.id;
+                    let isMatch = false;
+                    let highlightClass = 'highlighted';
+                    
+                    if (hairType === 'corto' && cardId === 'service-card-bagno') {
+                        isMatch = true;
+                        highlightClass = 'highlighted';
+                    } else if (hairType === 'lungo' && cardId === 'service-card-taglio') {
+                        isMatch = true;
+                        highlightClass = 'highlighted-blue';
+                    } else if (hairType === 'sensibile' && cardId === 'service-card-spa') {
+                        isMatch = true;
+                        highlightClass = 'highlighted-purple';
+                    }
+                    
+                    if (isMatch) {
+                        card.classList.add(highlightClass);
+                        const badge = document.createElement('div');
+                        badge.className = 'recommended-badge';
+                        badge.innerHTML = '<i class="fa-solid fa-sparkles"></i> Scelta Consigliata';
+                        card.appendChild(badge);
+                    } else {
+                        card.classList.add('dimmed');
+                    }
+                });
+            });
+        });
+    }
+
+    // Visual Loyalty Card Simulator (Wash Dog)
+    let currentStamps = 3;
+    const btnSimulate = document.getElementById('btn-simulate-stamp');
+    const btnReset = document.getElementById('btn-reset-stamp');
+    const slot4 = document.getElementById('stamp-slot-4');
+    const slot5 = document.getElementById('stamp-slot-5');
+    const statusText = document.getElementById('loyalty-status-text');
+    const alertMsg = document.getElementById('loyalty-alert-msg');
+    const loyaltyCard = document.querySelector('.loyalty-card-premium');
+    
+    function triggerLoyaltyConfetti(container) {
+        if (!container) return;
+        const rect = container.getBoundingClientRect();
+        const emojis = ["⭐", "✨", "🎉", "🐶", "🐾", "🦴", "💖"];
+        for (let i = 0; i < 35; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'star-particle';
+            particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            const x = (Math.random() - 0.5) * 240;
+            const y = (Math.random() - 0.6) * 180 - 40;
+            const rot = Math.random() * 360 + 360;
+            
+            particle.style.setProperty('--x', `${x}px`);
+            particle.style.setProperty('--y', `${y}px`);
+            particle.style.setProperty('--rot', `${rot}deg`);
+            
+            particle.style.left = `${rect.left + rect.width / 2 + window.scrollX}px`;
+            particle.style.top = `${rect.top + rect.height / 2 + window.scrollY}px`;
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 800);
+        }
+    }
+    
+    if (btnSimulate && btnReset && slot4 && slot5 && statusText && alertMsg && loyaltyCard) {
+        btnSimulate.addEventListener('click', () => {
+            if (currentStamps === 3) {
+                currentStamps = 4;
+                slot4.classList.add('stamped');
+                slot4.querySelector('.stamp-date').textContent = 'Oggi';
+                statusText.textContent = '4 di 5 Timbri';
+                
+                alertMsg.style.display = 'block';
+                alertMsg.className = 'alert-info';
+                alertMsg.style.background = 'rgba(93, 188, 249, 0.15)';
+                alertMsg.style.color = 'var(--blue-dark)';
+                alertMsg.style.border = '1px solid rgba(93, 188, 249, 0.3)';
+                alertMsg.innerHTML = '<i class="fa-solid fa-circle-info"></i> Timbro aggiunto! Manca solo 1 appuntamento per ricevere il tuo omaggio.';
+            } else if (currentStamps === 4) {
+                currentStamps = 5;
+                slot5.classList.add('stamped');
+                slot5.querySelector('.stamp-date').textContent = 'Sbloccato!';
+                statusText.textContent = 'Tessera Completa!';
+                
+                alertMsg.style.display = 'block';
+                alertMsg.style.background = 'rgba(76, 175, 80, 0.15)';
+                alertMsg.style.color = '#2e7d32';
+                alertMsg.style.border = '1px solid rgba(76, 175, 80, 0.3)';
+                alertMsg.innerHTML = '🎉 <strong>Complimenti!</strong> Hai completato la tessera fedeltà! Il trattamento igienizzante dentale all\'ozono è <strong>IN OMAGGIO</strong> per il tuo prossimo appuntamento!';
+                
+                triggerLoyaltyConfetti(loyaltyCard);
+            }
+        });
+        
+        btnReset.addEventListener('click', () => {
+            currentStamps = 3;
+            slot4.classList.remove('stamped');
+            slot4.querySelector('.stamp-date').textContent = 'Da fare';
+            
+            slot5.classList.remove('stamped');
+            slot5.querySelector('.stamp-date').textContent = 'Regalo';
+            
+            statusText.textContent = '3 di 5 Timbri';
+            alertMsg.style.display = 'none';
+        });
+    }
+
+    // Video Tour Modal (DogLover Bresso)
+    const videoModal = document.getElementById('video-tour-modal');
+    const videoCloseBtn = document.getElementById('close-video-modal-btn');
+    const videoTrigger = document.getElementById('about-video-trigger');
+    const videoPlayBtn = document.getElementById('video-play-btn');
+    const videoMuteBtn = document.getElementById('video-mute-btn');
+    const videoProgressFill = document.getElementById('video-progress-fill');
+    const videoProgressContainer = document.getElementById('video-progress-bar-container');
+    const videoTimeText = document.getElementById('video-time-text');
+    const videoOverlay = document.getElementById('video-player-overlay');
+    const videoSlides = document.querySelectorAll('.video-slide');
+    const videoSlideLabel = document.getElementById('video-slide-label');
+    
+    let isVideoPlaying = false;
+    let videoCurrentTime = 0;
+    const videoTotalTime = 15;
+    let videoInterval = null;
+    let isMuted = false;
+    
+    function updateVideoState() {
+        const percent = (videoCurrentTime / videoTotalTime) * 100;
+        if (videoProgressFill) videoProgressFill.style.width = `${percent}%`;
+        
+        const sec = Math.floor(videoCurrentTime);
+        if (videoTimeText) videoTimeText.textContent = `0:${sec.toString().padStart(2, '0')} / 0:15`;
+        
+        let activeSlideIndex = 1;
+        let slideName = "Zona Taglio & Tosatura";
+        
+        if (videoCurrentTime >= 5 && videoCurrentTime < 10) {
+            activeSlideIndex = 2;
+            slideName = "Zona Lavaggio & Cura";
+        } else if (videoCurrentTime >= 10) {
+            activeSlideIndex = 3;
+            slideName = "Vasca SPA all'Ozono";
+        }
+        
+        if (videoSlideLabel) videoSlideLabel.textContent = slideName;
+        
+        videoSlides.forEach(slide => {
+            const slideId = parseInt(slide.getAttribute('data-slide'));
+            if (slideId === activeSlideIndex) {
+                slide.classList.add('active');
+                slide.style.opacity = '1';
+            } else {
+                slide.classList.remove('active');
+                slide.style.opacity = '0';
+            }
+        });
+    }
+    
+    function playVideo() {
+        isVideoPlaying = true;
+        if (videoOverlay) {
+            videoOverlay.style.opacity = '0';
+            videoOverlay.style.pointerEvents = 'none';
+        }
+        if (videoPlayBtn) videoPlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        
+        videoInterval = setInterval(() => {
+            videoCurrentTime += 0.1;
+            if (videoCurrentTime >= videoTotalTime) {
+                videoCurrentTime = 0;
+                pauseVideo();
+                if (videoOverlay) {
+                    videoOverlay.style.opacity = '1';
+                    videoOverlay.style.pointerEvents = 'auto';
+                }
+            }
+            updateVideoState();
+        }, 100);
+    }
+    
+    function pauseVideo() {
+        isVideoPlaying = false;
+        clearInterval(videoInterval);
+        if (videoPlayBtn) videoPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+    }
+    
+    if (videoTrigger && videoModal && videoCloseBtn) {
+        videoTrigger.addEventListener('click', () => {
+            videoModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            adjustSliderImageWidth(); // Make sure slide widths match container
+            updateVideoState();
+        });
+        
+        videoCloseBtn.addEventListener('click', () => {
+            videoModal.classList.remove('open');
+            document.body.style.overflow = '';
+            pauseVideo();
+            videoCurrentTime = 0;
+            updateVideoState();
+            if (videoOverlay) {
+                videoOverlay.style.opacity = '1';
+                videoOverlay.style.pointerEvents = 'auto';
+            }
+        });
+        
+        if (videoPlayBtn) {
+            videoPlayBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isVideoPlaying) {
+                    pauseVideo();
+                } else {
+                    playVideo();
+                }
+            });
+        }
+        
+        if (videoOverlay) {
+            videoOverlay.addEventListener('click', () => {
+                playVideo();
+            });
+        }
+        
+        if (videoMuteBtn) {
+            videoMuteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isMuted = !isMuted;
+                if (isMuted) {
+                    videoMuteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+                } else {
+                    videoMuteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                }
+            });
+        }
+        
+        if (videoProgressContainer) {
+            videoProgressContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const rect = videoProgressContainer.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const pct = clickX / width;
+                videoCurrentTime = pct * videoTotalTime;
+                if (videoCurrentTime < 0) videoCurrentTime = 0;
+                if (videoCurrentTime > videoTotalTime) videoCurrentTime = videoTotalTime;
+                updateVideoState();
+            });
+        }
+    }
+
+    // Bio Ingredients Expandable Showcase (Pollop)
+    const bioCards = document.querySelectorAll('.bio-ingredient-card');
+    if (bioCards.length > 0) {
+        bioCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const isExpanded = card.classList.contains('expanded');
+                bioCards.forEach(c => c.classList.remove('expanded'));
+                if (!isExpanded) {
+                    card.classList.add('expanded');
+                }
+            });
         });
     }
 });

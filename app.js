@@ -1086,10 +1086,116 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
 
     function startBuddyConversation() {
         chatStep = 0;
-        addBotMessage("Ciao! \u{1F436} Io sono <strong>Buddy</strong>, l'assistente virtuale di BeautyDog. Ti aiuterò a richiedere un appuntamento in pochi secondi!");
+        addBotMessage("Ciao! 🐶 Io sono <strong>Buddy</strong>, l'assistente virtuale di BeautyDog. Come posso aiutarti oggi?");
         setTimeout(() => {
-            askClientName();
-        }, 1000);
+            renderWelcomeOptions();
+        }, 800);
+    }
+
+    function renderWelcomeOptions() {
+        renderOptions([
+            { label: "Prenota Trattamento 📅", value: "booking" },
+            { label: "Fai una Domanda 💬", value: "faq" }
+        ], (val, label) => {
+            if (val === "booking") {
+                askClientName();
+            } else {
+                startFAQMode();
+            }
+        });
+    }
+
+    function startFAQMode() {
+        chatStep = 100;
+        addBotMessage("Chiedimi pure qualsiasi cosa sul salone! 🐶 Ad esempio: <i>orari, prezzi dei trattamenti, parcheggio, prodotti bio, o la nostra garanzia senza stress</i>. Cosa desideri sapere?");
+        setTimeout(() => {
+            renderFAQPrompt();
+        }, 800);
+    }
+
+    function renderFAQPrompt() {
+        renderTextPrompt("Chiedi pure a Buddy...", "text", (val) => {
+            processFAQ(val);
+        });
+    }
+
+    function processFAQ(question) {
+        const q = question.toLowerCase().trim();
+        let reply = "";
+        
+        if (q.includes("orar") || q.includes("quando") || q.includes("apert")) {
+            reply = "🕒 <strong>Orari di Apertura:</strong><br>Siamo aperti dal Lunedì al Venerdì dalle 09:00 alle 13:00 e dalle 15:00 alle 19:00.<br>Il Sabato dalle 09:00 alle 13:00.<br>Domenica siamo chiusi.";
+        } else if (q.includes("indirizz") || q.includes("dove") || q.includes("posizion") || q.includes("via") || q.includes("palma") || q.includes("trov")) {
+            reply = "📍 <strong>Dove siamo:</strong><br>Il salone è in <strong>Via IV Novembre, 45</strong> a Palma di Montechiaro (AG).<br>Trovi la mappa stradale interattiva in fondo alla pagina per raggiungerci facilmente!";
+        } else if (q.includes("parchegg")) {
+            reply = "🚗 <strong>Parcheggio:</strong><br>Nessuno stress! C'è un comodo <strong>parcheggio clienti gratuito</strong> direttamente di fronte all'ingresso del salone in Via IV Novembre.";
+        } else if (q.includes("prezz") || q.includes("cost") || q.includes("tariff") || q.includes("quant")) {
+            reply = "💰 <strong>Prezzi di partenza:</strong><br>• <strong>Bagno & Igiene:</strong> da 25€<br>• <strong>Taglio & Tosatura:</strong> da 40€<br>• <strong>SPA & Ozonoterapia:</strong> da 35€<br><br>Il prezzo varia in base a razza, taglia e pelo. Digita 'prenota' per iniziare la prenotazione guidata!";
+        } else if (q.includes("gabbie") || q.includes("stress") || q.includes("senza stress") || q.includes("gabbia")) {
+            reply = "🌿 <strong>Salone Senza Stress:</strong><br>Lavoriamo con <strong>un solo cane alla volta</strong> e non usiamo <strong>mai gabbie di attesa</strong>. L'ambiente è sereno, rilassato e focalizzato solo sul benessere del tuo amico.";
+        } else if (q.includes("shampoo") || q.includes("prodott") || q.includes("cosmetic") || q.includes("bio") || q.includes("natural")) {
+            reply = "🌱 <strong>Cosmetici Naturali:</strong><br>Utilizziamo cosmetici 100% bio, ipoallergenici e vegani a base di principi attivi naturali come Camomilla, Olio di Neem e Proteine della Seta.";
+        } else if (q.includes("timbri") || q.includes("fidelity") || q.includes("tessera") || q.includes("fedelt")) {
+            reply = "🎁 <strong>Tessera Fedeltà:</strong><br>Ogni 5 trattamenti completati ricevi un omaggio speciale (es. ozonoterapia gratuita)! Puoi simulare la raccolta punti nella sezione 'Beauty Card' sul sito.";
+        } else if (q.includes("telefon") || q.includes("contatt") || q.includes("cellul") || q.includes("chiam") || q.includes("mail") || q.includes("whatsapp")) {
+            reply = "📞 <strong>Contatti:</strong><br>• WhatsApp/Telefono: <strong>+39 320 882 1749</strong><br>• Email: info@beautydogpalma.it<br>• Sede: Via IV Novembre, 45, Palma di Montechiaro (AG).";
+        } else if (q.includes("prenot") || q.includes("appuntament") || q.includes("fiss")) {
+            addBotMessage("Ottimo! Iniziamo la procedura guidata di prenotazione...", 400);
+            setTimeout(() => {
+                askClientName();
+            }, 700);
+            return;
+        } else if (q.includes("ciao") || q.includes("buongiorno") || q.includes("buonasera") || q.includes("ehi")) {
+            reply = "Ciao! 😊 Come posso aiutarti? Scrivimi pure una domanda (es. 'prezzi', 'orari', 'parcheggio') o digita 'prenota' per fissare un appuntamento.";
+        } else if (q.includes("grazie") || q.includes("perfetto") || q.includes("ok") || q.includes("ottimo")) {
+            reply = "Di nulla! 😊 Resto a tua disposizione. Desideri sapere altro sul salone o preferisci prenotare?";
+        } else {
+            reply = "🐶 Scusa, non ho capito. Puoi chiedermi di: <strong>orari, prezzi, indirizzo, parcheggio, garanzia senza stress o prodotti bio</strong>.<br><br><i>Digita 'prenota' in qualsiasi momento per fissare un appuntamento!</i>";
+        }
+        
+        addBotMessage(reply, 600);
+        
+        setTimeout(() => {
+            renderFAQFollowUp();
+        }, 1200);
+    }
+
+    function renderFAQFollowUp() {
+        renderOptions([
+            { label: "Prenota Trattamento 📅", value: "booking" },
+            { label: "Menu Principale ↩️", value: "menu" }
+        ], (val, label) => {
+            if (val === "booking") {
+                askClientName();
+            } else {
+                startBuddyConversation();
+            }
+        });
+        
+        // Aggiungi un campo di input sotto per continuare a scrivere domande
+        const typeContainer = document.createElement('div');
+        typeContainer.style.width = '100%';
+        typeContainer.style.marginTop = '8px';
+        typeContainer.innerHTML = `
+            <form id="buddy-faq-form" class="buddy-input-wrapper">
+                <input type="text" class="buddy-text-input" id="buddy-faq-input" placeholder="Chiedi qualcos'altro..." required autocomplete="off">
+                <button type="submit" class="buddy-send-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        `;
+        chatFooter.appendChild(typeContainer);
+        
+        const faqForm = document.getElementById('buddy-faq-form');
+        faqForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('buddy-faq-input');
+            const val = input.value.trim();
+            if (val) {
+                addUserMessage(val);
+                processFAQ(val);
+            }
+        });
     }
 
     function askClientName() {

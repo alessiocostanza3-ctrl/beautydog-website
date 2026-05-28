@@ -2855,35 +2855,44 @@ img {
 
 /* Footer / Response Options */
 .buddy-chat-footer {
-    padding: 16px;
+    padding: 14px;
     background-color: var(--text-light);
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
-    min-height: 70px;
+    flex-shrink: 0;
 }
 
 /* Option Buttons */
 .buddy-option-btn {
     background-color: var(--pink-light);
-    border: 1px solid rgba(255, 141, 161, 0.3);
+    border: 1.5px solid var(--pink-primary);
     color: var(--pink-dark);
     font-family: var(--font-primary);
-    padding: 8px 14px;
-    border-radius: var(--radius-full);
-    font-size: 0.85rem;
-    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    flex: 1 1 calc(50% - 4px);
+    min-width: 110px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 2px 4px rgba(255, 141, 161, 0.06);
 }
 
 .buddy-option-btn:hover {
     background-color: var(--pink-primary);
     color: var(--text-light);
     border-color: var(--pink-primary);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--pink-glow);
 }
 
 .buddy-input-wrapper {

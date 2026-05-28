@@ -3099,6 +3099,18 @@ img {
     color: #D4AF37;
     animation: gift-shake 0.6s ease infinite alternate;
 }
+.stamp-slot:not(.stamped) {
+    cursor: pointer;
+}
+.stamp-slot:not(.stamped):hover {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: var(--pink-primary);
+    transform: translateY(-2px);
+}
+.stamp-slot.gift:not(.stamped):hover {
+    border-color: #FFD700;
+    background: rgba(255, 215, 0, 0.15);
+}
 @keyframes stamp-pop {
     0% { transform: scale(3.5); opacity: 0; }
     50% { transform: scale(0.8); }
@@ -3107,6 +3119,14 @@ img {
 @keyframes gift-shake {
     0% { transform: rotate(-8deg) scale(1.15); }
     100% { transform: rotate(8deg) scale(1.15); }
+}
+@keyframes shake-card {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+.shake-card {
+    animation: shake-card 0.4s ease-in-out;
 }
 
 /* Video Player HUD & Modal */

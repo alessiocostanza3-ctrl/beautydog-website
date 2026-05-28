@@ -1369,6 +1369,9 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
         if (!container) return;
         const rect = container.getBoundingClientRect();
         const emojis = ["⭐", "✨", "🎉", "🐶", "🐾", "🦴", "💖"];
+        const scrollX = window.scrollX || window.pageXOffset || 0;
+        const scrollY = window.scrollY || window.pageYOffset || 0;
+        
         for (let i = 0; i < 35; i++) {
             const particle = document.createElement('div');
             particle.className = 'star-particle';
@@ -1382,13 +1385,15 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             particle.style.setProperty('--y', `${y}px`);
             particle.style.setProperty('--rot', `${rot}deg`);
             
-            particle.style.left = `${rect.left + rect.width / 2 + window.scrollX}px`;
-            particle.style.top = `${rect.top + rect.height / 2 + window.scrollY}px`;
+            particle.style.left = `${rect.left + rect.width / 2 + scrollX}px`;
+            particle.style.top = `${rect.top + rect.height / 2 + scrollY}px`;
             
             document.body.appendChild(particle);
             
             setTimeout(() => {
-                particle.remove();
+                if (particle && particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
             }, 800);
         }
     }
@@ -1414,12 +1419,26 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
                 statusText.textContent = 'Tessera Completa!';
                 
                 alertMsg.style.display = 'block';
+                alertMsg.className = 'alert-success';
                 alertMsg.style.background = 'rgba(76, 175, 80, 0.15)';
                 alertMsg.style.color = '#2e7d32';
                 alertMsg.style.border = '1px solid rgba(76, 175, 80, 0.3)';
                 alertMsg.innerHTML = '🎉 <strong>Complimenti!</strong> Hai completato la tessera fedeltà! Il trattamento igienizzante dentale all\'ozono è <strong>IN OMAGGIO</strong> per il tuo prossimo appuntamento!';
                 
                 triggerLoyaltyConfetti(loyaltyCard);
+            } else if (currentStamps === 5) {
+                // Shake the card visually to show it's already completed
+                loyaltyCard.classList.add('shake-card');
+                setTimeout(() => {
+                    loyaltyCard.classList.remove('shake-card');
+                }, 500);
+                
+                alertMsg.style.display = 'block';
+                alertMsg.className = 'alert-warning';
+                alertMsg.style.background = 'rgba(255, 152, 0, 0.15)';
+                alertMsg.style.color = '#e65100';
+                alertMsg.style.border = '1px solid rgba(255, 152, 0, 0.3)';
+                alertMsg.innerHTML = '✨ <strong>Tessera già completata!</strong> Clicca su "Azzera" per ricominciare la simulazione.';
             }
         });
         
@@ -1433,6 +1452,19 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             
             statusText.textContent = '3 di 5 Timbri';
             alertMsg.style.display = 'none';
+        });
+
+        // Allow clicking directly on the slot 4 or 5 elements for simulated direct stamp interaction
+        slot4.addEventListener('click', () => {
+            if (currentStamps === 3) {
+                btnSimulate.click();
+            }
+        });
+        
+        slot5.addEventListener('click', () => {
+            if (currentStamps === 4) {
+                btnSimulate.click();
+            }
         });
     }
 

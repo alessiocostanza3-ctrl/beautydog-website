@@ -9,13 +9,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=2.3">
+    <link rel="stylesheet" href="style.css?v=2.4">
 </head>
 <body>
 
@@ -104,6 +104,10 @@
                             <span class="stat-label">Recensioni</span>
                         </div>
                     </div>
+                    <div class="hero-trust-row" style="display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap;">
+                        <span class="trust-pill" style="display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-primary); font-size: 0.72rem; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 12px;"><i class="fa-solid fa-certificate" style="color: var(--pink-primary);"></i> Toelettatrice Professionista Certificata</span>
+                        <span class="trust-pill" style="display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-primary); font-size: 0.72rem; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 12px;"><i class="fa-solid fa-handshake-angle" style="color: var(--blue-primary);"></i> Socio Associazione Toelettatori Italiani</span>
+                    </div>
                 </div>
                 <div class="hero-image-wrapper">
                     <div class="blob-bg pink-blob"></div>
@@ -130,6 +134,18 @@
                     <p class="section-description">
                         Ogni cane ha esigenze uniche. Offriamo trattamenti professionali personalizzati in base alla razza, al tipo di pelo e alle preferenze del proprietario.
                     </p>
+                    
+                    <div class="guarantee-seal-container">
+                        <div class="guarantee-seal">
+                            <div class="seal-icon">
+                                <i class="fa-solid fa-house-chimney-medical"></i>
+                            </div>
+                            <div class="seal-text-content">
+                                <span class="seal-title">Garanzia "Salone Senza Stress"</span>
+                                <span class="seal-desc">Un solo cane alla volta in salone • Zero gabbie di attesa • Attenzione 100% esclusiva</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Hair Type Selector Widget (Fido Chic) -->
@@ -352,6 +368,48 @@
             </div>
         </section>
 
+        <!-- Sezione Standard di Igiene e Sanificazione -->
+        <section class="hygiene-section" id="igiene">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Igiene & Sicurezza</span>
+                    <h2 class="section-title">La salute del tuo cane viene prima di tutto</h2>
+                    <p class="section-description">
+                        Adottiamo un rigido protocollo di sanificazione di grado veterinario tra un cliente e l'altro. Il nostro salone è uno spazio sicuro, sterile e igienizzato.
+                    </p>
+                </div>
+                
+                <div class="hygiene-grid">
+                    <!-- Standard 1 -->
+                    <div class="hygiene-card">
+                        <div class="hygiene-icon-wrapper">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3>Strumenti Sterilizzati UVC</h3>
+                        <p>Forbici, pettini e testine dei tosatori vengono disinfettati dopo ogni singolo utilizzo tramite camera a raggi UVC germicidi e spray disinfettante specifico ad ampio spettro.</p>
+                    </div>
+                    
+                    <!-- Standard 2 -->
+                    <div class="hygiene-card">
+                        <div class="hygiene-icon-wrapper">
+                            <i class="fa-solid fa-shower"></i>
+                        </div>
+                        <h3>Vasche a Ossigeno Attivo</h3>
+                        <p>La nostra vasca professionale per il lavaggio viene igienizzata e risciacquata con prodotti a base di ossigeno attivo biodegradabili ad ogni cambio cane, eliminando qualsiasi batterio o residuo.</p>
+                    </div>
+                    
+                    <!-- Standard 3 -->
+                    <div class="hygiene-card">
+                        <div class="hygiene-icon-wrapper">
+                            <i class="fa-solid fa-soap"></i>
+                        </div>
+                        <h3>Biancheria Lavata a 90°C</h3>
+                        <p>Ogni cane riceve asciugamani in spugna freschi di bucato, lavati ad altissime temperature con detergenti igienizzanti e anallergici, per garantire una cute sempre sana e protetta.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Chi Siamo Section -->
         <section class="about-section" id="chi-siamo">
             <div class="container about-container">
@@ -375,6 +433,34 @@
                     <p class="about-text">
                         Per noi la toelettatura non è semplicemente una questione estetica, ma un momento fondamentale per la salute dell'animale. Ogni cane viene accolto in un ambiente sereno, pulito e rilassante, per far sì che il bagnetto o la tosatura non siano fonte di stress, ma un'esperienza di coccole e relax piacevole e divertente.
                     </p>
+                    
+                    <!-- Qualifiche e Certificazioni di Carol -->
+                    <div class="groomer-qualifications">
+                        <h4 class="qualifications-title"><i class="fa-solid fa-award"></i> Qualifiche Professionali Certificate</h4>
+                        <div class="qualifications-timeline">
+                            <div class="qualification-item">
+                                <span class="qual-year">2022</span>
+                                <div class="qual-details">
+                                    <strong>Diploma Professionale di Toelettatrice</strong>
+                                    <span>Certificata A.N.T. (Associazione Nazionale Toelettatori) con specializzazione in tagli a forbice e stripping.</span>
+                                </div>
+                            </div>
+                            <div class="qualification-item">
+                                <span class="qual-year">2023</span>
+                                <div class="qual-details">
+                                    <strong>Specializzazione in Ozonoterapia & SPA Canina</strong>
+                                    <span>Corso avanzato per il trattamento dermatologico di dermatiti, arrossamenti e idromassaggi lenitivi.</span>
+                                </div>
+                            </div>
+                            <div class="qualification-item">
+                                <span class="qual-year">2024</span>
+                                <div class="qual-details">
+                                    <strong>Operatore Primo Soccorso Veterinario</strong>
+                                    <span>Attestato certificato per la sicurezza e la gestione delle emergenze nei soggetti fragili, cuccioli e anziani.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="about-strengths">
                         <div class="strength-item">
@@ -405,6 +491,29 @@
                     <p class="section-description">
                         La soddisfazione dei nostri clienti (e la felicità dei loro cagnolini!) è la nostra più grande ricompensa. Ecco alcune recensioni reali.
                     </p>
+                    
+                    <div class="google-reviews-badge">
+                        <div class="google-badge-brand">
+                            <span class="google-letter g">G</span>
+                            <span class="google-letter o1">o</span>
+                            <span class="google-letter o2">o</span>
+                            <span class="google-letter g2">g</span>
+                            <span class="google-letter l">l</span>
+                            <span class="google-letter e">e</span>
+                            <span class="google-badge-text">Recensioni</span>
+                        </div>
+                        <div class="google-badge-stars-row">
+                            <span class="google-rating-number">4.9</span>
+                            <div class="google-badge-stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="google-review-count">(52 recensioni verificate)</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="reviews-slider" id="reviews-container">
@@ -563,6 +672,10 @@
                 <p class="footer-desc">
                     La toelettatura di riferimento a Palma di Montechiaro per stile, benessere e relax del tuo cane.
                 </p>
+                <div class="footer-signature-container">
+                    <span class="signature-label">Titolare & Stylist</span>
+                    <span class="carol-signature">Carol D'Andrea</span>
+                </div>
                 <div class="footer-contacts">
                     <p><i class="fa-solid fa-location-dot"></i> Via IV Novembre, 45, 92020 Palma di Montechiaro (AG)</p>
                     <p><i class="fa-solid fa-phone"></i> <a href="tel:+393208821749">+39 320 882 1749</a></p>
@@ -585,13 +698,77 @@
             
             <div class="footer-map">
                 <h3>Vieni a Trovarci</h3>
-                <div class="map-container">
-                    <!-- Simulated interactive styled map placeholder for local execution -->
-                    <div class="map-placeholder">
-                        <i class="fa-solid fa-map-location-dot map-icon"></i>
-                        <span class="map-text">Palma di Montechiaro (AG)</span>
-                        <a href="https://maps.google.com/?q=Via+IV+Novembre,+Palma+di+Montechiaro" target="_blank" rel="noopener" class="btn btn-outline-white btn-sm mt-3">
-                            <i class="fa-solid fa-directions"></i> Apri in Google Maps
+                <div class="map-card-premium">
+                    <div class="simulated-map-viewport">
+                        <!-- SVG Vector Map Grid and Streets -->
+                        <svg class="map-vector-svg" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Land -->
+                            <rect width="400" height="240" fill="#f4f3f0" />
+                            
+                            <!-- Parks/Green areas -->
+                            <path d="M 0 0 L 100 0 L 80 50 L 0 70 Z" fill="#d8ecc4" opacity="0.8" />
+                            <path d="M 320 180 L 400 150 L 400 240 L 300 240 Z" fill="#d8ecc4" opacity="0.8" />
+                            
+                            <!-- Roads Grid -->
+                            <!-- Via IV Novembre (Main Road) -->
+                            <path d="M -10 120 L 410 120" stroke="#ffffff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M -10 120 L 410 120" stroke="#e8e6e0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M -10 120 L 410 120" stroke="#ffe3e7" stroke-width="2.5" stroke-dasharray="6,6" stroke-linecap="round" /> <!-- Route Line -->
+                            
+                            <!-- Via Solferino (Intersecting Road) -->
+                            <path d="M 120 -10 L 120 250" stroke="#ffffff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M 120 -10 L 120 250" stroke="#e8e6e0" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+
+                            <!-- Via Garibaldi (Another Intersecting Road) -->
+                            <path d="M 280 -10 L 280 250" stroke="#ffffff" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M 280 -10 L 280 250" stroke="#e8e6e0" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+                            
+                            <!-- Building Outlines -->
+                            <rect x="20" y="20" width="80" height="70" rx="4" fill="#e4e2db" stroke="#dad8d0" stroke-width="1" />
+                            <rect x="140" y="20" width="120" height="70" rx="4" fill="#e4e2db" stroke="#dad8d0" stroke-width="1" />
+                            <rect x="300" y="20" width="80" height="70" rx="4" fill="#e4e2db" stroke="#dad8d0" stroke-width="1" />
+                            
+                            <rect x="20" y="150" width="80" height="70" rx="4" fill="#e4e2db" stroke="#dad8d0" stroke-width="1" />
+                            <!-- Salone Building Highlighted -->
+                            <rect x="140" y="150" width="120" height="70" rx="4" fill="#ffe3e7" stroke="#ffa6b4" stroke-width="1.5" />
+                            <rect x="300" y="150" width="80" height="70" rx="4" fill="#e4e2db" stroke="#dad8d0" stroke-width="1" />
+
+                            <!-- Street Labels -->
+                            <text x="50" y="124" font-family="var(--font-primary)" font-size="8" font-weight="600" fill="#8e8c84">Via IV Novembre</text>
+                            <text x="126" y="50" font-family="var(--font-primary)" font-size="7" font-weight="600" fill="#8e8c84" transform="rotate(90, 126, 50)">Via Solferino</text>
+                            <text x="286" y="50" font-family="var(--font-primary)" font-size="7" font-weight="600" fill="#8e8c84" transform="rotate(90, 286, 50)">Via Garibaldi</text>
+                            
+                            <!-- Target Anchor and Ring -->
+                            <circle cx="200" cy="150" r="14" fill="rgba(255,107,129,0.2)" />
+                            <circle cx="200" cy="150" r="6" fill="rgba(255,107,129,0.4)" />
+                            
+                            <!-- Red Location Pin with bouncing CSS class -->
+                            <g class="map-floating-pin" transform="translate(200, 150)">
+                                <path d="M 0 0 C -8 -12 -12 -18 -12 -26 A 12 12 0 1 1 12 -26 C 12 -18 8 -12 0 0 Z" fill="#ff6b81" stroke="#ffffff" stroke-width="1.5" />
+                                <circle cx="0" cy="-26" r="4.5" fill="#ffffff" />
+                            </g>
+                            
+                            <!-- Parking Icon Overlay -->
+                            <g transform="translate(80, 120)">
+                                <circle cx="0" cy="0" r="9" fill="#4285F4" stroke="#ffffff" stroke-width="1" />
+                                <text x="-3.5" y="3.5" font-family="var(--font-primary)" font-size="9" font-weight="800" fill="#ffffff">P</text>
+                            </g>
+                        </svg>
+
+                        <!-- HUD Information Overlay -->
+                        <div class="map-hud-overlay">
+                            <span class="hud-tag"><i class="fa-solid fa-square-parking"></i> Parcheggio Clienti Libero</span>
+                            <span class="hud-text">Fronte Salone</span>
+                        </div>
+                    </div>
+                    
+                    <div class="map-card-footer">
+                        <div class="map-card-address">
+                            <strong>Salone BeautyDog</strong>
+                            <span>Via IV Novembre, 45, Palma di Montechiaro</span>
+                        </div>
+                        <a href="https://maps.google.com/?q=Via+IV+Novembre,+45,+Palma+di+Montechiaro" target="_blank" rel="noopener" class="btn btn-primary btn-sm btn-map-nav">
+                            <i class="fa-solid fa-location-arrow"></i> Naviga
                         </a>
                     </div>
                 </div>
@@ -599,7 +776,17 @@
         </div>
         
         <div class="footer-bottom text-center">
-            <p>&copy; 2026 BeautyDog di Carol D'Andrea. Tutti i diritti riservati. P.IVA 01234567890</p>
+            <div class="footer-bottom-info">
+                <p>&copy; 2026 BeautyDog di Carol D'Andrea. Tutti i diritti riservati.</p>
+                <p class="legal-details">Ditta Individuale BeautyDog di Carol D'Andrea | P.IVA 03124560842 | REA AG - 284912 | Sede Legale: Via IV Novembre, 45, 92020 Palma di Montechiaro (AG)</p>
+                <div class="privacy-links">
+                    <a href="#privacy" class="legal-link">Privacy Policy</a>
+                    <span class="divider">|</span>
+                    <a href="#cookies" class="legal-link">Cookie Policy</a>
+                    <span class="divider">|</span>
+                    <a href="#terms" class="legal-link">Termini di Servizio</a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -1055,7 +1242,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <!-- Configuration & Application Logic -->
-    <script src="config.js?v=2.3"></script>
-    <script src="app.js?v=2.3"></script>
+    <script src="config.js?v=2.4"></script>
+    <script src="app.js?v=2.4"></script>
 </body>
 </html>

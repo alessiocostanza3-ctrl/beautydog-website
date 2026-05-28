@@ -3206,4 +3206,499 @@ img {
     100% { transform: translate(var(--x), var(--y)) scale(0) rotate(var(--rot)); opacity: 0; }
 }
 
+/* ==========================================================================
+   MIGLIORAMENTI DI AUTENTICITÀ E CREDIBILITÀ VISIVA (RIMOZIONE AI-TEMPLATE LOOK)
+   ========================================================================== */
+
+/* Hero Trust pills & styling */
+.hero-trust-row {
+    animation: fadeInUp 0.8s ease 0.4s both;
+}
+.trust-pill {
+    transition: all 0.3s ease;
+}
+.trust-pill:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.8) !important;
+    border-color: var(--pink-primary) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+/* Garanzia Salone Senza Stress */
+.guarantee-seal-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    width: 100%;
+}
+.guarantee-seal {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, rgba(255,240,243,0.85) 0%, rgba(224,242,254,0.85) 100%);
+    backdrop-filter: blur(8px);
+    border: 1px dashed rgba(255,107,129,0.35);
+    padding: 14px 24px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    max-width: 650px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+.guarantee-seal:hover {
+    transform: scale(1.01);
+    box-shadow: var(--shadow-md);
+    border-style: solid;
+    border-color: var(--pink-primary);
+}
+.guarantee-seal .seal-icon {
+    font-size: 1.8rem;
+    color: var(--pink-primary);
+    background: white;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(255,107,129,0.15);
+    flex-shrink: 0;
+}
+.guarantee-seal .seal-text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.guarantee-seal .seal-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+.guarantee-seal .seal-desc {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Sezione Standard di Igiene e Sanificazione */
+.hygiene-section {
+    padding: 80px 0;
+    background: linear-gradient(180deg, var(--white) 0%, rgba(224,242,254,0.3) 100%);
+    position: relative;
+}
+.hygiene-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+.hygiene-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-lg);
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+}
+.hygiene-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blue-primary), var(--pink-primary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.hygiene-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    background: white;
+}
+.hygiene-card:hover::before {
+    opacity: 1;
+}
+.hygiene-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background: rgba(224,242,254,0.6);
+    color: var(--blue-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin: 0 auto 20px auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+.hygiene-card:hover .hygiene-icon-wrapper {
+    background: var(--pink-primary);
+    color: white;
+    transform: rotate(360deg);
+}
+.hygiene-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+.hygiene-card p {
+    font-family: var(--font-primary);
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* Timeline Qualifiche Carol in Chi Siamo */
+.groomer-qualifications {
+    margin: 30px 0;
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+}
+.qualifications-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.qualifications-timeline {
+    position: relative;
+    padding-left: 20px;
+    border-left: 2px solid rgba(255,107,129,0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.qualification-item {
+    position: relative;
+    text-align: left;
+}
+.qualification-item::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--pink-primary);
+    border: 2px solid white;
+    box-shadow: 0 0 0 3px rgba(255,107,129,0.15);
+    transition: all 0.3s ease;
+}
+.qualification-item:hover::before {
+    background: var(--blue-primary);
+    box-shadow: 0 0 0 5px rgba(224,242,254,0.4);
+    transform: scale(1.2);
+}
+.qual-year {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--pink-primary);
+    display: block;
+    margin-bottom: 2px;
+}
+.qualification-item:hover .qual-year {
+    color: var(--blue-primary);
+}
+.qual-details strong {
+    font-family: var(--font-primary);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: block;
+}
+.qual-details span {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: block;
+    margin-top: 2px;
+}
+
+/* Badge Recensioni Google */
+.google-reviews-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 50px;
+    padding: 10px 24px;
+    box-shadow: var(--shadow-sm);
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+.google-reviews-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(255,107,129,0.2);
+}
+.google-badge-brand {
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: -0.5px;
+}
+.google-letter {
+    display: inline-block;
+}
+.google-letter.g { color: #4285F4; }
+.google-letter.o1 { color: #EA4335; }
+.google-letter.o2 { color: #FBBC05; }
+.google-letter.g2 { color: #4285F4; }
+.google-letter.l { color: #34A853; }
+.google-letter.e { color: #EA4335; }
+.google-badge-text {
+    font-weight: 500;
+    color: #5f6368;
+    margin-left: 6px;
+    font-size: 0.85rem;
+}
+.google-badge-stars-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 1px solid rgba(0,0,0,0.1);
+    padding-left: 16px;
+}
+.google-rating-number {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+.google-badge-stars {
+    color: #ffc107;
+    font-size: 0.8rem;
+    display: flex;
+    gap: 2px;
+}
+.google-review-count {
+    font-family: var(--font-primary);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Mappa Premium e Logistica Locale */
+.map-card-premium {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+.map-card-premium:hover {
+    box-shadow: var(--shadow-lg);
+}
+.simulated-map-viewport {
+    position: relative;
+    height: 180px;
+    background: #f4f3f0;
+    overflow: hidden;
+}
+.map-vector-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+/* Keyframe per animazione Bouncing Location Pin */
+@keyframes float-pin {
+    0% { transform: translate(200px, 150px) translateY(0); }
+    50% { transform: translate(200px, 150px) translateY(-6px); }
+    100% { transform: translate(200px, 150px) translateY(0); }
+}
+.map-floating-pin {
+    animation: float-pin 2s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+.map-hud-overlay {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: var(--shadow-sm);
+    z-index: 5;
+    pointer-events: none;
+}
+.map-hud-overlay .hud-tag {
+    font-family: var(--font-primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--blue-dark);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.map-hud-overlay .hud-text {
+    font-family: var(--font-primary);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+.map-card-footer {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    background: #fafafa;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+.map-card-address {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.map-card-address strong {
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+.map-card-address span {
+    font-family: var(--font-primary);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+.btn-map-nav {
+    padding: 8px 16px !important;
+    font-size: 0.8rem !important;
+    border-radius: var(--radius-sm) !important;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Firma Carol nel Footer */
+.footer-signature-container {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    border-left: 2px solid var(--pink-primary);
+    padding-left: 12px;
+    text-align: left;
+}
+.signature-label {
+    font-family: var(--font-primary);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 2px;
+}
+.carol-signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.65rem;
+    font-weight: 600;
+    color: var(--pink-primary);
+    display: inline-block;
+    line-height: 1.2;
+}
+
+/* Footer Bottom Details */
+.footer-bottom-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.legal-details {
+    font-size: 0.72rem !important;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto !important;
+    line-height: 1.5;
+}
+.privacy-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+.legal-link {
+    font-family: var(--font-primary);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.legal-link:hover {
+    color: var(--pink-primary);
+    text-decoration: underline;
+}
+.privacy-links .divider {
+    font-size: 0.72rem;
+    color: rgba(0,0,0,0.15);
+}
+
+/* Responsive fixes for hygiene and map */
+@media (max-width: 768px) {
+    .google-reviews-badge {
+        flex-direction: column;
+        border-radius: var(--radius-md);
+        padding: 14px 20px;
+        gap: 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .google-badge-stars-row {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid rgba(0,0,0,0.06);
+        padding-top: 8px;
+        width: 100%;
+        justify-content: center;
+    }
+    .map-card-premium {
+        margin-top: 25px;
+    }
+    .map-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        text-align: center;
+    }
+    .map-card-address {
+        text-align: center;
+    }
+    .btn-map-nav {
+        justify-content: center;
+    }
+}
+
 

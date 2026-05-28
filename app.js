@@ -1284,9 +1284,9 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
 
     // Hair Type Recommendation Widget (Fido Chic)
     const hairBtns = document.querySelectorAll('.hair-btn');
-    const serviceCards = document.querySelectorAll('.service-card');
+    const mainServiceCards = document.querySelectorAll('.service-card');
     
-    if (hairBtns.length > 0 && serviceCards.length > 0) {
+    if (hairBtns.length > 0 && mainServiceCards.length > 0) {
         hairBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 hairBtns.forEach(b => b.classList.remove('active'));
@@ -1295,7 +1295,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
                 const hairType = btn.getAttribute('data-hair');
                 
                 // Clear highlights, dims and badges
-                serviceCards.forEach(card => {
+                mainServiceCards.forEach(card => {
                     card.classList.remove('highlighted', 'highlighted-blue', 'highlighted-purple', 'dimmed');
                     const existingBadge = card.querySelector('.recommended-badge');
                     if (existingBadge) existingBadge.remove();
@@ -1305,7 +1305,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
                     return; // Reset state
                 }
                 
-                serviceCards.forEach(card => {
+                mainServiceCards.forEach(card => {
                     const cardId = card.id;
                     let isMatch = false;
                     let highlightClass = 'highlighted';

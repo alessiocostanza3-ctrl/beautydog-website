@@ -688,11 +688,28 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fetch current bookings from DB service
         const bookings = await DbService.getBookingsForDate(dateString);
         
+        // Create Morning and Afternoon groups
+        const morningGroup = document.createElement("div");
+        morningGroup.className = "slots-group";
+        morningGroup.innerHTML = `<h4 style="width: 100%; grid-column: span 4; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin: 8px 0 12px 0; display: flex; align-items: center; gap: 6px; text-align: left;"><i class="fa-solid fa-cloud-sun text-pink"></i> Mattina</h4>`;
+        morningGroup.style.display = "grid";
+        morningGroup.style.gridTemplateColumns = "repeat(4, 1fr)";
+        morningGroup.style.gap = "10px";
+        morningGroup.style.width = "100%";
+        morningGroup.style.marginBottom = "20px";
+        
+        const afternoonGroup = document.createElement("div");
+        afternoonGroup.className = "slots-group";
+        afternoonGroup.innerHTML = `<h4 style="width: 100%; grid-column: span 4; font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin: 8px 0 12px 0; display: flex; align-items: center; gap: 6px; text-align: left;"><i class="fa-solid fa-sun text-blue"></i> Pomeriggio</h4>`;
+        afternoonGroup.style.display = "grid";
+        afternoonGroup.style.gridTemplateColumns = "repeat(4, 1fr)";
+        afternoonGroup.style.gap = "10px";
+        afternoonGroup.style.width = "100%";
+
         slots.forEach(slot => {
             const slotBtn = document.createElement("button");
             slotBtn.type = "button";
             slotBtn.className = "time-slot-btn";
-            slotBtn.textContent = slot;
             
             // Check if slot is occupied
             const isOccupied = bookings.some(b => b.date === dateString && b.time === slot);
@@ -702,10 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let isPastHour = false;
             
             if (isToday) {
-                // Local current simulated time can be extracted, but since it's 22:02 in the metadata,
-                // if they choose May 25th, actually all hours are past. But let's assume we can book if slot is later.
-                // To keep the demo working smoothly, we check the actual hour.
-                const currentHour = 22; // 22:02 from local time metadata
+                const currentHour = 22; // local simulated time hour
                 const slotHour = parseInt(slot.split(":")[0]);
                 if (slotHour <= currentHour) {
                     isPastHour = true;
@@ -715,12 +729,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isOccupied || isPastHour) {
                 slotBtn.classList.add("disabled");
                 slotBtn.disabled = true;
+                slotBtn.innerHTML = `<span>${slot}</span><small style="display:block; font-size:0.6rem; color:#d32f2f; font-weight:700; margin-top:2px;">Occupato</small>`;
                 if (isOccupied) {
                     slotBtn.title = "Orario già prenotato";
                 } else {
                     slotBtn.title = "Orario passato";
                 }
             } else {
+                slotBtn.innerHTML = `<span>${slot}</span><small style="display:block; font-size:0.6rem; color:#388e3c; font-weight:700; margin-top:2px;">Libero</small>`;
+                
                 // If it is the selected slot, highlight it
                 if (selectedTime === slot) {
                     slotBtn.classList.add("selected");
@@ -735,8 +752,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             
-            timeSlotsGrid.appendChild(slotBtn);
+            const hour = parseInt(slot.split(":")[0]);
+            if (hour < 13) {
+                morningGroup.appendChild(slotBtn);
+            } else {
+                afternoonGroup.appendChild(slotBtn);
+            }
         });
+
+        timeSlotsGrid.appendChild(morningGroup);
+        timeSlotsGrid.appendChild(afternoonGroup);
     }
 
     // Helper functions
@@ -765,7 +790,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Dog Size flat adjustments
         let sizeAddon = SIZE_ADDONS[selectedSize] || 0;
         
-        return base + addonsTotal + sizeAddon;
+        let total = base + addonsTotal + sizeAddon;
+
+        // Taxi Dog service
+        const taxiCheck = document.getElementById('taxi-dog-check');
+        if (taxiCheck && taxiCheck.checked) {
+            total += 10;
+        }
+
+        return total;
     }
 
     // -------------------------------------------------------------
@@ -821,6 +854,15 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             sumAddonsRow.style.display = 'none';
         }
+
+        // Taxi Row
+        const taxiCheck = document.getElementById('taxi-dog-check');
+        const sumTaxiRow = document.getElementById('sum-taxi-row');
+        if (taxiCheck && taxiCheck.checked && sumTaxiRow) {
+            sumTaxiRow.style.display = 'flex';
+        } else if (sumTaxiRow) {
+            sumTaxiRow.style.display = 'none';
+        }
         
         // Price
         const total = calculateTotalPrice();
@@ -848,35 +890,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const addonsList = selectedAddons.map(a => ADDON_LABELS[a]).join(", ");
         const addonsText = addonsList ? `\n- Extra Aggiuntivi: ${addonsList}` : "";
         
+        const taxiCheck = document.getElementById('taxi-dog-check');
+        const taxiText = (taxiCheck && taxiCheck.checked) ? "\n- Servizio Navetta (Taxi Dog): Sì (+ €10)" : "";
+
         const total = calculateTotalPrice();
         const dateString = formatDateString(selectedDate);
         
         // 1. Create WhatsApp Message Text
         const messageText = 
 `Ciao Carol! Vorrei prenotare un appuntamento per il mio cane da BeautyDog.
-
+ 
 \u{1F436} *DETTAGLI CANE:*
 - Nome: ${petName}
 - Razza: ${breed}
 - Taglia: ${sizeName}
 - Età: ${petAge} anni
-
+ 
 \u{2702} *SERVIZIO RICHIESTO:*
-- Trattamento: ${serviceName}${addonsText}
+- Trattamento: ${serviceName}${addonsText}${taxiText}
 - Prezzo Stimato: €${total}
-
+ 
 \u{1F4C5} *DATA E ORA RICHIESTE:*
 - Giorno: ${dateFormatted}
 - Orario: ${selectedTime}
-
+ 
 \u{1F464} *CONTATTI PROPRIETARIO:*
 - Nome: ${ownerName}
 - Telefono: ${phone}
 - Provenienza: ${zone}
 - Note: ${notes}
-
+ 
 Attendo tua conferma dell'appuntamento! Grazie mille!`;
-
+ 
         // 2. Save appointment to database / local storage
         const newBooking = {
             date: dateString,
@@ -890,7 +935,8 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             clientPhone: phone,
             clientZone: zone,
             notes: notes,
-            price: total
+            price: total,
+            taxiDog: taxiCheck ? taxiCheck.checked : false
         };
         await DbService.addBooking(newBooking);
 
@@ -1201,5 +1247,26 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
                 goToStep(3);
             });
         }, 1000);
+    }
+
+    // Before/After slider event listener
+    const rangeInput = document.querySelector('.before-after-range');
+    const beforeContainer = document.querySelector('.before-image-container');
+    const handle = document.querySelector('.slider-handle');
+    
+    if (rangeInput && beforeContainer && handle) {
+        rangeInput.addEventListener('input', (e) => {
+            const value = e.target.value;
+            beforeContainer.style.width = `${value}%`;
+            handle.style.left = `${value}%`;
+        });
+    }
+
+    // Taxi dog change listener
+    const taxiCheckEl = document.getElementById('taxi-dog-check');
+    if (taxiCheckEl) {
+        taxiCheckEl.addEventListener('change', () => {
+            renderSummary();
+        });
     }
 });

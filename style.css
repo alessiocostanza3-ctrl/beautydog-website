@@ -2935,4 +2935,37 @@ img {
     }
 }
 
+/* Custom Features for BeautyDog */
+.pelo-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-family: var(--font-primary);
+}
+.pelo-badge.pink {
+    background: var(--pink-light);
+    color: var(--pink-dark);
+}
+.pelo-badge.blue {
+    background: var(--blue-light);
+    color: var(--blue-dark);
+}
+.pelo-badge.purple {
+    background: var(--purple-light);
+    color: var(--purple-dark);
+}
+
+@keyframes pulse-play {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0.4); }
+    70% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(255, 107, 129, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 107, 129, 0); }
+}
+
+.about-image-wrapper:hover .about-video-overlay {
+    transform: scale(1.1);
+}
+
 

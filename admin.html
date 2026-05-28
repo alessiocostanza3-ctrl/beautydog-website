@@ -889,6 +889,10 @@
                             <option value="18:00">18:00</option>
                         </select>
                     </div>
+                    <div class="form-group admin-form-full" style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="manual-taxi-dog" style="width: 20px; height: 20px; accent-color: var(--pink-primary); cursor: pointer;">
+                        <label for="manual-taxi-dog" style="cursor: pointer; font-size: 0.9rem; margin-bottom: 0; display: flex; align-items: center; gap: 4px;"><i class="fa-solid fa-car-side text-pink"></i> Servizio Navetta "Taxi Dog" (+ €10)</label>
+                    </div>
                     <div class="form-group admin-form-full">
                         <label for="manual-notes">Note Aggiuntive</label>
                         <textarea id="manual-notes" rows="2" placeholder="Note su cane, comportamento, ecc."></textarea>
@@ -1219,7 +1223,7 @@
                             </div>
                             <div class="details-col">
                                 <h4>Trattamento</h4>
-                                <p>${b.service}<br><span class="text-pink" style="font-weight: 700;">€${b.price || '-'}</span></p>
+                                <p>${b.service}${b.taxiDog ? '<span style="background: #E3F2FD; color: #1E88E5; padding: 2px 6px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; margin-left: 6px; white-space: nowrap;"><i class="fa-solid fa-car-side"></i> Taxi Dog</span>' : ''}<br><span class="text-pink" style="font-weight: 700;">€${b.price || '-'}</span></p>
                             </div>
                             ${notesBlock}
                         </div>
@@ -1326,12 +1330,21 @@
                 const size = manualPetSize.value;
                 const base = BASE_PRICES[service] || 0;
                 const addon = SIZE_ADDONS[size] || 0;
-                manualPrice.value = base + addon;
+                let total = base + addon;
+                const manualTaxi = document.getElementById('manual-taxi-dog');
+                if (manualTaxi && manualTaxi.checked) {
+                    total += 10;
+                }
+                manualPrice.value = total;
             }
 
             if (manualService && manualPetSize) {
                 manualService.addEventListener('change', calculateManualPrice);
                 manualPetSize.addEventListener('change', calculateManualPrice);
+                const manualTaxi = document.getElementById('manual-taxi-dog');
+                if (manualTaxi) {
+                    manualTaxi.addEventListener('change', calculateManualPrice);
+                }
             }
 
             if (openManualBookingBtn && closeManualModalBtn && manualBookingModal) {
@@ -1386,7 +1399,8 @@
                         time,
                         notes,
                         status: 'confirmed',
-                        createdAt: new Date().toISOString()
+                        createdAt: new Date().toISOString(),
+                        taxiDog: document.getElementById('manual-taxi-dog').checked
                     };
 
                     if (firebaseActive && db) {

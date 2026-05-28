@@ -1038,7 +1038,9 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
 
     function removeTypingIndicator() {
         const typing = document.getElementById('buddy-typing');
-        if (typing) typing.remove();
+        if (typing && typing.parentNode) {
+            typing.parentNode.removeChild(typing);
+        }
     }
 
     function renderTextPrompt(placeholder, type = "text", callback) {
@@ -1311,8 +1313,8 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
                     card.classList.remove('dimmed');
                     card.classList.remove('active'); // Temporarily remove standard highlight during filters
                     const existingBadge = card.querySelector('.recommended-badge');
-                    if (existingBadge) {
-                        existingBadge.remove();
+                    if (existingBadge && existingBadge.parentNode) {
+                        existingBadge.parentNode.removeChild(existingBadge);
                     }
                 });
                 

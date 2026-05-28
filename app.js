@@ -1258,7 +1258,14 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
     
     function adjustSliderImageWidth() {
         if (sliderContainer && sliderBeforeImg) {
-            sliderBeforeImg.style.width = `${sliderContainer.offsetWidth}px`;
+            const width = sliderContainer.offsetWidth;
+            if (width > 0) {
+                sliderBeforeImg.style.width = `${width}px`;
+            } else {
+                // Fallback to parent container width or standard 600px
+                const parentWidth = sliderContainer.parentElement ? sliderContainer.parentElement.offsetWidth : 0;
+                sliderBeforeImg.style.width = parentWidth > 0 ? `${parentWidth}px` : '600px';
+            }
         }
     }
     
@@ -1267,10 +1274,12 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             const value = e.target.value;
             beforeContainer.style.width = `${value}%`;
             handle.style.left = `${value}%`;
+            adjustSliderImageWidth(); // Ensure width aligns correctly during sliding
         });
         
         // Initial setup and responsive resizing
         adjustSliderImageWidth();
+        window.addEventListener('load', adjustSliderImageWidth);
         window.addEventListener('resize', adjustSliderImageWidth);
     }
 
@@ -1294,14 +1303,25 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
                 
                 const hairType = btn.getAttribute('data-hair');
                 
-                // Clear highlights, dims and badges
+                // Clear highlights, dims, badges and active states
                 mainServiceCards.forEach(card => {
-                    card.classList.remove('highlighted', 'highlighted-blue', 'highlighted-purple', 'dimmed');
+                    card.classList.remove('highlighted');
+                    card.classList.remove('highlighted-blue');
+                    card.classList.remove('highlighted-purple');
+                    card.classList.remove('dimmed');
+                    card.classList.remove('active'); // Temporarily remove standard highlight during filters
                     const existingBadge = card.querySelector('.recommended-badge');
-                    if (existingBadge) existingBadge.remove();
+                    if (existingBadge) {
+                        existingBadge.remove();
+                    }
                 });
                 
                 if (hairType === 'tutti') {
+                    // Restore default active class to Taglio & Tosatura card
+                    const taglioCard = document.getElementById('service-card-taglio');
+                    if (taglioCard) {
+                        taglioCard.classList.add('active');
+                    }
                     return; // Reset state
                 }
                 

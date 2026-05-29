@@ -1423,7 +1423,7 @@ img {
 }
 
 .modal-header {
-    padding: 30px 40px 15px;
+    padding: 20px 30px 12px;
     border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
@@ -1442,7 +1442,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
+    padding: 12px 30px;
     background-color: var(--bg-alt);
     position: relative;
 }
@@ -1522,7 +1522,7 @@ img {
 .wizard-content {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 30px 40px;
+    padding: 20px 30px;
 }
 
 .wizard-pane {
@@ -1779,7 +1779,7 @@ img {
     background-color: var(--bg-main);
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: var(--radius-md);
-    padding: 20px;
+    padding: 12px 15px;
     box-shadow: var(--shadow-sm);
 }
 
@@ -1787,7 +1787,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .calendar-month-btn {
@@ -1832,8 +1832,8 @@ img {
 }
 
 .calendar-day {
-    padding: 10px 0;
-    font-size: 0.85rem;
+    padding: 5px 0;
+    font-size: 0.8rem;
     border-radius: 50%;
     cursor: pointer;
     transition: var(--transition);
@@ -1841,8 +1841,8 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 38px;
-    width: 38px;
+    height: 32px;
+    width: 32px;
     margin: 0 auto;
 }
 
@@ -1870,12 +1870,12 @@ img {
 .time-slots-container {
     background-color: var(--bg-alt);
     border-radius: var(--radius-md);
-    padding: 20px;
+    padding: 12px 15px;
 }
 
 .slots-header {
-    font-size: 0.95rem;
-    margin-bottom: 12px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
 }
 
 .highlight-date {
@@ -1886,8 +1886,8 @@ img {
 .slots-legend {
     display: flex;
     gap: 12px;
-    font-size: 0.75rem;
-    margin-bottom: 16px;
+    font-size: 0.7rem;
+    margin-bottom: 10px;
 }
 
 .legend-item {
@@ -2121,7 +2121,7 @@ img {
 
 /* Modal Footer */
 .modal-footer {
-    padding: 20px 40px;
+    padding: 15px 30px;
     border-top: 1px solid rgba(0,0,0,0.05);
     display: flex;
     justify-content: space-between;

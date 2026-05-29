@@ -23,7 +23,7 @@
     <header class="navbar" id="main-header">
         <div class="nav-container">
             <a href="#hero" class="nav-logo" id="logo-link">
-                <img src="assets/logo.svg?v=3.1" alt="BeautyDog Logo" style="height: 42px; width: 42px; margin-right: 8px;">
+                <img src="assets/logo.png?v=3.2" alt="BeautyDog Logo" style="height: 42px; width: 42px; margin-right: 8px;">
                 <span class="logo-text">Beauty<span>Dog</span></span>
             </a>
             
@@ -113,7 +113,22 @@
                     <div class="floating-bubble bubble-1"><i class="fa-solid fa-soap"></i></div>
                     <div class="floating-bubble bubble-2"><i class="fa-solid fa-bone"></i></div>
                     <div class="floating-bubble bubble-3"><i class="fa-solid fa-scissors"></i></div>
-                    <img src="assets/hero_dog.png?v=3.0" alt="Cagnolino in posa di fronte al logo BeautyDog" class="hero-img">
+                    
+                    <!-- Carousel Hero -->
+                    <div class="hero-slideshow-container" id="hero-slideshow" title="Clicca per cambiare immagine">
+                        <div class="hero-slide active">
+                            <img src="assets/hero_dog.png?v=3.2" alt="Cagnolino in posa di fronte al logo BeautyDog">
+                        </div>
+                        <div class="hero-slide">
+                            <img src="assets/hero_dog_2.png?v=3.2" alt="Akita in posa per BeautyDog">
+                        </div>
+                        
+                        <!-- Punti di controllo -->
+                        <div class="hero-slideshow-controls">
+                            <span class="slide-dot active" data-slide="0"></span>
+                            <span class="slide-dot" data-slide="1"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="hero-wave">
@@ -413,7 +428,7 @@
             <div class="container about-container">
                 <div class="about-image-wrapper" id="about-video-trigger" style="cursor: pointer;">
                     <div class="about-blob"></div>
-                    <img src="assets/about_grooming.png" alt="Carol D'Andrea mentre fa la toelettatura a un cane" class="about-img">
+                    <img src="assets/about_grooming.jpg?v=3.2" alt="Carol D'Andrea mentre fa la toelettatura a un cane" class="about-img">
                     <div class="about-video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 2; transition: all 0.3s ease; cursor: pointer;">
                         <div style="background: rgba(255,107,129,0.85); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 15px rgba(255,107,129,0.4); animation: pulse-play 2s infinite;"><i class="fa-solid fa-play" style="margin-left: 4px;"></i></div>
                     </div>
@@ -665,7 +680,7 @@
         <div class="container footer-grid">
             <div class="footer-info">
                 <a href="#hero" class="footer-logo" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-                    <img src="assets/logo.svg?v=3.1" alt="BeautyDog Logo" style="height: 38px; width: 38px;">
+                    <img src="assets/logo.png?v=3.2" alt="BeautyDog Logo" style="height: 38px; width: 38px;">
                     BeautyDog
                 </a>
                 <p class="footer-desc">
@@ -1193,8 +1208,8 @@
                 <div class="video-mock-player" style="position: relative; width: 100%; height: 350px; background: #000; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid rgba(255,255,255,0.1);">
                     <!-- Image Slides -->
                     <div class="video-slides-container" style="width: 100%; height: 100%; position: relative;">
-                        <img src="assets/about_grooming.png" class="video-slide active" data-slide="1" alt="Zona Tosatura e Taglio" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: opacity 0.5s ease;">
-                        <img src="assets/hero_dog.png?v=3.0" class="video-slide" data-slide="2" alt="Zona Lavaggio e Asciugatura" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.5s ease;">
+                        <img src="assets/about_grooming.jpg?v=3.2" class="video-slide active" data-slide="1" alt="Zona Tosatura e Taglio" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: opacity 0.5s ease;">
+                        <img src="assets/hero_dog.png?v=3.2" class="video-slide" data-slide="2" alt="Zona Lavaggio e Asciugatura" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.5s ease;">
                         <!-- Custom Slide 3 -->
                         <div class="video-slide" data-slide="3" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.5s ease; background: linear-gradient(135deg, var(--purple-light) 0%, var(--pink-light) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
                             <i class="fa-solid fa-bath" style="font-size: 3.5rem; color: var(--purple-primary); margin-bottom: 12px;"></i>

@@ -1863,4 +1863,70 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             });
         });
     }
+
+    // Hero Section Slideshow/Carousel
+    const heroSlideshow = document.getElementById('hero-slideshow');
+    if (heroSlideshow) {
+        const slides = heroSlideshow.querySelectorAll('.hero-slide');
+        const dots = heroSlideshow.querySelectorAll('.slide-dot');
+        let currentSlide = 0;
+        let slideInterval = null;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            showSlide(next);
+        }
+
+        function startAutoplay() {
+            stopAutoplay();
+            slideInterval = setInterval(nextSlide, 5000); // 5 seconds
+        }
+
+        function stopAutoplay() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+            }
+        }
+
+        // Click on slideshow container to go to next image
+        heroSlideshow.addEventListener('click', (e) => {
+            // Check if user clicked a dot to prevent double trigger
+            if (e.target.classList.contains('slide-dot')) return;
+            nextSlide();
+            startAutoplay(); // Reset autoplay timer
+        });
+
+        // Click on dots
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent container click event
+                const index = parseInt(dot.getAttribute('data-slide'));
+                showSlide(index);
+                startAutoplay(); // Reset autoplay timer
+            });
+        });
+
+        // Init autoplay
+        startAutoplay();
+    }
 });

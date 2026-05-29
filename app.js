@@ -12,6 +12,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // Salon Phone (For WhatsApp Link)
     const SALON_PHONE = typeof CONFIG !== 'undefined' && CONFIG.SALON_PHONE ? CONFIG.SALON_PHONE : "393208821749";
 
+    // Buddy Chatbot Dynamic Configuration
+    let buddyApiKey = typeof CONFIG !== 'undefined' ? CONFIG.GEMINI_API_KEY : "";
+    let buddySystemPrompt = `Sei Buddy, l'assistente virtuale a quattro zampe di BeautyDog, il salone di toelettatura professionale di Carol D'Andrea a Palma di Montechiaro (AG).
+Parla sempre in italiano, con un tono amichevole, caloroso, ed empatico, usando emoji a tema cane (🐶, 🐾, 🐩, ✂️).
+Il tuo obiettivo è rispondere alle domande degli utenti in modo naturale ed efficiente. Mantieni le risposte brevi (massimo 3-4 frasi), adatte a una finestrella di chat.
+
+Ecco le informazioni ufficiali del salone che devi conoscere:
+1. Titolare: Carol D'Andrea, toelettatrice professionista diplomata A.N.T.
+2. Indirizzo: Via IV Novembre, 45, 92020 Palma di Montechiaro (AG).
+3. Parcheggio: Ampio parcheggio clienti gratuito direttamente di fronte al salone.
+4. Orari: Lun-Ven: 09:00-13:00, 15:00-19:00. Sab: 09:00-13:00. Dom: Chiuso.
+5. Contatti: Telefono/WhatsApp +39 320 882 1749. Email info@beautydogpalma.it.
+6. Filosofia: "Salone Senza Stress" - un cane alla volta, zero gabbie di attesa.
+7. Prodotti: Cosmetici 100% bio, vegani e ipoallergenici con Camomilla, Olio di Neem e Proteine della Seta.
+8. Tessera Fedeltà: Raccolta timbri (Fidelity Card) sul sito: ogni 5 trattamenti un omaggio (es. pulizia dentale all'ozono gratuita).
+9. Trattamenti e Prezzi indicativi:
+   - Bagno & Igiene (da 25€): bagno, spazzolatura, taglio unghie, igiene intima.
+   - Taglio & Tosatura (da 40€): taglio a forbice, tosatura a macchinetta o stripping.
+   - SPA & Ozonoterapia (da 35€): idromassaggio all'ozono per dermatiti e benessere del pelo.
+
+Se l'utente esprime chiaramente l'intenzione di prenotare un appuntamento o un trattamento, rispondi in modo amichevole e includi la parola chiave "[BOOK]" nella tua risposta.`;
+
     // -------------------------------------------------------------
     // DB & Integration Service Layer (Firebase + Local Fallback)
     // -------------------------------------------------------------
@@ -46,6 +68,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log("BeautyDog: EmailJS initialized.");
                 } catch (error) {
                     console.error("BeautyDog: Error initializing EmailJS:", error);
+                }
+            }
+
+            // Load Buddy settings (Gemini API key and prompt)
+            this.loadBuddySettings();
+        },
+
+        async loadBuddySettings() {
+            // Load local storage fallback first
+            const localKey = localStorage.getItem('buddy_gemini_api_key');
+            const localPrompt = localStorage.getItem('buddy_system_prompt');
+            if (localKey) {
+                buddyApiKey = localKey;
+            }
+            if (localPrompt) {
+                buddySystemPrompt = localPrompt;
+            }
+
+            // If Firebase is active, query the Firestore database for settings
+            if (this.firebaseActive && this.db) {
+                try {
+                    const doc = await this.db.collection("settings").doc("buddy").get();
+                    if (doc.exists) {
+                        const data = doc.data();
+                        if (data.gemini_api_key) {
+                            buddyApiKey = data.gemini_api_key;
+                            // Also keep local storage in sync
+                            localStorage.setItem('buddy_gemini_api_key', data.gemini_api_key);
+                        }
+                        if (data.system_prompt) {
+                            buddySystemPrompt = data.system_prompt;
+                            // Also keep local storage in sync
+                            localStorage.setItem('buddy_system_prompt', data.system_prompt);
+                        }
+                        console.log("BeautyDog: Buddy settings loaded from Firebase Firestore.");
+                    }
+                } catch (error) {
+                    console.error("BeautyDog: Error loading Buddy settings from Firebase:", error);
                 }
             }
         },
@@ -1127,13 +1187,13 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
         
         chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
         
-        if (!CONFIG.GEMINI_API_KEY || CONFIG.GEMINI_API_KEY === "YOUR_GEMINI_API_KEY" || CONFIG.GEMINI_API_KEY.trim() === "") {
+        if (!buddyApiKey || buddyApiKey === "YOUR_GEMINI_API_KEY" || buddyApiKey.trim() === "") {
             console.log("Gemini API Key non configurata. Utilizzo del fallback locale.");
             return getLocalFallbackReply(userMessage);
         }
         
         try {
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${CONFIG.GEMINI_API_KEY}`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${buddyApiKey}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1143,25 +1203,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
                     systemInstruction: {
                         parts: [
                             {
-                                text: `Sei Buddy, l'assistente virtuale a quattro zampe di BeautyDog, il salone di toelettatura professionale di Carol D'Andrea a Palma di Montechiaro (AG).
-Parla sempre in italiano, con un tono amichevole, caloroso, ed empatico, usando emoji a tema cane (🐶, 🐾, 🐩, ✂️).
-Il tuo obiettivo è rispondere alle domande degli utenti in modo naturale ed efficiente. Mantieni le risposte brevi (massimo 3-4 frasi), adatte a una finestrella di chat.
-
-Ecco le informazioni ufficiali del salone che devi conoscere:
-1. Titolare: Carol D'Andrea, toelettatrice professionista diplomata A.N.T.
-2. Indirizzo: Via IV Novembre, 45, 92020 Palma di Montechiaro (AG).
-3. Parcheggio: Ampio parcheggio clienti gratuito direttamente di fronte al salone.
-4. Orari: Lun-Ven: 09:00-13:00, 15:00-19:00. Sab: 09:00-13:00. Dom: Chiuso.
-5. Contatti: Telefono/WhatsApp +39 320 882 1749. Email info@beautydogpalma.it.
-6. Filosofia: "Salone Senza Stress" - un cane alla volta, zero gabbie di attesa.
-7. Prodotti: Cosmetici 100% bio, vegani e ipoallergenici con Camomilla, Olio di Neem e Proteine della Seta.
-8. Tessera Fedeltà: Raccolta timbri (Fidelity Card) sul sito: ogni 5 trattamenti un omaggio (es. pulizia dentale all'ozono gratuita).
-9. Trattamenti e Prezzi indicativi:
-   - Bagno & Igiene (da 25€): bagno, spazzolatura, taglio unghie, igiene intima.
-   - Taglio & Tosatura (da 40€): taglio a forbice, tosatura a macchinetta o stripping.
-   - SPA & Ozonoterapia (da 35€): idromassaggio all'ozono per dermatiti e benessere del pelo.
-
-Se l'utente esprime chiaramente l'intenzione di prenotare un appuntamento o un trattamento, rispondi in modo amichevole e includi la parola chiave "[BOOK]" nella tua risposta.`
+                                text: buddySystemPrompt
                             }
                         ]
                     },

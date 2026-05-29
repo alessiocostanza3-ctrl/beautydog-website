@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Shared Styles -->
-    <link rel="stylesheet" href="style.css?v=2.7">
+    <link rel="stylesheet" href="style.css?v=2.8">
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -556,6 +556,14 @@
             border-color: var(--pink-primary);
             box-shadow: 0 4px 10px rgba(255, 107, 129, 0.2);
         }
+        
+        /* AI Settings Form Overrides */
+        #ai-settings-form .form-group input {
+            padding-left: 16px;
+        }
+        #ai-settings-form .form-group textarea {
+            padding-left: 16px;
+        }
     </style>
 </head>
 <body>
@@ -664,6 +672,7 @@
                 <button class="tab-btn" data-tab="confirmed">Confermati (<span id="count-confirmed">0</span>)</button>
                 <button class="tab-btn" data-tab="cancelled">Cancellati (<span id="count-cancelled">0</span>)</button>
                 <button class="tab-btn" data-tab="analytics"><i class="fa-solid fa-chart-pie"></i> Analisi & Report</button>
+                <button class="tab-btn" data-tab="settings"><i class="fa-solid fa-robot"></i> Impostazioni AI</button>
             </nav>
             
             <!-- Bookings List -->
@@ -782,6 +791,46 @@
                     <div class="chart-container">
                         <canvas id="chart-trends"></canvas>
                     </div>
+                </div>
+            </section>
+            
+            <!-- AI Settings View -->
+            <section class="analytics-grid" id="settings-container" style="display: none; grid-template-columns: 1fr; margin-top: 24px;">
+                <div class="analytics-card" style="max-width: 800px; margin: 0 auto; width: 100%;">
+                    <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-robot text-pink"></i> Configurazione Assistente AI (Buddy)
+                    </h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.5;">
+                        Qui puoi impostare la chiave API per il chatbot Buddy (utilizza il modello Gemini 2.5 Flash) e personalizzare le sue istruzioni di sistema per adattare le risposte al tuo salone.
+                    </p>
+                    
+                    <form id="ai-settings-form" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                            <label for="settings-gemini-key" style="font-weight: 600; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center;">
+                                <span>Chiave API Gemini *</span>
+                                <a href="https://aistudio.google.com/" target="_blank" style="font-size: 0.8rem; color: var(--pink-primary); text-decoration: underline; font-weight: 500;">Ottieni chiave API gratuita <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </label>
+                            <div style="position: relative; display: flex; align-items: center; width: 100%;">
+                                <input type="password" id="settings-gemini-key" required placeholder="Inserisci la tua API Key di Gemini..." style="padding: 12px 45px 12px 16px; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); font-family: var(--font-primary); font-size: 0.9rem; width: 100%;">
+                                <button type="button" id="toggle-key-visibility" style="position: absolute; right: 12px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; padding: 4px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">La chiave viene utilizzata per connettere il chatbot al servizio Gemini 2.5 Flash. Sarà salvata in modo sicuro nel database.</span>
+                        </div>
+                        
+                        <div class="form-group" style="display: flex; flex-direction: column; gap: 8px;">
+                            <label for="settings-system-prompt" style="font-weight: 600; font-size: 0.9rem;">Istruzioni di System Prompt *</label>
+                            <textarea id="settings-system-prompt" required rows="12" style="padding: 14px; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-sm); font-family: var(--font-primary); font-size: 0.9rem; width: 100%; line-height: 1.5; resize: vertical;" placeholder="Inserisci le istruzioni che descrivono come l'AI deve comportarsi..."></textarea>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Definisci la personalità di Buddy, i servizi offerti, gli orari, e la filosofia del salone. Più sei dettagliato, più precise saranno le risposte. Se l'utente vuole prenotare, ricorda all'AI di rispondere includendo il tag <code>[BOOK]</code>.</span>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                            <button type="submit" class="btn btn-primary" style="padding: 12px 30px; font-size: 1.0rem;">
+                                Salva Configurazione <i class="fa-solid fa-floppy-disk" style="margin-left: 8px;"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </section>
             
@@ -912,7 +961,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
     <!-- Project Config -->
-    <script src="config.js?v=2.7"></script>
+    <script src="config.js?v=2.8"></script>
     
     <!-- Admin Logic Script -->
     <script>
@@ -1089,14 +1138,22 @@
                 calculateStats();
                 const analyticsContainer = document.getElementById('analytics-container');
                 const bookingsContainerGrid = document.getElementById('bookings-container');
+                const settingsContainer = document.getElementById('settings-container');
                 
                 if (currentTab === 'analytics') {
                     if (bookingsContainerGrid) bookingsContainerGrid.style.display = 'none';
+                    if (settingsContainer) settingsContainer.style.display = 'none';
                     if (analyticsContainer) analyticsContainer.style.display = 'grid';
                     renderCharts();
+                } else if (currentTab === 'settings') {
+                    if (bookingsContainerGrid) bookingsContainerGrid.style.display = 'none';
+                    if (analyticsContainer) analyticsContainer.style.display = 'none';
+                    if (settingsContainer) settingsContainer.style.display = 'grid';
+                    loadAISettings();
                 } else {
                     if (bookingsContainerGrid) bookingsContainerGrid.style.display = 'grid';
                     if (analyticsContainer) analyticsContainer.style.display = 'none';
+                    if (settingsContainer) settingsContainer.style.display = 'none';
                     renderBookings();
                 }
             }
@@ -1842,6 +1899,112 @@
                                 ticks: { stepSize: 1, font: { family: 'Poppins', size: 10 } }
                             }
                         }
+                    }
+                });
+            }
+
+            // -------------------------------------------------------------
+            // AI Settings Form Controllers (Buddy Configuration)
+            // -------------------------------------------------------------
+            async function loadAISettings() {
+                const apiKeyInput = document.getElementById('settings-gemini-key');
+                const systemPromptInput = document.getElementById('settings-system-prompt');
+                
+                if (!apiKeyInput || !systemPromptInput) return;
+
+                // Load local storage fallback first
+                const localKey = localStorage.getItem('buddy_gemini_api_key') || "";
+                const localPrompt = localStorage.getItem('buddy_system_prompt') || getDefaultSystemPrompt();
+                
+                apiKeyInput.value = localKey;
+                systemPromptInput.value = localPrompt;
+
+                // If firebase is active, query Firestore
+                if (firebaseActive && db) {
+                    try {
+                        const doc = await db.collection("settings").doc("buddy").get();
+                        if (doc.exists) {
+                            const data = doc.data();
+                            if (data.gemini_api_key) apiKeyInput.value = data.gemini_api_key;
+                            if (data.system_prompt) systemPromptInput.value = data.system_prompt;
+                            
+                            // Keep local storage synced
+                            localStorage.setItem('buddy_gemini_api_key', apiKeyInput.value);
+                            localStorage.setItem('buddy_system_prompt', systemPromptInput.value);
+                        }
+                    } catch (error) {
+                        console.error("Error loading AI settings from Firestore:", error);
+                    }
+                }
+            }
+
+            function getDefaultSystemPrompt() {
+                return `Sei Buddy, l'assistente virtuale a quattro zampe di BeautyDog, il salone di toelettatura professionale di Carol D'Andrea a Palma di Montechiaro (AG).
+Parla sempre in italiano, con un tono amichevole, caloroso, ed empatico, usando emoji a tema cane (🐶, 🐾, 🐩, ✂️).
+Il tuo obiettivo è rispondere alle domande degli utenti in modo naturale ed efficiente. Mantieni le risposte brevi (massimo 3-4 frasi), adatte a una finestrella di chat.
+
+Ecco le informazioni ufficiali del salone che devi conoscere:
+1. Titolare: Carol D'Andrea, toelettatrice professionista diplomata A.N.T.
+2. Indirizzo: Via IV Novembre, 45, 92020 Palma di Montechiaro (AG).
+3. Parcheggio: Ampio parcheggio clienti gratuito direttamente di fronte al salone.
+4. Orari: Lun-Ven: 09:00-13:00, 15:00-19:00. Sab: 09:00-13:00. Dom: Chiuso.
+5. Contatti: Telefono/WhatsApp +39 320 882 1749. Email info@beautydogpalma.it.
+6. Filosofia: "Salone Senza Stress" - un cane alla volta, zero gabbie di attesa.
+7. Prodotti: Cosmetici 100% bio, vegani e ipoallergenici con Camomilla, Olio di Neem e Proteine della Seta.
+8. Tessera Fedeltà: Raccolta timbri (Fidelity Card) sul sito: ogni 5 trattamenti un omaggio (es. pulizia dentale all'ozono gratuita).
+9. Trattamenti e Prezzi indicativi:
+   - Bagno & Igiene (da 25€): bagno, spazzolatura, taglio unghie, igiene intima.
+   - Taglio & Tosatura (da 40€): taglio a forbice, tosatura a macchinetta o stripping.
+   - SPA & Ozonoterapia (da 35€): idromassaggio all'ozono per dermatiti e benessere del pelo.
+
+Se l'utente esprime chiaramente l'intenzione di prenotare un appuntamento o un trattamento, rispondi in modo amichevole e includi la parola chiave "[BOOK]" nella tua risposta.`;
+            }
+
+            const aiSettingsForm = document.getElementById('ai-settings-form');
+            if (aiSettingsForm) {
+                aiSettingsForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const apiKey = document.getElementById('settings-gemini-key').value.trim();
+                    const systemPrompt = document.getElementById('settings-system-prompt').value.trim();
+                    
+                    // Save to local storage
+                    localStorage.setItem('buddy_gemini_api_key', apiKey);
+                    localStorage.setItem('buddy_system_prompt', systemPrompt);
+                    
+                    let savedOnFirebase = false;
+                    if (firebaseActive && db) {
+                        try {
+                            await db.collection("settings").doc("buddy").set({
+                                gemini_api_key: apiKey,
+                                system_prompt: systemPrompt,
+                                updatedAt: new Date().toISOString()
+                            });
+                            savedOnFirebase = true;
+                        } catch (error) {
+                            console.error("Error saving AI settings to Firebase:", error);
+                            alert("Errore nel salvataggio remoto su Firebase. Salvato localmente nel browser.");
+                        }
+                    }
+                    
+                    if (savedOnFirebase) {
+                        alert("Configurazione AI salvata con successo su Firebase e localmente!");
+                    } else {
+                        alert("Configurazione AI salvata con successo localmente nel browser!");
+                    }
+                });
+            }
+
+            const toggleKeyVisibilityBtn = document.getElementById('toggle-key-visibility');
+            const keyInput = document.getElementById('settings-gemini-key');
+            if (toggleKeyVisibilityBtn && keyInput) {
+                toggleKeyVisibilityBtn.addEventListener('click', () => {
+                    if (keyInput.type === 'password') {
+                        keyInput.type = 'text';
+                        toggleKeyVisibilityBtn.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
+                    } else {
+                        keyInput.type = 'password';
+                        toggleKeyVisibilityBtn.innerHTML = '<i class="fa-regular fa-eye"></i>';
                     }
                 });
             }

@@ -1926,30 +1926,36 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             });
         });
 
-        // Custom interactive cursor follower & 3D tilt
+        // Custom interactive cursor follower & 3D tilt (Bound to parent wrapper to prevent edge jitter)
         const customCursor = document.getElementById('slideshow-cursor');
-        if (customCursor) {
-            heroSlideshow.addEventListener('mousemove', (e) => {
-                const rect = heroSlideshow.getBoundingClientRect();
+        const slideshowWrapper = heroSlideshow.parentElement;
+        if (customCursor && slideshowWrapper) {
+            slideshowWrapper.addEventListener('mousemove', (e) => {
+                const rect = slideshowWrapper.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 
                 // Position custom cursor
                 customCursor.style.left = `${x}px`;
                 customCursor.style.top = `${y}px`;
+                customCursor.style.opacity = '1';
+                customCursor.style.transform = 'translate(-50%, -50%) scale(1)';
                 
-                // Calculate tilt angles based on mouse offset from center
+                // Calculate tilt angles based on mouse offset from center (slightly sensitive)
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = -(y - centerY) / 12; // vertical tilt
-                const rotateY = (x - centerX) / 12;  // horizontal tilt
+                const rotateX = -(y - centerY) / 10; // vertical tilt
+                const rotateY = (x - centerX) / 10;  // horizontal tilt
                 
-                heroSlideshow.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                heroSlideshow.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
             });
 
-            heroSlideshow.addEventListener('mouseleave', () => {
+            slideshowWrapper.addEventListener('mouseleave', () => {
                 // Reset transform smoothly
                 heroSlideshow.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+                // Hide custom cursor
+                customCursor.style.opacity = '0';
+                customCursor.style.transform = 'translate(-50%, -50%) scale(0.5)';
             });
         }
 

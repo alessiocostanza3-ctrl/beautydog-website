@@ -604,10 +604,6 @@ img {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.hero-slideshow-container:hover .slideshow-hover-cursor {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
 
 .slideshow-hover-cursor i {
     font-size: 1.1rem;

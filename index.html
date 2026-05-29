@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css?v=3.1">
+    <link rel="stylesheet" href="style.css?v=3.2">
 </head>
 <body>
 
@@ -114,19 +114,28 @@
                     <div class="floating-bubble bubble-2"><i class="fa-solid fa-bone"></i></div>
                     <div class="floating-bubble bubble-3"><i class="fa-solid fa-scissors"></i></div>
                     
-                    <!-- Carousel Hero -->
-                    <div class="hero-slideshow-container" id="hero-slideshow" title="Clicca per cambiare immagine">
-                        <div class="hero-slide active">
-                            <img src="assets/hero_dog.png?v=3.2" alt="Cagnolino in posa di fronte al logo BeautyDog">
-                        </div>
-                        <div class="hero-slide">
-                            <img src="assets/hero_dog_2.png?v=3.2" alt="Akita in posa per BeautyDog">
-                        </div>
-                        
-                        <!-- Punti di controllo -->
-                        <div class="hero-slideshow-controls">
-                            <span class="slide-dot active" data-slide="0"></span>
-                            <span class="slide-dot" data-slide="1"></span>
+                    <!-- Wrapper con float animation -->
+                    <div class="hero-slideshow-floating-wrapper">
+                        <!-- Carousel Hero -->
+                        <div class="hero-slideshow-container" id="hero-slideshow" title="Clicca per cambiare immagine">
+                            <div class="hero-slide active">
+                                <img src="assets/hero_dog.png?v=3.2" alt="Cagnolino in posa di fronte al logo BeautyDog">
+                            </div>
+                            <div class="hero-slide">
+                                <img src="assets/hero_dog_2.png?v=3.2" alt="Akita in posa per BeautyDog">
+                            </div>
+                            
+                            <!-- Cursore Personalizzato Zampetta -->
+                            <div class="slideshow-hover-cursor" id="slideshow-cursor">
+                                <i class="fa-solid fa-paw"></i>
+                                <span>Clicca!</span>
+                            </div>
+                            
+                            <!-- Punti di controllo -->
+                            <div class="hero-slideshow-controls">
+                                <span class="slide-dot active" data-slide="0"></span>
+                                <span class="slide-dot" data-slide="1"></span>
+                            </div>
                         </div>
                     </div>
                 </div>

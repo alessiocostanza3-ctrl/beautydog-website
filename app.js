@@ -1926,6 +1926,33 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             });
         });
 
+        // Custom interactive cursor follower & 3D tilt
+        const customCursor = document.getElementById('slideshow-cursor');
+        if (customCursor) {
+            heroSlideshow.addEventListener('mousemove', (e) => {
+                const rect = heroSlideshow.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Position custom cursor
+                customCursor.style.left = `${x}px`;
+                customCursor.style.top = `${y}px`;
+                
+                // Calculate tilt angles based on mouse offset from center
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = -(y - centerY) / 12; // vertical tilt
+                const rotateY = (x - centerX) / 12;  // horizontal tilt
+                
+                heroSlideshow.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+
+            heroSlideshow.addEventListener('mouseleave', () => {
+                // Reset transform smoothly
+                heroSlideshow.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+            });
+        }
+
         // Init autoplay
         startAutoplay();
     }

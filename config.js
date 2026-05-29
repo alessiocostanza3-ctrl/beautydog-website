@@ -15,6 +15,9 @@ const CONFIG = {
     // If false, they go to "Pending" and must be approved in admin.html
     AUTO_APPROVE: false,
 
+    // Gemini API Key for AI Chatbot (Get it from Google AI Studio: https://aistudio.google.com/)
+    GEMINI_API_KEY: "YOUR_GEMINI_API_KEY",
+
     // EmailJS Configuration (Used for sending automated email notifications)
     // Register at https://www.emailjs.com/ (Free tier allows 200 emails/month)
     EMAILJS_SERVICE_ID: "YOUR_EMAILJS_SERVICE_ID",

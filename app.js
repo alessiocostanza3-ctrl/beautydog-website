@@ -974,6 +974,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
     
     let chatStep = 0;
     let chatOpenedOnce = false;
+    let chatHistory = [];
     
     let buddyData = {
         clientName: "",
@@ -1119,7 +1120,77 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
         });
     }
 
-    function processFAQ(question) {
+    async function getGeminiReply(userMessage) {
+        if (chatHistory.length === 0) {
+            chatHistory.push({ role: 'model', parts: [{ text: "Ciao! 🐶 Io sono Buddy, l'assistente virtuale di BeautyDog. Come posso aiutarti oggi?" }] });
+        }
+        
+        chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+        
+        if (!CONFIG.GEMINI_API_KEY || CONFIG.GEMINI_API_KEY === "YOUR_GEMINI_API_KEY" || CONFIG.GEMINI_API_KEY.trim() === "") {
+            console.log("Gemini API Key non configurata. Utilizzo del fallback locale.");
+            return getLocalFallbackReply(userMessage);
+        }
+        
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${CONFIG.GEMINI_API_KEY}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: chatHistory,
+                    systemInstruction: {
+                        parts: [
+                            {
+                                text: `Sei Buddy, l'assistente virtuale a quattro zampe di BeautyDog, il salone di toelettatura professionale di Carol D'Andrea a Palma di Montechiaro (AG).
+Parla sempre in italiano, con un tono amichevole, caloroso, ed empatico, usando emoji a tema cane (🐶, 🐾, 🐩, ✂️).
+Il tuo obiettivo è rispondere alle domande degli utenti in modo naturale ed efficiente. Mantieni le risposte brevi (massimo 3-4 frasi), adatte a una finestrella di chat.
+
+Ecco le informazioni ufficiali del salone che devi conoscere:
+1. Titolare: Carol D'Andrea, toelettatrice professionista diplomata A.N.T.
+2. Indirizzo: Via IV Novembre, 45, 92020 Palma di Montechiaro (AG).
+3. Parcheggio: Ampio parcheggio clienti gratuito direttamente di fronte al salone.
+4. Orari: Lun-Ven: 09:00-13:00, 15:00-19:00. Sab: 09:00-13:00. Dom: Chiuso.
+5. Contatti: Telefono/WhatsApp +39 320 882 1749. Email info@beautydogpalma.it.
+6. Filosofia: "Salone Senza Stress" - un cane alla volta, zero gabbie di attesa.
+7. Prodotti: Cosmetici 100% bio, vegani e ipoallergenici con Camomilla, Olio di Neem e Proteine della Seta.
+8. Tessera Fedeltà: Raccolta timbri (Fidelity Card) sul sito: ogni 5 trattamenti un omaggio (es. pulizia dentale all'ozono gratuita).
+9. Trattamenti e Prezzi indicativi:
+   - Bagno & Igiene (da 25€): bagno, spazzolatura, taglio unghie, igiene intima.
+   - Taglio & Tosatura (da 40€): taglio a forbice, tosatura a macchinetta o stripping.
+   - SPA & Ozonoterapia (da 35€): idromassaggio all'ozono per dermatiti e benessere del pelo.
+
+Se l'utente esprime chiaramente l'intenzione di prenotare un appuntamento o un trattamento, rispondi in modo amichevole e includi la parola chiave "[BOOK]" nella tua risposta.`
+                            }
+                        ]
+                    },
+                    generationConfig: {
+                        maxOutputTokens: 250,
+                        temperature: 0.7
+                    }
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
+            
+            const data = await response.json();
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                const reply = data.candidates[0].content.parts[0].text.trim();
+                chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+                return reply;
+            } else {
+                throw new Error("Formato risposta non valido");
+            }
+        } catch (e) {
+            console.error("Errore chiamata Gemini API:", e);
+            return getLocalFallbackReply(userMessage);
+        }
+    }
+
+    function getLocalFallbackReply(question) {
         const q = question.toLowerCase().trim();
         let reply = "";
         
@@ -1140,11 +1211,7 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
         } else if (q.includes("telefon") || q.includes("contatt") || q.includes("cellul") || q.includes("chiam") || q.includes("mail") || q.includes("whatsapp")) {
             reply = "📞 <strong>Contatti:</strong><br>• WhatsApp/Telefono: <strong>+39 320 882 1749</strong><br>• Email: info@beautydogpalma.it<br>• Sede: Via IV Novembre, 45, Palma di Montechiaro (AG).";
         } else if (q.includes("prenot") || q.includes("appuntament") || q.includes("fiss")) {
-            addBotMessage("Ottimo! Iniziamo la procedura guidata di prenotazione...", 400);
-            setTimeout(() => {
-                askClientName();
-            }, 700);
-            return;
+            return "[BOOK]"; 
         } else if (q.includes("ciao") || q.includes("buongiorno") || q.includes("buonasera") || q.includes("ehi")) {
             reply = "Ciao! 😊 Come posso aiutarti? Scrivimi pure una domanda (es. 'prezzi', 'orari', 'parcheggio') o digita 'prenota' per fissare un appuntamento.";
         } else if (q.includes("grazie") || q.includes("perfetto") || q.includes("ok") || q.includes("ottimo")) {
@@ -1153,11 +1220,34 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             reply = "🐶 Scusa, non ho capito. Puoi chiedermi di: <strong>orari, prezzi, indirizzo, parcheggio, garanzia senza stress o prodotti bio</strong>.<br><br><i>Digita 'prenota' in qualsiasi momento per fissare un appuntamento!</i>";
         }
         
-        addBotMessage(reply, 600);
+        chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+        return reply;
+    }
+
+    async function processFAQ(question) {
+        const userMsg = question.trim();
+        if (!userMsg) return;
+        
+        showTypingIndicator();
+        
+        const reply = await getGeminiReply(userMsg);
+        
+        removeTypingIndicator();
+        
+        if (reply === "[BOOK]" || reply.includes("[BOOK]") || userMsg.toLowerCase().includes("prenot") || userMsg.toLowerCase().includes("appuntament")) {
+            const cleanReply = reply === "[BOOK]" ? "Ottimo! Avvio la procedura guidata di prenotazione..." : reply.replace("[BOOK]", "").trim();
+            addBotMessage(cleanReply, 100);
+            setTimeout(() => {
+                askClientName();
+            }, 1000);
+            return;
+        }
+        
+        addBotMessage(reply, 100);
         
         setTimeout(() => {
             renderFAQFollowUp();
-        }, 1200);
+        }, 1000);
     }
 
     function renderFAQFollowUp() {
@@ -1172,7 +1262,6 @@ Attendo tua conferma dell'appuntamento! Grazie mille!`;
             }
         });
         
-        // Aggiungi un campo di input sotto per continuare a scrivere domande
         const typeContainer = document.createElement('div');
         typeContainer.style.width = '100%';
         typeContainer.style.marginTop = '8px';

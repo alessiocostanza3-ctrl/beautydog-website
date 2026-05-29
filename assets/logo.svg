@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <!-- Hexagon Frame -->
+  <polygon points="250,15 465,139 465,387 250,511 35,387 35,139" fill="none" stroke="#E5C158" stroke-width="8" stroke-linejoin="round"/>
+  
+  <!-- Central Circular Frame -->
+  <circle cx="250" cy="275" r="160" fill="none" stroke="#C94B5E" stroke-width="4"/>
+  
+  <!-- Inner Stylized Breaks/Circles -->
+  <circle cx="250" cy="275" r="148" fill="none" stroke="#C94B5E" stroke-width="2" stroke-dasharray="10, 8"/>
+
+  <!-- Cursive Title: Beauty Dog -->
+  <text x="250" y="90" font-family="'Dancing Script', cursive" font-size="62" font-weight="700" fill="#C94B5E" text-anchor="middle">Beauty Dog</text>
+
+  <!-- Subtitle: TOELETTATURA PER CANI -->
+  <text x="250" y="405" font-family="'Poppins', sans-serif" font-size="19" font-weight="700" fill="#C94B5E" letter-spacing="4" text-anchor="middle">TOELETTATURA PER CANI</text>
+
+  <!-- Logo Graphics: Dog & Cat Outlines -->
+  <g transform="translate(190, 150) scale(0.95)" fill="none" stroke="#C94B5E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Dog outline -->
+      <path d="M35,60 C35,60 30,30 20,25 C10,20 0,35 0,35 L10,65 C10,65 15,70 12,80 C9,90 -2,105 10,130 C22,155 35,170 30,195 C25,220 30,230 45,230 L110,230 C125,230 125,210 115,200 C105,190 90,175 92,150 C94,125 100,105 92,85 C84,65 70,55 70,55" />
+      <path d="M70,55 L80,25 C90,20 100,35 100,35 L90,65" />
+      <!-- Eyes & Nose details -->
+      <circle cx="45" cy="80" r="3" fill="#C94B5E" />
+      <path d="M28,88 Q35,93 42,88" />
+      
+      <!-- Cat outline (sitting inside dog's curve) -->
+      <path d="M75,140 C75,130 68,125 60,125 C52,125 45,130 45,145 C45,160 55,175 50,195 C45,215 50,225 62,225 L92,225 C98,225 100,215 95,210 C90,205 85,195 86,180 C87,165 89,155 85,148" />
+      <path d="M60,125 L55,115 L62,122 L68,115 L66,125" />
+      <!-- Tail -->
+      <path d="M92,225 C105,225 110,210 108,200 C106,190 100,185 96,190" />
+  </g>
+
+  <!-- Blue Bubbles -->
+  <g fill="#45A3E5" opacity="0.85">
+      <circle cx="315" cy="245" r="14" />
+      <circle cx="330" cy="275" r="8" />
+      <circle cx="305" cy="295" r="11" />
+      <circle cx="338" cy="235" r="6" />
+      <circle cx="295" cy="230" r="5" />
+      <circle cx="320" cy="305" r="5" />
+  </g>
+
+  <!-- Pink Scissors -->
+  <g transform="translate(370, 150) rotate(15)" stroke="#E9809A" stroke-width="4" fill="none" stroke-linecap="round">
+      <!-- Blade 1 -->
+      <path d="M10,40 L30,105" />
+      <!-- Blade 2 -->
+      <path d="M30,40 L10,105" />
+      <!-- Handle loops -->
+      <circle cx="7" cy="32" r="9" />
+      <circle cx="33" cy="32" r="9" />
+      <!-- Pivot screw -->
+      <circle cx="20" cy="72" r="2.5" fill="#E9809A" />
+  </g>
+</svg>

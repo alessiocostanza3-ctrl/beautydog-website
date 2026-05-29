@@ -1907,10 +1907,10 @@ img {
 .legend-dot.busy { background-color: #CBD5E1; }
 
 .slots-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    max-height: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 250px;
     overflow-y: auto;
 }
 
@@ -2671,9 +2671,10 @@ img {
     font-size: 0.85rem;
   }
   .slots-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 8px;
-    max-height: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 220px;
   }
   .time-slot-btn {
     padding: 8px;
